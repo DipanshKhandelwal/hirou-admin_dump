@@ -1,10 +1,10 @@
 export interface IUser {
   id: number;
   token: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  profile: string;
+  email?: string;
+  firstName?: string;
+  lastName?: string;
+  profile?: string;
   username: string;
 }
 

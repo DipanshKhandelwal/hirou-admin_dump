@@ -8,6 +8,7 @@ import {
   InputLeftElement,
   Button,
   InputGroup,
+  useToast
 } from "@chakra-ui/react";
 import { Formik } from 'formik';
 import { Logo } from "../../components/common/Logo"
@@ -16,6 +17,8 @@ import { RiLock2Line } from "react-icons/ri";
 import { handleLogin } from "../../store/thunks/App";
 
 const Login = () => {
+  const toast = useToast()
+
   const initialFormValues = { username: '', password: '' }
 
   return (
@@ -31,13 +34,21 @@ const Login = () => {
             onSubmit={async (values, { setSubmitting }) => {
               try {
                 await handleLogin({
-                  username: 'dipansh',
-                  password: 'dipansh'
+                  username: values.username,
+                  password: values.password
+                })
+                toast({
+                  title: "Login successful",
+                  description: "",
+                  status: "success",
                 })
               }
               catch (e) {
-                // handle error
-                console.log("e", e)
+                toast({
+                  title: "Error",
+                  description: "please check the credentials",
+                  status: "error",
+                })
               }
               setSubmitting(false);
             }}
