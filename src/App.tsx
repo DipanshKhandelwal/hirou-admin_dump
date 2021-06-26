@@ -2,27 +2,27 @@ import * as React from "react"
 import {
   ChakraProvider,
   Box,
-  Text,
-  VStack,
   Grid,
-  theme,
+  extendTheme,
+  withDefaultColorScheme,
 } from "@chakra-ui/react"
-import { ColorModeSwitcher } from "./ColorModeSwitcher"
-import { Logo } from "./Logo"
+import Header from "./components/common/Header"
+import Login from "./components/auth/Login"
 
-export const App = () => (
-  <ChakraProvider theme={theme}>
-    <Box textAlign="center" fontSize="xl">
-      <Grid minH="100vh" p={3}>
-        <ColorModeSwitcher justifySelf="flex-end" />
-        <VStack spacing={8}>
-          <Logo h="40vmin" pointerEvents="none" />
-          <Text>
-            Field Protect Admin
-          </Text>
-          
-        </VStack>
-      </Grid>
-    </Box>
-  </ChakraProvider>
-)
+
+export const App = () => {
+  const customTheme = extendTheme(withDefaultColorScheme({
+    colorScheme: 'blue'
+  }))
+
+  return (
+    <ChakraProvider theme={customTheme}>
+      <Header />
+      <Box textAlign="center" fontSize="xl">
+        <Grid minH="100vh" p={3}>
+          <Login />
+        </Grid>
+      </Box>
+    </ChakraProvider>
+  )
+}
