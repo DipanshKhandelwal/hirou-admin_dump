@@ -1,10 +1,9 @@
-import { increaseCounter, decreaseCounter } from '../actions/App';
+import { IUser } from '../../models/user';
+import { login, logout } from '../actions/App';
 import store from '../index';
 
 const { dispatch } = store;
 
-export const dispatchIncreaseCounter = () =>
-  dispatch(increaseCounter());
+export const dispatchLogin = (data: IUser) => dispatch(login(data));
 
-export const dispatchDecreaseCounter = () =>
-  dispatch(decreaseCounter());
+export const dispatchLogout = () => dispatch(logout());
