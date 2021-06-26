@@ -13,16 +13,17 @@ const Header = (props: any) => {
       align="center"
       justify="space-between"
       wrap="wrap"
-      padding={6}
+      padding={4}
+      h='8vh'
       {...props}
     >
       <Flex align="center" mr={5}>
         <Heading as="h1" size="lg" letterSpacing={"tighter"}>
-          <Logo h="3vmin" pointerEvents="none" />
+          <Logo h="3vh" pointerEvents="none" />
         </Heading>
       </Flex>
       <ColorModeSwitcher />
-    </Flex>
+    </Flex >
   );
 };
 
