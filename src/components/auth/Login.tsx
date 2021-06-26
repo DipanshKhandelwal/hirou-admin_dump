@@ -13,6 +13,7 @@ import { Formik } from 'formik';
 import { Logo } from "../../components/common/Logo"
 import { AiOutlineUser } from "react-icons/ai";
 import { RiLock2Line } from "react-icons/ri";
+import { handleLogin } from "../../store/thunks/App";
 
 const Login = () => {
   const initialFormValues = { username: '', password: '' }
@@ -27,10 +28,18 @@ const Login = () => {
         <Stack spacing={3}>
           <Formik
             initialValues={initialFormValues}
-            onSubmit={(values, { setSubmitting }) => {
-              setTimeout(() => {
-                setSubmitting(false);
-              }, 4000);
+            onSubmit={async (values, { setSubmitting }) => {
+              try {
+                await handleLogin({
+                  username: 'dipansh',
+                  password: 'dipansh'
+                })
+              }
+              catch (e) {
+                // handle error
+                console.log("e", e)
+              }
+              setSubmitting(false);
             }}
           >
             {({
