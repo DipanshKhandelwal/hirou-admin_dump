@@ -9,7 +9,6 @@ import {
 import Header from "./components/common/Header"
 import Login from "./components/auth/Login"
 
-
 export const App = () => {
   const customTheme = extendTheme(withDefaultColorScheme({
     colorScheme: 'blue'
