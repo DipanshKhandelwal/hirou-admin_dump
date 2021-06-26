@@ -1,21 +1,15 @@
 import * as types from '../actionTypes/App';
 
 const initialState = {
-  count: 0,
+  user: {},
 };
 
-const AppReducer = (state = initialState, action) => {
+const AppReducer = (state = initialState, action: any) => {
   switch (action.type) {
-    case types.INCREMENT:
+    case types.LOGIN:
       return {
         ...state,
-        count: state.count + 1,
-      };
-
-    case types.DECREMENT:
-      return {
-        ...state,
-        count: state.count - 1,
+        user: action.payload,
       };
 
     default:
