@@ -3,7 +3,7 @@ import { LOGIN_URL } from '../../constants/urls';
 import { ILoginForm } from '../../models/user';
 import { getCookie, removeAllCookies, setCookie } from '../../services/cookie';
 import { hirouAxios } from '../../services/httpInstance';
-import { dispatchLogin } from '../dispatcher';
+import { dispatchLogin, dispatchLogout } from '../dispatcher';
 
 export const checkLogin = () => {
   const accesstoken = getCookie(ACCESS_TOKEN);
@@ -17,6 +17,11 @@ export const checkLogin = () => {
     });
   }
 };
+
+export const handleLogout = () => {
+  removeAllCookies();
+  dispatchLogout()
+}
 
 export const handleLogin = async (data: ILoginForm) => {
   removeAllCookies();
