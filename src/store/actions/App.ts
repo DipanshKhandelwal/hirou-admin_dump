@@ -1,13 +1,15 @@
-import { INCREMENT, DECREMENT } from '../actionTypes/App';
+import { IUser } from '../../models/user';
+import { LOGIN, LOGOUT } from '../actionTypes/App';
 
-export const increaseCounter = () => {
+export const login = (data: IUser) => {
   return {
-    type: INCREMENT,
+    type: LOGIN,
+    payload: data,
   };
 };
 
-export const decreaseCounter = () => {
+export const logout = () => {
   return {
-    type: DECREMENT,
+    type: LOGOUT,
   };
 };
