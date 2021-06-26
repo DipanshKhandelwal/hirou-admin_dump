@@ -2,11 +2,18 @@ import React from "react";
 import {
   Heading,
   Flex,
+  Button,
+  Spacer,
+  Text
 } from "@chakra-ui/react";
 import { Logo } from "./Logo";
 import { ColorModeSwitcher } from "./ColorModeSwitcher";
+import { IUser } from "../../models/user";
+import { handleLogout } from "../../store/thunks/App";
 
 const Header = (props: any) => {
+  const user: IUser = props.user
+
   return (
     <Flex
       as="nav"
@@ -22,6 +29,13 @@ const Header = (props: any) => {
           <Logo h="3vh" pointerEvents="none" />
         </Heading>
       </Flex>
+      <Spacer />
+      {user && (
+        <>
+          <Text color='blackAlpha.800' marginRight={2} >{user.username}</Text>
+          <Button variant="outline" onClick={handleLogout} >Logout</Button>
+        </>
+      )}
       <ColorModeSwitcher />
     </Flex >
   );

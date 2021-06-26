@@ -32,7 +32,7 @@ export const App = () => {
 
   return (
     <ChakraProvider theme={customTheme}>
-      <Header />
+      <Header user={user} />
       <Box textAlign="center" fontSize="xl">
         <Grid height="92vh" p={3}>
           {content}
