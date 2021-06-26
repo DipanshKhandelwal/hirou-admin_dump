@@ -1,7 +1,7 @@
 import * as types from '../actionTypes/App';
 
 const initialState = {
-  user: {},
+  user: null,
 };
 
 const AppReducer = (state = initialState, action: any) => {
@@ -10,6 +10,12 @@ const AppReducer = (state = initialState, action: any) => {
       return {
         ...state,
         user: action.payload,
+      };
+
+    case types.LOGOUT:
+      return {
+        ...state,
+        user: null,
       };
 
     default:
