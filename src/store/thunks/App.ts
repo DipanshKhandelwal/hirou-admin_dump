@@ -1,9 +1,22 @@
 import { ACCESS_TOKEN, USERNAME, USER_ID } from '../../constants/cookie';
 import { LOGIN_URL } from '../../constants/urls';
 import { ILoginForm } from '../../models/user';
-import { removeAllCookies, setCookie } from '../../services/cookie';
+import { getCookie, removeAllCookies, setCookie } from '../../services/cookie';
 import { hirouAxios } from '../../services/httpInstance';
 import { dispatchLogin } from '../dispatcher';
+
+export const checkLogin = () => {
+  const accesstoken = getCookie(ACCESS_TOKEN);
+  const username = getCookie(USERNAME);
+  const userid = getCookie(USER_ID);
+  if (accesstoken && username) {
+    dispatchLogin({
+      token: accesstoken,
+      id: userid,
+      username: username,
+    });
+  }
+};
 
 export const handleLogin = async (data: ILoginForm) => {
   removeAllCookies();
