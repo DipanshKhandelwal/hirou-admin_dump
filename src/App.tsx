@@ -5,6 +5,9 @@ import {
   Grid,
   extendTheme,
   withDefaultColorScheme,
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink
 } from "@chakra-ui/react"
 import Header from "./components/common/Header"
 import Login from "./components/auth/Login"
@@ -31,10 +34,22 @@ export const App = () => {
     content = <BaseRouteList />;
   }
 
+  const breadcrumbs = (
+    <Breadcrumb width='max-content' padding={6} fontWeight="medium" fontSize="sm" >
+      <BreadcrumbItem>
+        <BreadcrumbLink href="#" >Route List</BreadcrumbLink>
+      </BreadcrumbItem>
+      <BreadcrumbItem >
+        <BreadcrumbLink href="#">Selected Route</BreadcrumbLink>
+      </BreadcrumbItem>
+    </Breadcrumb>
+  )
+
   return (
     <ChakraProvider theme={customTheme}>
       <Header user={user} />
       <Box textAlign="center" fontSize="xl">
+        {breadcrumbs}
         <Grid height="92vh" p={3}>
           {content}
         </Grid>
