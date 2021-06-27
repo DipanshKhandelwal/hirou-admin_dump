@@ -12,6 +12,7 @@ import { useSelector } from "react-redux"
 import { _user } from "./store/selectors/App"
 import { IUser } from "./models/user"
 import { checkLogin } from "./store/thunks/App"
+import { BaseRouteList } from "./components/BaseRouteList"
 
 export const App = () => {
   const customTheme = extendTheme(
@@ -27,7 +28,7 @@ export const App = () => {
 
   let content = <Login />
   if (user) {
-    content = <div>App</div>;
+    content = <BaseRouteList />;
   }
 
   return (

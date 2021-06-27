@@ -5,12 +5,18 @@ import {
   Table, Thead, Tbody, Tr, Th, Td,
   Spinner,
 } from "@chakra-ui/react"
+import { useEffect } from "react"
+import { handleFetchBaseRoute } from "../../store/thunks/BaseRoute"
 import { IBaseRoute } from "../../models/baseRoute"
 import { _baseRoute } from "../../store/selectors/BaseRoute"
 import { useSelector } from "react-redux"
 
 export const BaseRouteList = () => {
   const baseRoutesData: any = useSelector(_baseRoute)
+
+  useEffect(() => {
+    handleFetchBaseRoute()
+  }, [])
 
   let content = <Spinner />
   if (baseRoutesData.isLoaded) {
