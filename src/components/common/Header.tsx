@@ -32,7 +32,7 @@ const Header = (props: any) => {
       <Spacer />
       {user && (
         <>
-          <Text color='blackAlpha.800' marginRight={2} >{user.username}</Text>
+          <Text marginRight={2} >{user.username}</Text>
           <Button variant="outline" onClick={handleLogout} >Logout</Button>
         </>
       )}
