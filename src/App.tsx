@@ -12,10 +12,15 @@ import {
 import Header from "./components/common/Header"
 import Login from "./components/auth/Login"
 import { useSelector } from "react-redux"
-import { _user } from "./store/selectors/App"
+import { _selectedRouteId, _user } from "./store/selectors/App"
 import { IUser } from "./models/user"
 import { checkLogin } from "./store/thunks/App"
 import { BaseRouteList } from "./components/BaseRouteList"
+import { CreateBaseRoute } from "./components/CreateBaseRoute"
+import { dispatchSelectRoute } from "./store/dispatcher"
+import { useMemo } from "react"
+import { _baseRoute } from "./store/selectors/BaseRoute"
+import { IBaseRoute } from "./models/baseRoute"
 
 export const App = () => {
   const customTheme = extendTheme(
@@ -24,24 +29,39 @@ export const App = () => {
     }))
 
   const user: IUser = useSelector(_user)
+  const selectedRouteId: number = useSelector(_selectedRouteId)
+  const baseRoutesData: any = useSelector(_baseRoute)
 
   useEffect(() => {
     checkLogin()
   }, [])
 
+  const showBaseRouteList = () => dispatchSelectRoute(undefined)
+
+  const route: IBaseRoute = useMemo(() => {
+    const baseRoute = baseRoutesData.data.find((baseRoute: IBaseRoute) => baseRoute.id === selectedRouteId)
+    return baseRoute
+  }, [baseRoutesData, selectedRouteId])
+
   let content = <Login />
-  if (user) {
+  if (user && selectedRouteId) {
+    content = <CreateBaseRoute />;
+  }
+  else if (user) {
     content = <BaseRouteList />;
   }
 
   const breadcrumbs = (
-    <Breadcrumb width='max-content' padding={6} fontWeight="medium" fontSize="sm" >
+    user &&
+    <Breadcrumb width='max-content' padding={6} paddingY={2} fontWeight="medium" fontSize="sm" >
       <BreadcrumbItem>
-        <BreadcrumbLink href="#" >Route List</BreadcrumbLink>
+        <BreadcrumbLink href="#" onClick={showBaseRouteList} >Route List</BreadcrumbLink>
       </BreadcrumbItem>
-      <BreadcrumbItem >
-        <BreadcrumbLink href="#">Selected Route</BreadcrumbLink>
-      </BreadcrumbItem>
+      {selectedRouteId && (
+        <BreadcrumbItem >
+          <BreadcrumbLink href="#">{route?.name}</BreadcrumbLink>
+        </BreadcrumbItem>
+      )}
     </Breadcrumb>
   )
 
@@ -50,7 +70,7 @@ export const App = () => {
       <Header user={user} />
       <Box textAlign="center" fontSize="xl">
         {breadcrumbs}
-        <Grid height="92vh" p={3}>
+        <Grid height="84vh" p={3}>
           {content}
         </Grid>
       </Box>
