@@ -10,6 +10,8 @@ import { handleFetchBaseRoute } from "../../store/thunks/BaseRoute"
 import { IBaseRoute } from "../../models/baseRoute"
 import { _baseRoute } from "../../store/selectors/BaseRoute"
 import { useSelector } from "react-redux"
+import { dispatchSelectRoute } from "../../store/dispatcher"
+import { IGarbage } from "../../models/garbage"
 
 export const BaseRouteList = () => {
   const baseRoutesData: any = useSelector(_baseRoute)
@@ -18,6 +20,10 @@ export const BaseRouteList = () => {
     handleFetchBaseRoute()
   }, [])
 
+  const selectBaseRoute = (baseRouteId: number) => {
+    dispatchSelectRoute(baseRouteId)
+  }
+
   let content = <Spinner />
   if (baseRoutesData.isLoaded) {
     content = (
@@ -25,16 +31,24 @@ export const BaseRouteList = () => {
         <Thead>
           <Tr>
             <Th>Id</Th>
-            <Th>Customer</Th>
-            <Th isNumeric>name</Th>
+            <Th>name</Th>
+            <Th>garbage</Th>
+            <Th>customer</Th>
           </Tr>
         </Thead>
-        <Tbody>
+        <Tbody >
           {baseRoutesData?.data?.map((baseRoute: IBaseRoute) => (
-            <Tr key={baseRoute.id} >
+            <Tr
+              key={baseRoute.id}
+              _hover={{ backgroundColor: 'blue.100', cursor: 'pointer' }}
+              onClick={() => selectBaseRoute(baseRoute.id)}
+            >
               <Td>{baseRoute.id}</Td>
+              <Td>{baseRoute.name}</Td>
+              <Td>
+                {baseRoute.garbage.map((_garbage: IGarbage) => _garbage.name).join(', ')}
+              </Td>
               <Td>{baseRoute.customer?.name ?? '--'}</Td>
-              <Td isNumeric>{baseRoute.name}</Td>
             </Tr>
           ))}
         </Tbody>
