@@ -32,6 +32,7 @@ export const BaseRouteList = () => {
         <Tbody>
           {baseRoutesData?.data?.map((baseRoute: IBaseRoute) => (
             <Tr key={baseRoute.id} >
+              _hover={{ backgroundColor: 'blue.100', cursor: 'pointer' }}
               <Td>{baseRoute.id}</Td>
               <Td>{baseRoute.customer?.name ?? '--'}</Td>
               <Td isNumeric>{baseRoute.name}</Td>
