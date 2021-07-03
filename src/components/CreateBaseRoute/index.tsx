@@ -33,7 +33,28 @@ export const CreateBaseRoute = () => {
 
   const content = (
     collectionPoints?.map((collection_point: ICollectionPoint) => (
-      <p>collection point</p>
+      <Box p={1} fontSize='0.8rem' borderWidth="1px" key={collection_point.id} >
+        <HStack align="flex-start">
+          <Image
+            minHeight="90px"
+            minWidth="90px"
+            height="90px"
+            width="90px"
+            src={collection_point.image}
+            alt="image"
+            objectFit="contain"
+            fontSize='10px'
+            backgroundColor='gray.100'
+          />
+          <VStack align='stretch' p={1} paddingX={0} >
+            <HStack>
+              <Text >{collection_point.sequence}</Text>
+              <Text >{collection_point.name} </Text>
+            </HStack>
+            <Text textAlign='left' >{collection_point.memo}</Text>
+          </VStack>
+        </HStack>
+      </Box>
     ))
   )
 
