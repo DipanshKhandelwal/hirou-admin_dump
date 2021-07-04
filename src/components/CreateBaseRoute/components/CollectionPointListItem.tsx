@@ -6,8 +6,6 @@ import {
   HStack,
   VStack
 } from "@chakra-ui/react"
-import { _baseRoute } from "../../../store/selectors/BaseRoute"
-import { _selectedRouteId } from "../../../store/selectors/App"
 import { ICollectionPoint } from "../../../models/collectionPoint"
 import { Draggable } from "react-beautiful-dnd"
 
