@@ -1,3 +1,4 @@
+import { IBaseRoute } from '../../models/baseRoute';
 import * as actionTypes from '../actionTypes/BaseRoute';
 
 const initialState = {
@@ -5,6 +6,22 @@ const initialState = {
   isError: false,
   errorMessage: '',
   data: [],
+};
+
+const updateBaseRoute = (state: any, payload: IBaseRoute) => {
+  let oldRoutes = state.data;
+
+  const reqIndex = oldRoutes.findIndex(
+    (route: IBaseRoute) => route.id === payload.id
+  );
+
+  if (reqIndex !== -1) {
+    oldRoutes[reqIndex] = payload;
+    return {
+      ...state,
+      data: oldRoutes,
+    };
+  }
 };
 
 const setBaseRoute = (state: any, payload: any) => {
@@ -16,6 +33,7 @@ const setBaseRoute = (state: any, payload: any) => {
     data: payload,
   };
 };
+
 const setBaseRouteFailure = (state: any, payload: any) => {
   return {
     ...state,
@@ -44,6 +62,8 @@ const BaseRouteReducer = (state: any = initialState, action: any) => {
       return setBaseRouteStart(state, action.payload);
     case actionTypes.GET_BASE_ROUTE_FAILURE:
       return setBaseRouteFailure(state, action.payload);
+    case actionTypes.UPDATE_BASE_ROUTE:
+      return updateBaseRoute(state, action.payload);
     case actionTypes.RESET_BASE_ROUTE:
       return resetState();
     default:
