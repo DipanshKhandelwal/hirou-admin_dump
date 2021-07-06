@@ -1,7 +1,9 @@
+import { IBaseRoute } from '../../models/baseRoute';
 import {
   getBaseRouteFailure,
   getBaseRouteStart,
   getBaseRouteSuccess,
+  updateBaseRoute,
 } from '../actions/BaseRoute';
 import store from '../index';
 
@@ -14,3 +16,6 @@ export const dispatchGetBaseRouteSuccess = (payload: any) =>
 
 export const dispatchGetBaseRouteFailure = (payload: any) =>
   dispatch(getBaseRouteFailure(payload));
+
+export const dispatchUpdateBaseRoute = (payload: IBaseRoute) =>
+  dispatch(updateBaseRoute(payload));
