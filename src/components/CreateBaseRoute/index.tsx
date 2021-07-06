@@ -5,9 +5,6 @@ import {
   Text,
   Flex,
   Center,
-  Image,
-  HStack,
-  VStack
 } from "@chakra-ui/react"
 import { IBaseRoute } from "../../models/baseRoute"
 import { _baseRoute } from "../../store/selectors/BaseRoute"
@@ -15,6 +12,8 @@ import { useSelector } from "react-redux"
 import { _selectedRouteId } from "../../store/selectors/App"
 import { useMemo } from "react"
 import { ICollectionPoint } from "../../models/collectionPoint"
+import { DragDropContext, Droppable } from "react-beautiful-dnd"
+import { CollectionPointListItem } from "./components/CollectionPointListItem"
 
 export const CreateBaseRoute = () => {
   const baseRoutesData: any = useSelector(_baseRoute)
@@ -31,30 +30,11 @@ export const CreateBaseRoute = () => {
     })
   }, [route])
 
-  const content = (
-    collectionPoints?.map((collection_point: ICollectionPoint) => (
-      <Box p={1} fontSize='0.8rem' borderWidth="1px" key={collection_point.id} >
-        <HStack align="flex-start">
-          <Image
-            minHeight="90px"
-            minWidth="90px"
-            height="90px"
-            width="90px"
-            src={collection_point.image}
-            alt="image"
-            objectFit="contain"
-            fontSize='10px'
-            backgroundColor='gray.100'
-          />
-          <VStack align='stretch' p={1} paddingX={0} >
-            <HStack>
-              <Text >{collection_point.sequence}</Text>
-              <Text >{collection_point.name} </Text>
-            </HStack>
-            <Text textAlign='left' >{collection_point.memo}</Text>
-          </VStack>
-        </HStack>
-      </Box>
+  const onDragEnd = (e: any) => console.log("onDragEnd", e)
+
+  const collectionPointsList = (
+    collectionPoints?.map((collectionPoint: ICollectionPoint, index: number) => (
+      <CollectionPointListItem collectionPoint={collectionPoint} index={index} />
     ))
   )
 
@@ -62,9 +42,19 @@ export const CreateBaseRoute = () => {
     <Box minWidth='1000px' height='inherit' >
       <Flex backgroundColor='white' height='inherit' >
         <Box flex="1" minWidth='300px' overflowY='scroll'>
-          <Stack >
-            {content}
-          </Stack>
+          <DragDropContext onDragEnd={onDragEnd}>
+            <Droppable droppableId="droppable">
+              {(provided, snapshot) => (
+                <Stack
+                  ref={provided.innerRef}
+                  backgroundColor={snapshot.isDraggingOver ? '#dbdbdb' : 'white'}
+                  {...provided.droppableProps}
+                >
+                  {collectionPointsList}
+                </Stack>
+              )}
+            </Droppable>
+          </DragDropContext>
         </Box>
         <Center flex="4"  >
           <Text>Map</Text>
