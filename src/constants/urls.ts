@@ -4,3 +4,4 @@ export const URL = REACT_APP_URL;
 
 export const LOGIN_URL = '/rest-auth/login/';
 export const BASE_ROUTE_URL = '/api/base_route/';
+export const CUSTOMER_URL = '/api/customer/';
