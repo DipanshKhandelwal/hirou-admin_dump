@@ -37,6 +37,7 @@ export const BaseRouteList = () => {
             <Th>name</Th>
             <Th>garbage</Th>
             <Th>customer</Th>
+            <Th>option</Th>
           </Tr>
         </Thead>
         <Tbody >
@@ -52,6 +53,14 @@ export const BaseRouteList = () => {
                 {baseRoute.garbage.map((_garbage: IGarbage) => _garbage.name).join(', ')}
               </Td>
               <Td>{baseRoute.customer?.name ?? '--'}</Td>
+              <Td>
+                <Button colorScheme="red" onClick={(e: any) => {
+                  e.stopPropagation()
+                  onDeleteIconClicked(baseRoute.id)
+                }} >
+                  <MdDeleteForever />
+                </Button>
+              </Td>
             </Tr>
           ))}
         </Tbody>
