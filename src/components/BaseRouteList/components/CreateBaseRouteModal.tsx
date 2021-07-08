@@ -24,6 +24,7 @@ import { useEffect } from "react";
 import { getCustomers } from "../../../services/apiRequests/customers";
 import { useState } from "react";
 import { saveBaseRoute } from "../../../services/apiRequests/baseRoute";
+import MultiSelect from "../../common/MultiSelect";
 import { getGarbages } from "../../../services/apiRequests/garbages";
 import { IGarbage } from "../../../models/garbage";
 import { handleFetchBaseRoute } from "../../../store/thunks/BaseRoute";
@@ -41,6 +42,8 @@ interface IGarbageOptions {
 
 export const CreateBaseRouteModal = (props: CreateBaseRouteModalProps) => {
   const [customers, setCustomers] = useState<ICustomer[]>([]);
+  const [garbages, setGarbages] = useState<IGarbageOptions[]>([])
+  const [selectedGarbages, setSelectedGarbages] = useState<number[]>([])
   const toast = useToast()
 
   const { isOpen, onClose } = props
@@ -171,6 +174,33 @@ export const CreateBaseRouteModal = (props: CreateBaseRouteModalProps) => {
                               <option key={customer.id} value={customer.id} >{customer.description}</option>
                             ))}
                           </Select>
+                          <FormErrorMessage>{form.errors.customer}</FormErrorMessage>
+                        </FormControl>
+                      )}
+                    </Field>
+                  </FormControl>
+                </InputGroup>
+                <InputGroup marginY={2} >
+                  <FormControl id="garbage" >
+                    <Field name="garbage" >
+                      {({ field, form }: { field: any, form: any }) => (
+                        <FormControl isInvalid={form.errors.customer && form.touched.customer}>
+                          <FormLabel htmlFor="garbage" >Garbage</FormLabel>
+                          <MultiSelect
+                            {...field}
+                            isMulti
+                            name="garbage"
+                            onChange={(e: any) => {
+                              const x = []
+                              for (const a of e) x.push(a.value)
+                              setSelectedGarbages(x)
+                            }}
+                            vaku
+                            options={garbages}
+                            placeholder="Select garbage types..."
+                            closeMenuOnSelect={false}
+                            size="sm"
+                          />
                           <FormErrorMessage>{form.errors.customer}</FormErrorMessage>
                         </FormControl>
                       )}
