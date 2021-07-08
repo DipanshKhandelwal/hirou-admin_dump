@@ -37,13 +37,13 @@ export const BaseRouteList = () => {
           </Tr>
         </Thead>
         <Tbody >
-          {baseRoutesData?.data?.map((baseRoute: IBaseRoute) => (
+          {baseRoutesData?.data?.map((baseRoute: IBaseRoute, idx: number) => (
             <Tr
               key={baseRoute.id}
               _hover={{ backgroundColor: 'blue.100', cursor: 'pointer' }}
               onClick={() => selectBaseRoute(baseRoute.id)}
             >
-              <Td>{baseRoute.id}</Td>
+              <Td>{idx + 1}</Td>
               <Td>{baseRoute.name}</Td>
               <Td>
                 {baseRoute.garbage.map((_garbage: IGarbage) => _garbage.name).join(', ')}
