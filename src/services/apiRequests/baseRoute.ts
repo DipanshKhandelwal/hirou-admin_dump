@@ -10,3 +10,12 @@ export async function saveBaseRoute(data: any): Promise<any> {
     throw Error('Create Base Route API failed');
   }
 }
+
+export async function getAllBaseRoute(): Promise<any> {
+  try {
+    const response = await hirouAxios.get(BASE_ROUTE_URL);
+    return response.data;
+  } catch (e) {
+    throw Error('Get all Base Route API failed');
+  }
+}
