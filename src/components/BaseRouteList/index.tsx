@@ -15,6 +15,9 @@ import { IGarbage } from "../../models/garbage"
 
 export const BaseRouteList = () => {
   const baseRoutesData: any = useSelector(_baseRoute)
+  const [isCreateRouteModalOpen, setCreateRouteModalOpen] = useState(false)
+  const [selectedRoute, setSelectedRoute] = useState<number | null>(null)
+  const cancelRef = React.useRef()
 
   useEffect(() => {
     handleFetchBaseRoute()
@@ -56,10 +59,14 @@ export const BaseRouteList = () => {
     )
   }
 
+  const onOpen = () => setCreateRouteModalOpen(true)
+  const onClose = () => setCreateRouteModalOpen(false)
+
   return (
     <Container maxW="container.xl">
       <Heading textAlign='start' marginBottom={5} >Base Route List</Heading>
       {content}
+      <BaseRouteDeleteConfirmationModal onAccept={onDelete} cancelRef={cancelRef} onCancel={onDeleteModalClose} isOpen={isDeleteModalOpen} />
     </Container>
   )
 }
