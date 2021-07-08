@@ -19,3 +19,13 @@ export async function getAllBaseRoute(): Promise<any> {
     throw Error('Get all Base Route API failed');
   }
 }
+
+export async function deleteBaseRoute(baseRouteId: number): Promise<any> {
+  try {
+    const url = `${BASE_ROUTE_URL}${baseRouteId}/`;
+    const response = await hirouAxios.delete(url);
+    return response.data;
+  } catch (e) {
+    throw Error('Delete Base Route API failed');
+  }
+}
