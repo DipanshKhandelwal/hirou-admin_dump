@@ -46,10 +46,17 @@ export const BaseRouteList = () => {
       try {
         await deleteBaseRoute(selectedRoute)
         getAllBaseRoute()
-
+        toast({
+          title: "Base route deleted",
+          description: "please try again",
+        })
       }
       catch {
-
+        toast({
+          title: "Error deleting base route",
+          description: "please try again",
+          status: "error",
+        })
       }
     }
     onDeleteModalClose()
