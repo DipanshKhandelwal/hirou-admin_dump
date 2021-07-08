@@ -53,6 +53,7 @@ export const CreateBaseRoute = () => {
 
   const onDragEnd = (e: any) => {
     if (!e.destination) return
+    if (e.destination.index === e.source.index) return
     const items = reorder(
       localCollectionPoints,
       e.source.index,
