@@ -30,7 +30,6 @@ export const CreateBaseRoute = () => {
   const baseRoutesData: any = useSelector(_baseRoute)
   const selectedRouteId: number = useSelector(_selectedRouteId)
 
-
   const route: IBaseRoute = useMemo(() => {
     const baseRoute = baseRoutesData.data.find((baseRoute: IBaseRoute) => baseRoute.id === selectedRouteId)
     return baseRoute
@@ -112,7 +111,7 @@ export const CreateBaseRoute = () => {
           </DragDropContext>
         </Box>
         <Center flex="4"  >
-          <RouteMap />
+          <RouteMap baseRoute={route} />
         </Center>
       </Flex>
       <UpdateConfirmationModal onAccept={onSeqUpdate} cancelRef={cancelRef} onCancel={onSeqUpdateModalClose} isOpen={isSeqUpdateModalOpen} />
