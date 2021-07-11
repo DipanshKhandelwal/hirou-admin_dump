@@ -11,6 +11,7 @@ import './styles.css'
 import { IBaseRoute } from '../../../../models/baseRoute';
 import { ICollectionPoint } from '../../../../models/collectionPoint';
 import ReactMapGL, { Marker } from 'react-map-gl';
+import { AddCollectionPointModal } from '../AddCollectionPointModal'
 interface RouteMapProps {
   baseRoute: IBaseRoute
 }
@@ -25,6 +26,14 @@ const RouteMap = (props: RouteMapProps) => {
 
   const [markers, setMarkers] = useState<any>([])
   const [tempMarker, setTempMarker] = useState<any>(null)
+
+  const [isAddCPModalOpen, setAddCPModalOpen] = useState(false)
+
+  const onModalClose = () => {
+    setAddCPModalOpen(false)
+    setAddCPModalOpen(false)
+    setTempMarker(null)
+  }
 
   useEffect(() => {
     if (!baseRoute) return;
@@ -43,10 +52,7 @@ const RouteMap = (props: RouteMapProps) => {
 
   const add = (e: any) => {
     e.stopPropagation()
-    setMarkers((prevState: any) => {
-      return [...prevState, tempMarker]
-    })
-    setTempMarker(null)
+    setAddCPModalOpen(true)
   }
 
   const CustomMarker = ({ index, marker }: { index: any, marker: any }) => {
@@ -98,9 +104,9 @@ const RouteMap = (props: RouteMapProps) => {
           </Button>
         </VStack>
       </Box>
+      <AddCollectionPointModal marker={tempMarker} baseRoute={baseRoute} isOpen={isAddCPModalOpen} onClose={onModalClose} />
     </Container>
   )
-
 }
 
 export default RouteMap;
