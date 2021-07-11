@@ -11,21 +11,35 @@ import './styles.css'
 import { IBaseRoute } from '../../../../models/baseRoute';
 import { ICollectionPoint } from '../../../../models/collectionPoint';
 import ReactMapGL, { Marker } from 'react-map-gl';
-
-mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN;
 interface RouteMapProps {
   baseRoute: IBaseRoute
 }
 
 const RouteMap = (props: RouteMapProps) => {
+  const { baseRoute } = props;
   const [viewport, setViewport] = useState({
-    latitude: 37.7577,
-    longitude: -122.4376,
-    zoom: 8
+    latitude: 35.6794670,
+    longitude: 139.771008,
+    zoom: 12
   });
 
   const [markers, setMarkers] = useState<any>([])
   const [tempMarker, setTempMarker] = useState<any>(null)
+
+  useEffect(() => {
+    if (!baseRoute) return;
+    const _markers: any[] = []
+
+    baseRoute?.collection_point?.forEach((cp: ICollectionPoint) => {
+      const [lat, lng] = cp.location.split(',')
+      const _marker = {
+        longitude: Number(lng),
+        latitude: Number(lat)
+      }
+      _markers.push(_marker)
+    });
+    setMarkers(_markers)
+  }, [baseRoute])
 
   const add = (e: any) => {
     e.stopPropagation()
