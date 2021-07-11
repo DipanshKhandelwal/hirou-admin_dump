@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line
-import { MAPBOX_ACCESS_TOKEN } from '../../../../constants/mapbox';
+import { MAPBOX_ACCESS_TOKEN, MAPBOX_STYLE } from '../../../../constants/mapbox';
 import {
   Container,
   VStack,
@@ -65,7 +65,7 @@ const RouteMap = (props: RouteMapProps) => {
     <Container position='relative' height='100%' width='100%' maxW='unset' m={0} p={0}  >
       <ReactMapGL
         height='100%' width='100%'
-        mapStyle="mapbox://styles/mapbox/streets-v11"
+        mapStyle={MAPBOX_STYLE}
         mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN}
         {...viewport}
         onViewportChange={(nextViewport: any) => setViewport(nextViewport)}
