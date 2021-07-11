@@ -2,7 +2,6 @@ import * as React from "react"
 import {
   Stack,
   Box,
-  Text,
   Flex,
   Center,
   useToast,
@@ -20,6 +19,7 @@ import { useEffect } from "react"
 import { hirouAxios } from "../../services/httpInstance"
 import { BASE_ROUTE_URL } from "../../constants/urls"
 import { dispatchUpdateBaseRoute } from "../../store/dispatcher/BaseRoute"
+import RouteMap from "./components/RouteMap"
 
 export const CreateBaseRoute = () => {
   const [isSeqUpdateModalOpen, setIsSeqUpdateModalOpen] = useState(false)
@@ -112,7 +112,7 @@ export const CreateBaseRoute = () => {
           </DragDropContext>
         </Box>
         <Center flex="4"  >
-          <Text>Map</Text>
+          <RouteMap />
         </Center>
       </Flex>
       <UpdateConfirmationModal onAccept={onSeqUpdate} cancelRef={cancelRef} onCancel={onSeqUpdateModalClose} isOpen={isSeqUpdateModalOpen} />
