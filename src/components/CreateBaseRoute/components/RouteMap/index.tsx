@@ -1,41 +1,90 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line
 import { MAPBOX_ACCESS_TOKEN } from '../../../../constants/mapbox';
 import {
   Container,
+  VStack,
+  Button,
+  Box
 } from "@chakra-ui/react"
 import './styles.css'
+import { IBaseRoute } from '../../../../models/baseRoute';
+import { ICollectionPoint } from '../../../../models/collectionPoint';
+import ReactMapGL, { Marker } from 'react-map-gl';
 
 mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN;
+interface RouteMapProps {
+  baseRoute: IBaseRoute
+}
 
-const RouteMap = () => {
-  const mapContainer = useRef(null);
-  const map: any = useRef(null);
-  const [lng, setLng] = useState(-70.9);
-  const [lat, setLat] = useState(42.35);
-  const [zoom, setZoom] = useState(9);
+const RouteMap = (props: RouteMapProps) => {
+  const [viewport, setViewport] = useState({
+    latitude: 37.7577,
+    longitude: -122.4376,
+    zoom: 8
+  });
 
-  useEffect(() => {
-    if (map.current) return;
-    map.current = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: 'mapbox://styles/mapbox/streets-v11',
-      center: [lng, lat],
-      zoom: zoom
-    });
-  }, [map, lng, lat, zoom]);
+  const [markers, setMarkers] = useState<any>([])
+  const [tempMarker, setTempMarker] = useState<any>(null)
 
-  useEffect(() => {
-    if (!map.current) return;
-    map.current?.on('move', () => {
-      setLng(map.current?.getCenter().lng.toFixed(4));
-      setLat(map.current?.getCenter().lat.toFixed(4));
-      setZoom(map.current?.getZoom().toFixed(2));
-    });
-  }, [map, lat, lng]);
+  const add = (e: any) => {
+    e.stopPropagation()
+    setMarkers((prevState: any) => {
+      return [...prevState, tempMarker]
+    })
+    setTempMarker(null)
+  }
+
+  const CustomMarker = ({ index, marker }: { index: any, marker: any }) => {
+    return (
+      <Marker
+        longitude={marker.longitude}
+        latitude={marker.latitude}>
+        <div className="marker">
+          <span><b>{index + 1}</b></span>
+        </div>
+      </Marker>
+    )
+  };
 
   return (
-    <Container height='100%' width='100%' maxW='unset' m={0} p={0} ref={mapContainer} className="map-container" />
+    <Container position='relative' height='100%' width='100%' maxW='unset' m={0} p={0}  >
+      <ReactMapGL
+        height='100%' width='100%'
+        mapStyle="mapbox://styles/mapbox/streets-v11"
+        mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN}
+        {...viewport}
+        onViewportChange={(nextViewport: any) => setViewport(nextViewport)}
+        onClick={(e: any) => {
+          const [lng, lat] = e.lngLat
+          setTempMarker({
+            longitude: lng,
+            latitude: lat
+          })
+        }}
+      >
+        {markers.map((marker: any, index: number) => (
+          <CustomMarker
+            key={`marker-${index}`}
+            index={index}
+            marker={marker}
+          />
+        ))}
+        {tempMarker &&
+          <Marker
+            longitude={tempMarker.longitude}
+            latitude={tempMarker.latitude}>
+            <div className="marker temporary-marker"><span></span></div>
+          </Marker>}
+      </ReactMapGL>
+      <Box position='absolute' p={2} top={0} left={0} backgroundColor='#5050505c' >
+        <VStack>
+          <Button onClick={add} disabled={!tempMarker} >
+            Add
+          </Button>
+        </VStack>
+      </Box>
+    </Container>
   )
 
 }
