@@ -20,6 +20,16 @@ export async function getAllBaseRoute(): Promise<any> {
   }
 }
 
+export async function getBaseRoute(baseRouteId: number): Promise<any> {
+  const url = `${BASE_ROUTE_URL}${baseRouteId}/`;
+  try {
+    const response = await hirouAxios.get(url);
+    return response.data;
+  } catch (e) {
+    throw Error('Get Base Route API failed');
+  }
+}
+
 export async function deleteBaseRoute(baseRouteId: number): Promise<any> {
   try {
     const url = `${BASE_ROUTE_URL}${baseRouteId}/`;

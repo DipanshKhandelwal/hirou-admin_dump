@@ -2,7 +2,7 @@ import * as types from '../actionTypes/App';
 
 const initialState = {
   user: null,
-  selectedRoute: 11,
+  selectedRoute: null,
 };
 
 const AppReducer = (state = initialState, action: any) => {
