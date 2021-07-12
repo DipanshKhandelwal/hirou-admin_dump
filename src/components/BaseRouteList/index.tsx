@@ -16,7 +16,7 @@ import { useSelector } from "react-redux"
 import { dispatchSelectRoute } from "../../store/dispatcher"
 import { IGarbage } from "../../models/garbage"
 import { IoMdAddCircleOutline } from "react-icons/io"
-import { MdDeleteForever } from "react-icons/md";
+import { MdDeleteForever, MdEdit } from "react-icons/md";
 import { useState } from "react"
 import { CreateBaseRouteModal } from "./components/CreateBaseRouteModal"
 import { BaseRouteDeleteConfirmationModal } from "./components/BaseRouteDeleteConfirmationModal"
@@ -26,7 +26,7 @@ export const BaseRouteList = () => {
   const baseRoutesData: any = useSelector(_baseRoute)
   const [isCreateRouteModalOpen, setCreateRouteModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
-  const [selectedRoute, setSelectedRoute] = useState<number | null>(null)
+  const [selectedRoute, setSelectedRoute] = useState<IBaseRoute | null>(null)
   const cancelRef = React.useRef()
   const toast = useToast()
 
@@ -36,19 +36,24 @@ export const BaseRouteList = () => {
 
   const selectBaseRoute = (baseRouteId: number) => dispatchSelectRoute(baseRouteId)
 
+  const getRouteFromId = (baseRouteId: number) => baseRoutesData.data.find((baseRoute: IBaseRoute) => baseRoute.id === baseRouteId)
+
   const onDeleteIconClicked = (baseRouteId: number) => {
-    setSelectedRoute(baseRouteId)
-    setIsDeleteModalOpen(true)
+    const _baseRoute = getRouteFromId(baseRouteId)
+    if (_baseRoute) {
+      setSelectedRoute(_baseRoute)
+      setIsDeleteModalOpen(true)
+    }
   }
 
   const onDelete = async () => {
     if (selectedRoute !== null) {
       try {
-        await deleteBaseRoute(selectedRoute)
-        getAllBaseRoute()
+        await deleteBaseRoute(selectedRoute.id)
+        handleFetchBaseRoute()
         toast({
           title: "Base route deleted",
-          description: "please try again",
+          description: "",
         })
       }
       catch {
@@ -67,6 +72,19 @@ export const BaseRouteList = () => {
     setIsDeleteModalOpen(false)
   }
 
+  const onEditIconClicked = (baseRouteId: number) => {
+    const _baseRoute = getRouteFromId(baseRouteId)
+    if (_baseRoute) {
+      setSelectedRoute(_baseRoute)
+      setCreateRouteModalOpen(true)
+    }
+  }
+
+  const onEditModalClose = () => {
+    setSelectedRoute(null)
+    setCreateRouteModalOpen(false)
+  }
+
   let content = <Spinner />
   if (baseRoutesData.isLoaded) {
     content = (
@@ -77,7 +95,7 @@ export const BaseRouteList = () => {
             <Th>name</Th>
             <Th>garbage</Th>
             <Th>customer</Th>
-            <Th>option</Th>
+            <Th>options</Th>
           </Tr>
         </Thead>
         <Tbody >
@@ -94,12 +112,21 @@ export const BaseRouteList = () => {
               </Td>
               <Td>{baseRoute.customer?.name ?? '--'}</Td>
               <Td>
-                <Button colorScheme="red" onClick={(e: any) => {
-                  e.stopPropagation()
-                  onDeleteIconClicked(baseRoute.id)
-                }} >
-                  <MdDeleteForever />
-                </Button>
+                <HStack>
+                  <Button colorScheme="blue" onClick={(e: any) => {
+                    e.stopPropagation()
+                    onEditIconClicked(baseRoute.id)
+                  }} >
+                    <MdEdit />
+                  </Button>
+
+                  <Button colorScheme="red" onClick={(e: any) => {
+                    e.stopPropagation()
+                    onDeleteIconClicked(baseRoute.id)
+                  }} >
+                    <MdDeleteForever />
+                  </Button>
+                </HStack>
               </Td>
             </Tr>
           ))}
@@ -108,8 +135,10 @@ export const BaseRouteList = () => {
     )
   }
 
-  const onOpen = () => setCreateRouteModalOpen(true)
-  const onClose = () => setCreateRouteModalOpen(false)
+  const onOpen = () => {
+    setSelectedRoute(null)
+    setCreateRouteModalOpen(true)
+  }
 
   return (
     <Container maxW="container.xl">
@@ -118,7 +147,7 @@ export const BaseRouteList = () => {
         <Button onClick={onOpen} leftIcon={<IoMdAddCircleOutline size={20} style={{ margin: 0 }} />}>
           Add
         </Button>
-        <CreateBaseRouteModal isOpen={isCreateRouteModalOpen} onClose={onClose} />
+        <CreateBaseRouteModal baseRoute={selectedRoute} isOpen={isCreateRouteModalOpen} onClose={onEditModalClose} />
       </HStack>
       {content}
       <BaseRouteDeleteConfirmationModal onAccept={onDelete} cancelRef={cancelRef} onCancel={onDeleteModalClose} isOpen={isDeleteModalOpen} />
