@@ -19,19 +19,22 @@ import {
 import { Formik } from 'formik';
 import { RiRouteFill, RiTodoFill, RiSendPlaneLine } from "react-icons/ri";
 import { handleFetchUpdatedBaseRoute } from "../../../store/thunks/BaseRoute";
-import { IBaseRoute } from "../../../models/baseRoute";
-import { saveCollectionPoint } from "../../../services/apiRequests/collectionPoint";
+import { editCollectionPoint, saveCollectionPoint } from "../../../services/apiRequests/collectionPoint";
+import { ICollectionPoint } from "../../../models/collectionPoint";
 
 interface AddCollectionPointModalProps {
   isOpen: boolean
   onClose: () => void
-  baseRoute: IBaseRoute
+  baseRouteId: number
   marker: any
+  collectionPoint: ICollectionPoint | null
 }
 
 export const AddCollectionPointModal = (props: AddCollectionPointModalProps) => {
   const toast = useToast()
-  const { isOpen, onClose, baseRoute, marker } = props
+  const { isOpen, onClose, baseRouteId, marker, collectionPoint } = props
+
+  const title = `${collectionPoint ? 'Edit' : 'Create'} collection point`
 
   return (
     <Modal
@@ -40,13 +43,14 @@ export const AddCollectionPointModal = (props: AddCollectionPointModalProps) => 
     >
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Create collection point</ModalHeader>
+        <ModalHeader>{title}</ModalHeader>
         <ModalCloseButton />
         <Formik
+          enableReinitialize
           initialValues={{
-            name: '',
-            address: '',
-            memo: '',
+            name: collectionPoint?.name ?? '',
+            address: collectionPoint?.address ?? '',
+            memo: collectionPoint?.memo ?? '',
           }}
           validate={(values) => {
             const errors = {}
@@ -61,25 +65,39 @@ export const AddCollectionPointModal = (props: AddCollectionPointModalProps) => 
               const _address = values.address.trim()
               const _memo = values.memo.trim()
 
-              const _sequence = 0
-              const _route = baseRoute.id
-              const { longitude, latitude } = marker;
-              const _location = latitude + ',' + longitude
-
-              await saveCollectionPoint({
-                name: _name,
-                location: _location,
-                address: _address,
-                memo: _memo,
-                route: _route,
-                sequence: _sequence,
-              })
-              handleFetchUpdatedBaseRoute(baseRoute.id)
-              toast({
-                title: "Created collection point",
-                description: "",
-                status: "success",
-              })
+              if (collectionPoint) {
+                await editCollectionPoint(collectionPoint.id, {
+                  name: _name,
+                  address: _address,
+                  memo: _memo,
+                  location: collectionPoint.location
+                })
+                toast({
+                  title: "Updated collection point",
+                  description: "",
+                  status: "success",
+                })
+              }
+              else {
+                const _sequence = 0
+                const _route = baseRouteId
+                const { longitude, latitude } = marker;
+                const _location = latitude + ',' + longitude
+                await saveCollectionPoint({
+                  name: _name,
+                  location: _location,
+                  address: _address,
+                  memo: _memo,
+                  route: _route,
+                  sequence: _sequence,
+                })
+                toast({
+                  title: "Created collection point",
+                  description: "",
+                  status: "success",
+                })
+              }
+              handleFetchUpdatedBaseRoute(baseRouteId)
               onClose()
             }
             catch (e) {
@@ -111,6 +129,7 @@ export const AddCollectionPointModal = (props: AddCollectionPointModalProps) => 
                       children={<RiRouteFill color="gray.300" />}
                     />
                     <Input
+                      value={values.name}
                       type="name"
                       name="name"
                       onChange={handleChange}
@@ -128,6 +147,7 @@ export const AddCollectionPointModal = (props: AddCollectionPointModalProps) => 
                       children={<RiSendPlaneLine color="gray.300" />}
                     />
                     <Input
+                      value={values.address}
                       type="address"
                       name="address"
                       onChange={handleChange}
@@ -145,6 +165,7 @@ export const AddCollectionPointModal = (props: AddCollectionPointModalProps) => 
                       children={<RiTodoFill color="gray.300" />}
                     />
                     <Input
+                      value={values.memo}
                       type="memo"
                       name="memo"
                       onChange={handleChange}
