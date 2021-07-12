@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import mapboxgl from '!mapbox-gl'; // eslint-disable-line
 import { MAPBOX_ACCESS_TOKEN, MAPBOX_STYLE } from '../../../../constants/mapbox';
 import {
   Container,
@@ -11,13 +10,15 @@ import './styles.css'
 import { IBaseRoute } from '../../../../models/baseRoute';
 import { ICollectionPoint } from '../../../../models/collectionPoint';
 import ReactMapGL, { Marker } from 'react-map-gl';
-import { AddCollectionPointModal } from '../AddCollectionPointModal'
 interface RouteMapProps {
   baseRoute: IBaseRoute
+  tempMarker: any
+  setTempMarker: (state: any) => void
+  setAddCPModalOpen: (state: boolean) => void
 }
 
 const RouteMap = (props: RouteMapProps) => {
-  const { baseRoute } = props;
+  const { baseRoute, tempMarker, setAddCPModalOpen, setTempMarker } = props;
   const [viewport, setViewport] = useState({
     latitude: 35.6794670,
     longitude: 139.771008,
@@ -25,21 +26,16 @@ const RouteMap = (props: RouteMapProps) => {
   });
 
   const [markers, setMarkers] = useState<any>([])
-  const [tempMarker, setTempMarker] = useState<any>(null)
-
-  const [isAddCPModalOpen, setAddCPModalOpen] = useState(false)
-
-  const onModalClose = () => {
-    setAddCPModalOpen(false)
-    setAddCPModalOpen(false)
-    setTempMarker(null)
-  }
 
   useEffect(() => {
     if (!baseRoute) return;
     const _markers: any[] = []
 
-    baseRoute?.collection_point?.forEach((cp: ICollectionPoint) => {
+    const cps = baseRoute?.collection_point.sort((a: ICollectionPoint, b: ICollectionPoint) => {
+      return a.sequence - b.sequence
+    })
+
+    cps?.forEach((cp: ICollectionPoint) => {
       const [lat, lng] = cp.location.split(',')
       const _marker = {
         longitude: Number(lng),
@@ -104,7 +100,6 @@ const RouteMap = (props: RouteMapProps) => {
           </Button>
         </VStack>
       </Box>
-      <AddCollectionPointModal marker={tempMarker} baseRoute={baseRoute} isOpen={isAddCPModalOpen} onClose={onModalClose} />
     </Container>
   )
 }

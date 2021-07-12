@@ -20,12 +20,22 @@ import { hirouAxios } from "../../services/httpInstance"
 import { BASE_ROUTE_URL } from "../../constants/urls"
 import { dispatchUpdateBaseRoute } from "../../store/dispatcher/BaseRoute"
 import RouteMap from "./components/RouteMap"
+import { AddCollectionPointModal } from "./components/AddCollectionPointModal"
+import { CollectionPointDeleteConfirmationModal } from "./components/CollectionPointDeleteConfirmationModal"
+import { deleteCollectionPoint } from "../../services/apiRequests/collectionPoint"
+import { handleFetchUpdatedBaseRoute } from "../../store/thunks/BaseRoute"
 
 export const CreateBaseRoute = () => {
   const [isSeqUpdateModalOpen, setIsSeqUpdateModalOpen] = useState(false)
   const [localCollectionPoints, setLocalCollectionPoints] = useState<ICollectionPoint[]>([])
   const cancelRef = React.useRef()
   const toast = useToast()
+
+  const [selectedCollectionPoint, setSelectedCollectionPoint] = useState<ICollectionPoint | null>(null)
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+  const [isAddCPModalOpen, setAddCPModalOpen] = useState(false)
+
+  const [tempMarker, setTempMarker] = useState<any>(null)
 
   const baseRoutesData: any = useSelector(_baseRoute)
   const selectedRouteId: number = useSelector(_selectedRouteId)
@@ -88,8 +98,63 @@ export const CreateBaseRoute = () => {
     setIsSeqUpdateModalOpen(false)
   }
 
+  const handleEditClicked = (cp: ICollectionPoint) => {
+    const _cp = getCPFromId(cp.id)
+    if (_cp) {
+      setSelectedCollectionPoint(_cp)
+      setAddCPModalOpen(true)
+    }
+  }
+
+  const onEditModalClose = () => {
+    setSelectedCollectionPoint(null)
+    setAddCPModalOpen(false)
+    setTempMarker(null)
+  }
+
+  const getCPFromId = (cpId: number) => route.collection_point.find((cp: ICollectionPoint) => cp.id === cpId)
+
+  const handleDeleteClicked = (cp: ICollectionPoint) => {
+    const _cp = getCPFromId(cp.id)
+    if (_cp) {
+      setSelectedCollectionPoint(_cp)
+      setIsDeleteModalOpen(true)
+    }
+  }
+
+  const onDelete = async () => {
+    if (selectedCollectionPoint !== null) {
+      try {
+        await deleteCollectionPoint(selectedCollectionPoint.id)
+        handleFetchUpdatedBaseRoute(selectedRouteId)
+        toast({
+          title: "Collection point deleted",
+          description: "",
+        })
+      }
+      catch {
+        toast({
+          title: "Error deleting collection point",
+          description: "please try again",
+          status: "error",
+        })
+      }
+    }
+    onDeleteModalClose()
+  }
+
+  const onDeleteModalClose = () => {
+    setSelectedCollectionPoint(null)
+    setIsDeleteModalOpen(false)
+  }
+
   const collectionPointsList = localCollectionPoints?.map((collectionPoint: ICollectionPoint, index: number) => (
-    <CollectionPointListItem key={collectionPoint.id} collectionPoint={collectionPoint} index={index} />
+    <CollectionPointListItem
+      onEdit={handleEditClicked}
+      onDelete={handleDeleteClicked}
+      key={collectionPoint.id}
+      collectionPoint={collectionPoint} index={index}
+    />
   ))
 
   return (
@@ -111,10 +176,17 @@ export const CreateBaseRoute = () => {
           </DragDropContext>
         </Box>
         <Center flex="4"  >
-          <RouteMap baseRoute={route} />
+          <RouteMap
+            tempMarker={tempMarker}
+            setTempMarker={setTempMarker}
+            setAddCPModalOpen={setAddCPModalOpen}
+            baseRoute={route}
+          />
         </Center>
       </Flex>
+      <AddCollectionPointModal collectionPoint={selectedCollectionPoint} marker={tempMarker} baseRouteId={route.id} isOpen={isAddCPModalOpen} onClose={onEditModalClose} />
       <UpdateConfirmationModal onAccept={onSeqUpdate} cancelRef={cancelRef} onCancel={onSeqUpdateModalClose} isOpen={isSeqUpdateModalOpen} />
+      <CollectionPointDeleteConfirmationModal onAccept={onDelete} cancelRef={cancelRef} onCancel={onDeleteModalClose} isOpen={isDeleteModalOpen} />
     </Box >
   )
 }
