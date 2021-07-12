@@ -25,3 +25,13 @@ export async function editCollectionPoint(
     throw Error('Update Collection Point API failed');
   }
 }
+
+export async function deleteCollectionPoint(cpId: number): Promise<any> {
+  try {
+    const url = `${COLLECTION_POINT_URL}${cpId}/`;
+    const response = await hirouAxios.delete(url);
+    return response.data;
+  } catch (e) {
+    throw Error('Delete Collection Point API failed');
+  }
+}
