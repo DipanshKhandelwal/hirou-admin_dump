@@ -97,7 +97,24 @@ export const CreateBaseRouteModal = (props: CreateBaseRouteModalProps) => {
   }, [toast])
 
   const save = async (data: any) => {
-
+    if (baseRoute) {
+      // editing
+      await editBaseRoute(baseRoute?.id, data)
+      toast({
+        title: "Edited base route",
+        description: "",
+        status: "success",
+      })
+    }
+    else {
+      // create new
+      await saveBaseRoute(data)
+      toast({
+        title: "Created base route",
+        description: "",
+        status: "success",
+      })
+    }
   }
 
   const title = `${baseRoute ? 'Edit' : 'Create'}`
