@@ -23,15 +23,17 @@ import { ICustomer } from "../../../models/customer";
 import { useEffect } from "react";
 import { getCustomers } from "../../../services/apiRequests/customers";
 import { useState } from "react";
-import { saveBaseRoute } from "../../../services/apiRequests/baseRoute";
+import { editBaseRoute, saveBaseRoute } from "../../../services/apiRequests/baseRoute";
 import MultiSelect from "../../common/MultiSelect";
 import { getGarbages } from "../../../services/apiRequests/garbages";
 import { IGarbage } from "../../../models/garbage";
 import { handleFetchBaseRoute } from "../../../store/thunks/BaseRoute";
+import { IBaseRoute } from "../../../models/baseRoute";
 
 interface CreateBaseRouteModalProps {
   isOpen: boolean
   onClose: () => void
+  baseRoute: IBaseRoute | null
 }
 
 interface IGarbageOptions {
@@ -46,7 +48,14 @@ export const CreateBaseRouteModal = (props: CreateBaseRouteModalProps) => {
   const [selectedGarbages, setSelectedGarbages] = useState<number[]>([])
   const toast = useToast()
 
-  const { isOpen, onClose } = props
+  const { isOpen, onClose, baseRoute } = props
+
+  useEffect(() => {
+    if (!baseRoute) return
+    const _gb = []
+    for (const gb of baseRoute.garbage) _gb.push(gb.id)
+    setSelectedGarbages(_gb)
+  }, [baseRoute])
 
   useEffect(() => {
     async function _getCustomers() {
@@ -87,6 +96,29 @@ export const CreateBaseRouteModal = (props: CreateBaseRouteModalProps) => {
     _getGarbages()
   }, [toast])
 
+  const save = async (data: any) => {
+    if (baseRoute) {
+      // editing
+      await editBaseRoute(baseRoute?.id, data)
+      toast({
+        title: "Edited base route",
+        description: "",
+        status: "success",
+      })
+    }
+    else {
+      // create new
+      await saveBaseRoute(data)
+      toast({
+        title: "Created base route",
+        description: "",
+        status: "success",
+      })
+    }
+  }
+
+  const title = `${baseRoute ? 'Edit' : 'Create'}`
+
   return (
     <Modal
       isOpen={isOpen}
@@ -94,12 +126,13 @@ export const CreateBaseRouteModal = (props: CreateBaseRouteModalProps) => {
     >
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Create base route</ModalHeader>
+        <ModalHeader>{title} base route</ModalHeader>
         <ModalCloseButton />
         <Formik
+          enableReinitialize
           initialValues={{
-            name: '',
-            customer: '',
+            name: baseRoute?.name ?? '',
+            customer: baseRoute?.customer?.id ?? '',
           }}
           validate={(values) => {
             const errors = {}
@@ -111,17 +144,12 @@ export const CreateBaseRouteModal = (props: CreateBaseRouteModalProps) => {
           onSubmit={async (values, { setSubmitting }) => {
             try {
               const _name = values.name.trim()
-              await saveBaseRoute({
+              await save({
                 name: _name,
                 customer: values.customer,
                 garbage: selectedGarbages
               })
               handleFetchBaseRoute()
-              toast({
-                title: "Created base route",
-                description: "",
-                status: "success",
-              })
               onClose()
             }
             catch (e) {
@@ -155,6 +183,7 @@ export const CreateBaseRouteModal = (props: CreateBaseRouteModalProps) => {
                     <Input
                       type="name"
                       name="name"
+                      value={values.name}
                       onChange={handleChange}
                       onBlur={handleBlur}
                       placeholder="name"
@@ -183,27 +212,39 @@ export const CreateBaseRouteModal = (props: CreateBaseRouteModalProps) => {
                 <InputGroup marginY={2} >
                   <FormControl id="garbage" >
                     <Field name="garbage" >
-                      {({ field, form }: { field: any, form: any }) => (
-                        <FormControl isInvalid={form.errors.customer && form.touched.customer}>
-                          <FormLabel htmlFor="garbage" >Garbage</FormLabel>
-                          <MultiSelect
-                            {...field}
-                            isMulti
-                            name="garbage"
-                            onChange={(e: any) => {
-                              const x = []
-                              for (const a of e) x.push(a.value)
-                              setSelectedGarbages(x)
-                            }}
-                            vaku
-                            options={garbages}
-                            placeholder="Select garbage types..."
-                            closeMenuOnSelect={false}
-                            size="sm"
-                          />
-                          <FormErrorMessage>{form.errors.customer}</FormErrorMessage>
-                        </FormControl>
-                      )}
+                      {({ field, form }: { field: any, form: any }) => {
+                        const initialGarbages = []
+                        for (const gb of garbages) {
+                          if (selectedGarbages.includes(gb.garbage.id)) {
+                            initialGarbages.push({
+                              garbage: gb,
+                              value: gb.garbage.id,
+                              label: gb.garbage.name
+                            })
+                          }
+                        }
+                        return (
+                          <FormControl isInvalid={form.errors.customer && form.touched.customer}>
+                            <FormLabel htmlFor="garbage" >Garbage</FormLabel>
+                            <MultiSelect
+                              {...field}
+                              isMulti
+                              name="garbage"
+                              onChange={(e: any) => {
+                                const x = []
+                                for (const a of e) x.push(a.value)
+                                setSelectedGarbages(x)
+                              }}
+                              defaultValue={initialGarbages}
+                              options={garbages}
+                              placeholder="Select garbage types..."
+                              closeMenuOnSelect={false}
+                              size="sm"
+                            />
+                            <FormErrorMessage>{form.errors.customer}</FormErrorMessage>
+                          </FormControl>
+                        )
+                      }}
                     </Field>
                   </FormControl>
                 </InputGroup>
