@@ -11,6 +11,20 @@ export async function saveBaseRoute(data: any): Promise<any> {
   }
 }
 
+export async function editBaseRoute(
+  baseRouteId: number,
+  data: any
+): Promise<any> {
+  if (!baseRouteId) throw Error('Please provide base route id');
+  try {
+    const url = `${BASE_ROUTE_URL}${baseRouteId}/`;
+    const response = await hirouAxios.put(url, data);
+    return response.data;
+  } catch (e) {
+    throw Error('Update Base Route API failed');
+  }
+}
+
 export async function getAllBaseRoute(): Promise<any> {
   try {
     const response = await hirouAxios.get(BASE_ROUTE_URL);
