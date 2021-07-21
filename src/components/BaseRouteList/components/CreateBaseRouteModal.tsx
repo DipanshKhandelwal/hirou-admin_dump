@@ -101,7 +101,7 @@ export const CreateBaseRouteModal = (props: CreateBaseRouteModalProps) => {
       // editing
       await editBaseRoute(baseRoute?.id, data)
       toast({
-        title: "Edited base route",
+        title: "編集",
         description: "",
         status: "success",
       })
@@ -110,14 +110,14 @@ export const CreateBaseRouteModal = (props: CreateBaseRouteModalProps) => {
       // create new
       await saveBaseRoute(data)
       toast({
-        title: "Created base route",
+        title: "新規作成",
         description: "",
         status: "success",
       })
     }
   }
 
-  const title = `${baseRoute ? 'Edit' : 'Create'}`
+  const title = `${baseRoute ? '編集' : '新規作成'}`
 
   return (
     <Modal
@@ -126,7 +126,7 @@ export const CreateBaseRouteModal = (props: CreateBaseRouteModalProps) => {
     >
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>{title} base route</ModalHeader>
+        <ModalHeader>{title}</ModalHeader>
         <ModalCloseButton />
         <Formik
           enableReinitialize
@@ -174,7 +174,7 @@ export const CreateBaseRouteModal = (props: CreateBaseRouteModalProps) => {
             <form onSubmit={handleSubmit}>
               <ModalBody pb={6}>
                 <FormControl isInvalid={!!(errors.name && touched.name)}>
-                  <FormLabel htmlFor="name" >Route Name</FormLabel>
+                  <FormLabel htmlFor="name" >ルート名</FormLabel>
                   <InputGroup marginY={2} >
                     <InputLeftElement
                       pointerEvents="none"
@@ -196,7 +196,7 @@ export const CreateBaseRouteModal = (props: CreateBaseRouteModalProps) => {
                     <Field name="customer" >
                       {({ field, form }: { field: any, form: any }) => (
                         <FormControl isInvalid={form.errors.customer && form.touched.customer}>
-                          <FormLabel htmlFor="customer" >Customer</FormLabel>
+                          <FormLabel htmlFor="customer" >顧客</FormLabel>
 
                           <Select {...field} placeholder="Select customer" id="customer" name="customer" >
                             {customers.map((customer: ICustomer) => (
@@ -225,7 +225,7 @@ export const CreateBaseRouteModal = (props: CreateBaseRouteModalProps) => {
                         }
                         return (
                           <FormControl isInvalid={form.errors.customer && form.touched.customer}>
-                            <FormLabel htmlFor="garbage" >Garbage</FormLabel>
+                            <FormLabel htmlFor="garbage" >品目</FormLabel>
                             <MultiSelect
                               {...field}
                               isMulti
@@ -250,9 +250,9 @@ export const CreateBaseRouteModal = (props: CreateBaseRouteModalProps) => {
                 </InputGroup>
               </ModalBody>
               <ModalFooter>
-                <Button disabled={isSubmitting} onClick={onClose} mr={3}>Cancel</Button>
+                <Button disabled={isSubmitting} onClick={onClose} mr={3}>キャンセル</Button>
                 <Button disabled={isSubmitting} type="submit" colorScheme="green" >
-                  Save
+                  保存
                 </Button>
               </ModalFooter>
             </form>

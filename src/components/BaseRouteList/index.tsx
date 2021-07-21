@@ -92,10 +92,10 @@ export const BaseRouteList = () => {
         <Thead>
           <Tr>
             <Th>Id</Th>
-            <Th>name</Th>
-            <Th>garbage</Th>
-            <Th>customer</Th>
-            <Th>options</Th>
+            <Th>ルート名</Th>
+            <Th>品目</Th>
+            <Th>顧客</Th>
+            <Th>操作</Th>
           </Tr>
         </Thead>
         <Tbody >
@@ -143,9 +143,8 @@ export const BaseRouteList = () => {
   return (
     <Container maxW="container.xl">
       <HStack marginBottom={5}>
-        <Heading textAlign='start' >Base Route List</Heading>
+        <Heading textAlign='start' >ルート一覧</Heading>
         <Button onClick={onOpen} leftIcon={<IoMdAddCircleOutline size={20} style={{ margin: 0 }} />}>
-          Add
         </Button>
         <CreateBaseRouteModal baseRoute={selectedRoute} isOpen={isCreateRouteModalOpen} onClose={onEditModalClose} />
       </HStack>

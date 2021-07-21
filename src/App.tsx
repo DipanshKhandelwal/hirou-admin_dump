@@ -55,7 +55,7 @@ export const App = () => {
     user &&
     <Breadcrumb width='max-content' padding={6} paddingY={2} fontWeight="medium" fontSize="sm" >
       <BreadcrumbItem>
-        <BreadcrumbLink href="#" onClick={showBaseRouteList} >Route List</BreadcrumbLink>
+        <BreadcrumbLink href="#" onClick={showBaseRouteList} >ルート一覧</BreadcrumbLink>
       </BreadcrumbItem>
       {selectedRouteId && (
         <BreadcrumbItem >

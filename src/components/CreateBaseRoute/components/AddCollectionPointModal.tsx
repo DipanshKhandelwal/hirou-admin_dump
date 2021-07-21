@@ -34,7 +34,7 @@ export const AddCollectionPointModal = (props: AddCollectionPointModalProps) => 
   const toast = useToast()
   const { isOpen, onClose, baseRouteId, marker, collectionPoint } = props
 
-  const title = `${collectionPoint ? 'Edit' : 'Create'} collection point`
+  const title = `${collectionPoint ? '編集' : '追加'}`
 
   return (
     <Modal
@@ -122,7 +122,7 @@ export const AddCollectionPointModal = (props: AddCollectionPointModalProps) => 
             <form onSubmit={handleSubmit}>
               <ModalBody pb={6}>
                 <FormControl isInvalid={!!(errors.name && touched.name)}>
-                  <FormLabel htmlFor="name" >Collection Point Name</FormLabel>
+                  <FormLabel htmlFor="name" >集積所名</FormLabel>
                   <InputGroup marginY={2} >
                     <InputLeftElement
                       pointerEvents="none"
@@ -140,7 +140,7 @@ export const AddCollectionPointModal = (props: AddCollectionPointModalProps) => 
                   <FormErrorMessage>{errors.name}</FormErrorMessage>
                 </FormControl>
                 <FormControl isInvalid={!!(errors.address && touched.address)}>
-                  <FormLabel htmlFor="address" >Collection Point Address</FormLabel>
+                  <FormLabel htmlFor="address" >住所</FormLabel>
                   <InputGroup marginY={2} >
                     <InputLeftElement
                       pointerEvents="none"
@@ -158,7 +158,7 @@ export const AddCollectionPointModal = (props: AddCollectionPointModalProps) => 
                   <FormErrorMessage>{errors.address}</FormErrorMessage>
                 </FormControl>
                 <FormControl isInvalid={!!(errors.memo && touched.memo)}>
-                  <FormLabel htmlFor="memo" >Collection Point Memo</FormLabel>
+                  <FormLabel htmlFor="memo" >メモ</FormLabel>
                   <InputGroup marginY={2} >
                     <InputLeftElement
                       pointerEvents="none"

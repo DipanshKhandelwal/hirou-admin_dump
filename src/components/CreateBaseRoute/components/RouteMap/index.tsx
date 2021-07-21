@@ -96,7 +96,7 @@ const RouteMap = (props: RouteMapProps) => {
       <Box position='absolute' p={2} top={0} left={0} backgroundColor='#5050505c' >
         <VStack>
           <Button onClick={add} disabled={!tempMarker} >
-            Add
+            追加
           </Button>
         </VStack>
       </Box>
