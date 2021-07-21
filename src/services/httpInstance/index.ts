@@ -17,7 +17,7 @@ export const getAxios = (baseURL?: string) => {
       const token = getCookie(ACCESS_TOKEN);
       if (token) {
         response.headers = {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Token ${token}`,
         };
       }
       return response;
