@@ -144,8 +144,7 @@ export const BaseRouteList = () => {
     <Container maxW="container.xl">
       <HStack marginBottom={5} justifyContent='space-between' >
         <Heading textAlign='start' >ルート一覧</Heading>
-        <Button onClick={onOpen} leftIcon={<IoMdAddCircleOutline size={20} style={{ margin: 0 }} />}>
-        </Button>
+        <Button onClick={onOpen} >新規作成</Button>
         <CreateBaseRouteModal baseRoute={selectedRoute} isOpen={isCreateRouteModalOpen} onClose={onEditModalClose} />
       </HStack>
       {content}
