@@ -20,7 +20,7 @@ import { MdDeleteForever, MdEdit } from "react-icons/md";
 import { useState } from "react"
 import { CreateBaseRouteModal } from "./components/CreateBaseRouteModal"
 import { BaseRouteDeleteConfirmationModal } from "./components/BaseRouteDeleteConfirmationModal"
-import { deleteBaseRoute, getAllBaseRoute } from "../../services/apiRequests/baseRoute"
+import { deleteBaseRoute } from "../../services/apiRequests/baseRoute"
 
 export const BaseRouteList = () => {
   const baseRoutesData: any = useSelector(_baseRoute)
@@ -142,7 +142,7 @@ export const BaseRouteList = () => {
 
   return (
     <Container maxW="container.xl">
-      <HStack marginBottom={5}>
+      <HStack marginBottom={5} justifyContent='space-between' >
         <Heading textAlign='start' >ルート一覧</Heading>
         <Button onClick={onOpen} leftIcon={<IoMdAddCircleOutline size={20} style={{ margin: 0 }} />}>
         </Button>
