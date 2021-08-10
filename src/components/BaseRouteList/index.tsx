@@ -15,7 +15,6 @@ import { _baseRoute } from "../../store/selectors/BaseRoute"
 import { useSelector } from "react-redux"
 import { dispatchSelectRoute } from "../../store/dispatcher"
 import { IGarbage } from "../../models/garbage"
-import { IoMdAddCircleOutline } from "react-icons/io"
 import { MdDeleteForever, MdEdit } from "react-icons/md";
 import { useState } from "react"
 import { CreateBaseRouteModal } from "./components/CreateBaseRouteModal"
