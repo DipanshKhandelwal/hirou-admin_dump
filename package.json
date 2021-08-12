@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@chakra-ui/react": "^1.0.0",
+    "@craco/craco": "^6.2.0",
     "@emotion/react": "^11.0.0",
     "@emotion/styled": "^11.0.0",
     "@testing-library/jest-dom": "^5.9.0",
@@ -35,11 +36,11 @@
     "web-vitals": "^0.2.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "start-prod": "env-cmd -f .env.prod react-scripts start",
-    "build": "react-scripts build",
-    "build-prod": "env-cmd -f .env.prod react-scripts build",
-    "test": "react-scripts test",
+    "start": "craco start",
+    "start-prod": "env-cmd -f .env.prod craco start",
+    "build": "craco build",
+    "build-prod": "env-cmd -f .env.prod craco build",
+    "test": "craco test",
     "eject": "react-scripts eject",
     "deploy": "gh-pages -d build"
   },
