@@ -14,13 +14,16 @@ import {
   Input,
   ModalFooter,
   FormErrorMessage,
-  useToast
+  useToast,
+  Image,
 } from "@chakra-ui/react"
 import { Formik } from 'formik';
 import { RiRouteFill, RiTodoFill, RiSendPlaneLine } from "react-icons/ri";
 import { handleFetchUpdatedBaseRoute } from "../../../store/thunks/BaseRoute";
 import { editCollectionPoint, saveCollectionPoint } from "../../../services/apiRequests/collectionPoint";
 import { ICollectionPoint } from "../../../models/collectionPoint";
+import { useRef } from "react";
+import { MdEdit } from "react-icons/md";
 
 interface AddCollectionPointModalProps {
   isOpen: boolean
@@ -35,6 +38,8 @@ export const AddCollectionPointModal = (props: AddCollectionPointModalProps) => 
   const { isOpen, onClose, baseRouteId, marker, collectionPoint } = props
 
   const title = `${collectionPoint ? '編集' : '追加'}`
+
+  const imageInputRef = useRef()
 
   return (
     <Modal
@@ -51,9 +56,10 @@ export const AddCollectionPointModal = (props: AddCollectionPointModalProps) => 
             name: collectionPoint?.name ?? '',
             address: collectionPoint?.address ?? '',
             memo: collectionPoint?.memo ?? '',
+            image: null,
           }}
           validate={(values) => {
-            const errors = {}
+            const errors: any = {}
             if (values.name.trim().length <= 0) {
               errors.name = 'Required, please enter name';
             }
@@ -65,13 +71,16 @@ export const AddCollectionPointModal = (props: AddCollectionPointModalProps) => 
               const _address = values.address.trim()
               const _memo = values.memo.trim()
 
+              const formData = new FormData()
+              formData.append('name', _name)
+              formData.append('address', _address)
+              formData.append('memo', _memo)
+
+              if (values.image) formData.append('image', values.image!)
+
               if (collectionPoint) {
-                await editCollectionPoint(collectionPoint.id, {
-                  name: _name,
-                  address: _address,
-                  memo: _memo,
-                  location: collectionPoint.location
-                })
+                formData.append('location', collectionPoint.location)
+                await editCollectionPoint(collectionPoint!.id, formData)
                 toast({
                   title: "Updated collection point",
                   description: "",
@@ -80,17 +89,12 @@ export const AddCollectionPointModal = (props: AddCollectionPointModalProps) => 
               }
               else {
                 const _sequence = 0
-                const _route = baseRouteId
                 const { longitude, latitude } = marker;
                 const _location = latitude + ',' + longitude
-                await saveCollectionPoint({
-                  name: _name,
-                  location: _location,
-                  address: _address,
-                  memo: _memo,
-                  route: _route,
-                  sequence: _sequence,
-                })
+                formData.append('location', _location)
+                formData.append('route', baseRouteId.toString())
+                formData.append('sequence', _sequence.toString())
+                await saveCollectionPoint(formData)
                 toast({
                   title: "Created collection point",
                   description: "",
@@ -118,6 +122,7 @@ export const AddCollectionPointModal = (props: AddCollectionPointModalProps) => 
             handleBlur,
             handleSubmit,
             isSubmitting,
+            setFieldValue
           }) => (
             <form onSubmit={handleSubmit}>
               <ModalBody pb={6}>
@@ -175,6 +180,35 @@ export const AddCollectionPointModal = (props: AddCollectionPointModalProps) => 
                   </InputGroup>
                   <FormErrorMessage>{errors.memo}</FormErrorMessage>
                 </FormControl>
+
+                <FormControl isInvalid={!!(errors.memo && touched.memo)}>
+                  <FormLabel htmlFor="memo" >
+                    写真
+                    <Button mx={2} colorScheme="blue" size='xs' onClick={() => imageInputRef.current?.click()} >
+                      <MdEdit />
+                    </Button>
+                  </FormLabel>
+                  <InputGroup marginY={2} >
+                    {(values.image || collectionPoint?.image) && (
+                      <Image
+                        cursor='pointer'
+                        border='1px #3182ce solid'
+                        p={2}
+                        onClick={() => imageInputRef.current?.click()}
+                        boxSize="150px"
+                        objectFit="cover"
+                        src={values.image ? URL.createObjectURL(values.image) : collectionPoint?.image}
+                        alt="image"
+                      />
+                    )}
+                    <input style={{ display: 'none' }} ref={imageInputRef} type='file' accept='image/*' name="file" onChange={(event) => {
+                      setFieldValue("image", event.target.files[0]);
+                    }}></input>
+                  </InputGroup>
+                  <FormErrorMessage>{errors.memo}</FormErrorMessage>
+                </FormControl>
+
+
               </ModalBody>
               <ModalFooter>
                 <Button disabled={isSubmitting} onClick={onClose} mr={3}>Cancel</Button>
