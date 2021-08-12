@@ -10,15 +10,18 @@ import './styles.css'
 import { IBaseRoute } from '../../../../models/baseRoute';
 import { ICollectionPoint } from '../../../../models/collectionPoint';
 import ReactMapGL, { Marker } from 'react-map-gl';
+import { useMemo } from 'react';
+import CustomMarker from '../Marker'
 interface RouteMapProps {
   baseRoute: IBaseRoute
   tempMarker: any
   setTempMarker: (state: any) => void
   setAddCPModalOpen: (state: boolean) => void
+  updateCollectionPointCoordinates: (cp: ICollectionPoint, newCoordinates: any) => void
 }
 
 const RouteMap = (props: RouteMapProps) => {
-  const { baseRoute, tempMarker, setAddCPModalOpen, setTempMarker } = props;
+  const { baseRoute, tempMarker, setAddCPModalOpen, setTempMarker, updateCollectionPointCoordinates } = props;
   const [viewport, setViewport] = useState({
     latitude: 35.6794670,
     longitude: 139.771008,
@@ -39,7 +42,8 @@ const RouteMap = (props: RouteMapProps) => {
       const [lat, lng] = cp.location.split(',')
       const _marker = {
         longitude: Number(lng),
-        latitude: Number(lat)
+        latitude: Number(lat),
+        cp: cp
       }
       _markers.push(_marker)
     });
@@ -51,17 +55,26 @@ const RouteMap = (props: RouteMapProps) => {
     setAddCPModalOpen(true)
   }
 
-  const CustomMarker = ({ index, marker }: { index: any, marker: any }) => {
+  const markersView = useMemo(() => {
     return (
-      <Marker
-        longitude={marker.longitude}
-        latitude={marker.latitude}>
-        <div className="marker">
-          <span><b>{index + 1}</b></span>
-        </div>
-      </Marker>
+      markers.map((marker: any, index: number) => (
+        <CustomMarker
+          updateCollectionPointCoordinates={updateCollectionPointCoordinates}
+          key={`marker-${index}`}
+          index={index}
+          marker={marker}
+        />
+      ))
     )
-  };
+  }, [markers, updateCollectionPointCoordinates])
+
+  const tempMarkerUpdate = (evt: any) => {
+    const [lng, lat] = evt.lngLat
+    setTempMarker({
+      longitude: lng,
+      latitude: lat
+    })
+  }
 
   return (
     <Container position='relative' height='100%' width='100%' maxW='unset' m={0} p={0}  >
@@ -71,25 +84,16 @@ const RouteMap = (props: RouteMapProps) => {
         mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN}
         {...viewport}
         onViewportChange={(nextViewport: any) => setViewport(nextViewport)}
-        onClick={(e: any) => {
-          const [lng, lat] = e.lngLat
-          setTempMarker({
-            longitude: lng,
-            latitude: lat
-          })
-        }}
+        onClick={tempMarkerUpdate}
       >
-        {markers.map((marker: any, index: number) => (
-          <CustomMarker
-            key={`marker-${index}`}
-            index={index}
-            marker={marker}
-          />
-        ))}
+        {markersView}
         {tempMarker &&
           <Marker
+            onDragEnd={tempMarkerUpdate}
             longitude={tempMarker.longitude}
-            latitude={tempMarker.latitude}>
+            latitude={tempMarker.latitude}
+            draggable={true}
+          >
             <div className="marker temporary-marker"><span></span></div>
           </Marker>}
       </ReactMapGL>
