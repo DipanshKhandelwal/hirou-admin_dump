@@ -22,7 +22,7 @@ import { dispatchUpdateBaseRoute } from "../../store/dispatcher/BaseRoute"
 import RouteMap from "./components/RouteMap"
 import { AddCollectionPointModal } from "./components/AddCollectionPointModal"
 import { CollectionPointDeleteConfirmationModal } from "./components/CollectionPointDeleteConfirmationModal"
-import { deleteCollectionPoint } from "../../services/apiRequests/collectionPoint"
+import { deleteCollectionPoint, editCollectionPoint } from "../../services/apiRequests/collectionPoint"
 import { handleFetchUpdatedBaseRoute } from "../../store/thunks/BaseRoute"
 
 export const CreateBaseRoute = () => {
@@ -157,6 +157,35 @@ export const CreateBaseRoute = () => {
     />
   ))
 
+  const updateCollectionPointCoordinates = async (cp: ICollectionPoint, newCoordinates: any) => {
+    try {
+      const _cp = getCPFromId(cp.id)
+      if (_cp) {
+        const { longitude, latitude } = newCoordinates;
+        const newLocation = `${latitude},${longitude}`
+        await editCollectionPoint(_cp.id, {
+          name: _cp.name,
+          address: _cp.address,
+          memo: _cp.memo,
+          location: newLocation
+        })
+        handleFetchUpdatedBaseRoute(selectedRouteId)
+        toast({
+          title: "Updated collection point",
+          description: "",
+          status: "success",
+        })
+      }
+    }
+    catch (e) {
+      toast({
+        title: "Error",
+        description: "please check the credentials",
+        status: "error",
+      })
+    }
+  }
+
   return (
     <Box minWidth='1000px' height='inherit' >
       <Flex backgroundColor='white' height='inherit' >
@@ -181,6 +210,7 @@ export const CreateBaseRoute = () => {
             setTempMarker={setTempMarker}
             setAddCPModalOpen={setAddCPModalOpen}
             baseRoute={route}
+            updateCollectionPointCoordinates={updateCollectionPointCoordinates}
           />
         </Center>
       </Flex>
