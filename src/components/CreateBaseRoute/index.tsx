@@ -49,7 +49,20 @@ export const CreateBaseRoute = () => {
   }, [baseRoutesData, selectedRouteId])
 
   useEffect(() => {
-    handleFetchUpdatedBaseRoute(selectedRouteId)
+    async function init() {
+      // try fetching the route else redirect to list
+      try { await handleFetchUpdatedBaseRoute(selectedRouteId) }
+      catch (e) {
+        toast({
+          title: "Incorrct route",
+          description: "please select an existing route",
+          status: "error",
+        })
+        navigate('/list')
+      }
+    }
+
+    init()
   }, [selectedRouteId, toast])
 
   useEffect(() => {
