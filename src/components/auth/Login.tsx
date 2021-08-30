@@ -15,11 +15,21 @@ import { Logo } from "../../components/common/Logo"
 import { AiOutlineUser } from "react-icons/ai";
 import { RiLock2Line } from "react-icons/ri";
 import { handleLogin } from "../../store/thunks/App";
+import { IUser } from "../../models/user";
+import { useSelector } from "react-redux";
+import { _user } from "../../store/selectors/App";
+import { Redirect } from "react-router-dom";
 
 const Login = () => {
   const toast = useToast()
 
+  const user: IUser = useSelector(_user)
+
   const initialFormValues = { username: '', password: '' }
+
+  if (user) {
+    return <Redirect to='home' />
+  }
 
   return (
     <VStack spacing={8} padding={10}>
