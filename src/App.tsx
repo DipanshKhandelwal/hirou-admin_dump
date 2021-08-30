@@ -41,20 +41,31 @@ export const App = () => {
     checkLogin()
   }, [])
 
-  const showBaseRouteList = () => dispatchSelectRoute(undefined)
 
-  const route: IBaseRoute = useMemo(() => {
-    const baseRoute = baseRoutesData.data.find((baseRoute: IBaseRoute) => baseRoute.id === selectedRouteId)
-    return baseRoute
-  }, [baseRoutesData, selectedRouteId])
-
-  let content = <Login />
-  if (user && selectedRouteId) {
-    content = <CreateBaseRoute />;
-  }
-  else if (user) {
-    content = <BaseRouteList />;
-  }
+  const home = (
+    <Center>
+      <HStack height='40vh'  >
+        <Container>
+          <Link to='/base-routes'>
+            <VStack padding='8vw' width='40vw' border='black 1px solid'
+              _hover={{ fontWeight: 'semibold', border: 'black 3px solid' }} >
+              <FaRoute size={40} />
+              <Heading >Base Route</Heading>
+            </VStack>
+          </Link>
+        </Container>
+        <Container>
+          <Link to='/task-routes'>
+            <VStack padding='8vw' width='40vw' border='black 1px solid'
+              _hover={{ fontWeight: 'semibold', border: 'black 3px solid' }}>
+              <FaRoute size={40} />
+              <Heading >Task Route</Heading>
+            </VStack>
+          </Link>
+        </Container>
+      </HStack>
+    </Center>
+  )
 
   const mainApp = (
     <Switch>
@@ -89,13 +100,6 @@ export const App = () => {
           </Grid>
         </Box>
       </Router>
-      <Header user={user} />
-      <Box textAlign="center" fontSize="xl">
-        {breadcrumbs}
-        <Grid height="84vh" p={3}>
-          {content}
-        </Grid>
-      </Box>
     </ChakraProvider>
   )
 }
