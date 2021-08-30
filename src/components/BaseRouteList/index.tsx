@@ -13,13 +13,13 @@ import { handleFetchBaseRoute } from "../../store/thunks/BaseRoute"
 import { IBaseRoute } from "../../models/baseRoute"
 import { _baseRoute } from "../../store/selectors/BaseRoute"
 import { useSelector } from "react-redux"
-import { dispatchSelectRoute } from "../../store/dispatcher"
 import { IGarbage } from "../../models/garbage"
 import { MdDeleteForever, MdEdit } from "react-icons/md";
 import { useState } from "react"
 import { CreateBaseRouteModal } from "./components/CreateBaseRouteModal"
 import { BaseRouteDeleteConfirmationModal } from "./components/BaseRouteDeleteConfirmationModal"
 import { deleteBaseRoute } from "../../services/apiRequests/baseRoute"
+import { navigate } from "../../services/navigation"
 
 export const BaseRouteList = () => {
   const baseRoutesData: any = useSelector(_baseRoute)
@@ -33,7 +33,7 @@ export const BaseRouteList = () => {
     handleFetchBaseRoute()
   }, [])
 
-  const selectBaseRoute = (baseRouteId: number) => dispatchSelectRoute(baseRouteId)
+  const selectBaseRoute = (baseRouteId: number) => navigate(`${baseRouteId}`)
 
   const getRouteFromId = (baseRouteId: number) => baseRoutesData.data.find((baseRoute: IBaseRoute) => baseRoute.id === baseRouteId)
 

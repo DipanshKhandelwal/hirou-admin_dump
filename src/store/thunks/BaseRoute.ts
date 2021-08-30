@@ -23,5 +23,7 @@ export const handleFetchUpdatedBaseRoute = async (baseRouteId: number) => {
   try {
     const data = await getBaseRoute(baseRouteId);
     dispatchUpdateBaseRoute(data);
-  } catch (e) {}
+  } catch (e) {
+    throw e;
+  }
 };
