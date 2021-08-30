@@ -2,7 +2,6 @@ import * as types from '../actionTypes/App';
 
 const initialState = {
   user: null,
-  selectedRoute: null,
 };
 
 const AppReducer = (state = initialState, action: any) => {
@@ -17,12 +16,6 @@ const AppReducer = (state = initialState, action: any) => {
       return {
         ...state,
         user: null,
-      };
-
-    case types.SELECT_ROUTE:
-      return {
-        ...state,
-        selectedRoute: action.payload,
       };
 
     default:
