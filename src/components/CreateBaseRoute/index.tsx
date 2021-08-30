@@ -9,7 +9,6 @@ import {
 import { IBaseRoute } from "../../models/baseRoute"
 import { _baseRoute } from "../../store/selectors/BaseRoute"
 import { useSelector } from "react-redux"
-import { _selectedRouteId } from "../../store/selectors/App"
 import { useMemo, useState } from "react"
 import { ICollectionPoint } from "../../models/collectionPoint"
 import { DragDropContext, Droppable } from "react-beautiful-dnd"
@@ -24,6 +23,8 @@ import { AddCollectionPointModal } from "./components/AddCollectionPointModal"
 import { CollectionPointDeleteConfirmationModal } from "./components/CollectionPointDeleteConfirmationModal"
 import { deleteCollectionPoint, editCollectionPoint } from "../../services/apiRequests/collectionPoint"
 import { handleFetchUpdatedBaseRoute } from "../../store/thunks/BaseRoute"
+import { useParams } from "react-router-dom"
+import { navigate } from "../../services/navigation"
 
 export const CreateBaseRoute = () => {
   const [isSeqUpdateModalOpen, setIsSeqUpdateModalOpen] = useState(false)
@@ -38,12 +39,18 @@ export const CreateBaseRoute = () => {
   const [tempMarker, setTempMarker] = useState<any>(null)
 
   const baseRoutesData: any = useSelector(_baseRoute)
-  const selectedRouteId: number = useSelector(_selectedRouteId)
+
+  let { baseRouteId }: { baseRouteId: string } = useParams();
+  const selectedRouteId = Number(baseRouteId)
 
   const route: IBaseRoute = useMemo(() => {
     const baseRoute = baseRoutesData.data.find((baseRoute: IBaseRoute) => baseRoute.id === selectedRouteId)
     return baseRoute
   }, [baseRoutesData, selectedRouteId])
+
+  useEffect(() => {
+    handleFetchUpdatedBaseRoute(selectedRouteId)
+  }, [selectedRouteId, toast])
 
   useEffect(() => {
     const cps = route?.collection_point.sort((a: ICollectionPoint, b: ICollectionPoint) => {
@@ -214,7 +221,7 @@ export const CreateBaseRoute = () => {
           />
         </Center>
       </Flex>
-      <AddCollectionPointModal collectionPoint={selectedCollectionPoint} marker={tempMarker} baseRouteId={route.id} isOpen={isAddCPModalOpen} onClose={onEditModalClose} />
+      <AddCollectionPointModal collectionPoint={selectedCollectionPoint} marker={tempMarker} baseRouteId={route?.id} isOpen={isAddCPModalOpen} onClose={onEditModalClose} />
       <UpdateConfirmationModal onAccept={onSeqUpdate} cancelRef={cancelRef} onCancel={onSeqUpdateModalClose} isOpen={isSeqUpdateModalOpen} />
       <CollectionPointDeleteConfirmationModal onAccept={onDelete} cancelRef={cancelRef} onCancel={onDeleteModalClose} isOpen={isDeleteModalOpen} />
     </Box >
