@@ -18,3 +18,12 @@ export const handleFetchTaskRoute = async () => {
     dispatchGetTaskRouteFailure(e.message);
   }
 };
+
+export const handleFetchUpdatedTaskRoute = async (taskRouteId: number) => {
+  try {
+    const data = await getTaskRoute(taskRouteId);
+    dispatchUpdateTaskRoute(data);
+  } catch (e) {
+    throw e;
+  }
+};
