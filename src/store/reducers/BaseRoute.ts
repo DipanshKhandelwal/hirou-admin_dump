@@ -22,6 +22,11 @@ const updateBaseRoute = (state: any, payload: IBaseRoute) => {
       data: oldRoutes,
     };
   }
+
+  return {
+    ...state,
+    data: [...oldRoutes, payload],
+  };
 };
 
 const setBaseRoute = (state: any, payload: any) => {
