@@ -1,5 +1,3 @@
-import { ICustomer } from './customer';
-
 export interface ICollectionPoint {
   id: number;
   name: string;
