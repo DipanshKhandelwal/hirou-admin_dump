@@ -5,11 +5,6 @@ import {
   Grid,
   extendTheme,
   withDefaultColorScheme,
-  HStack,
-  Container,
-  Center,
-  Heading,
-  VStack,
 } from "@chakra-ui/react"
 import Header from "./components/common/Header"
 import Login from "./components/auth/Login"
@@ -17,13 +12,13 @@ import { useSelector } from "react-redux"
 import { _user } from "./store/selectors/App"
 import { IUser } from "./models/user"
 import { checkLogin } from "./store/thunks/App"
-import { FaRoute } from "react-icons/fa";
+import Home from './components/home'
 
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
+  Redirect,
 } from "react-router-dom";
 import BaseRoute from "./apps/baseRoute"
 import TaskRoute from "./apps/taskRoute"
@@ -41,32 +36,6 @@ export const App = () => {
     checkLogin()
   }, [])
 
-
-  const home = (
-    <Center>
-      <HStack height='40vh'  >
-        <Container>
-          <Link to='/base-routes'>
-            <VStack padding='8vw' width='40vw' border='black 1px solid'
-              _hover={{ fontWeight: 'semibold', border: 'black 3px solid' }} >
-              <FaRoute size={40} />
-              <Heading >Base Route</Heading>
-            </VStack>
-          </Link>
-        </Container>
-        <Container>
-          <Link to='/task-routes'>
-            <VStack padding='8vw' width='40vw' border='black 1px solid'
-              _hover={{ fontWeight: 'semibold', border: 'black 3px solid' }}>
-              <FaRoute size={40} />
-              <Heading >Task Route</Heading>
-            </VStack>
-          </Link>
-        </Container>
-      </HStack>
-    </Center>
-  )
-
   const mainApp = (
     <Switch>
       <Route path="/base-routes">
@@ -82,10 +51,10 @@ export const App = () => {
         <Login />
       </Route>
       <Route path="/home">
-        {home}
+        <Redirect to='/' />
       </Route>
       <Route path="/">
-        {home}
+        <Home />
       </Route>
     </Switch>
   )
