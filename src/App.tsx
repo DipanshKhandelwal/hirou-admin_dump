@@ -5,22 +5,29 @@ import {
   Grid,
   extendTheme,
   withDefaultColorScheme,
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink
+  HStack,
+  Container,
+  Center,
+  Heading,
+  VStack,
 } from "@chakra-ui/react"
 import Header from "./components/common/Header"
 import Login from "./components/auth/Login"
 import { useSelector } from "react-redux"
-import { _selectedRouteId, _user } from "./store/selectors/App"
+import { _user } from "./store/selectors/App"
 import { IUser } from "./models/user"
 import { checkLogin } from "./store/thunks/App"
-import { BaseRouteList } from "./components/BaseRouteList"
-import { CreateBaseRoute } from "./components/CreateBaseRoute"
-import { dispatchSelectRoute } from "./store/dispatcher"
-import { useMemo } from "react"
-import { _baseRoute } from "./store/selectors/BaseRoute"
-import { IBaseRoute } from "./models/baseRoute"
+import { FaRoute } from "react-icons/fa";
+
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+} from "react-router-dom";
+import BaseRoute from "./apps/baseRoute"
+import TaskRoute from "./apps/taskRoute"
+import { navigationRef } from "./services/navigation"
 
 export const App = () => {
   const customTheme = extendTheme(
@@ -29,8 +36,6 @@ export const App = () => {
     }))
 
   const user: IUser = useSelector(_user)
-  const selectedRouteId: number = useSelector(_selectedRouteId)
-  const baseRoutesData: any = useSelector(_baseRoute)
 
   useEffect(() => {
     checkLogin()
@@ -51,22 +56,39 @@ export const App = () => {
     content = <BaseRouteList />;
   }
 
-  const breadcrumbs = (
-    user &&
-    <Breadcrumb width='max-content' padding={6} paddingY={2} fontWeight="medium" fontSize="sm" >
-      <BreadcrumbItem>
-        <BreadcrumbLink href="#" onClick={showBaseRouteList} >ルート一覧</BreadcrumbLink>
-      </BreadcrumbItem>
-      {selectedRouteId && (
-        <BreadcrumbItem >
-          <BreadcrumbLink href="#">{route?.name}</BreadcrumbLink>
-        </BreadcrumbItem>
-      )}
-    </Breadcrumb>
+  const mainApp = (
+    <Switch>
+      <Route path="/base-routes">
+        <BaseRoute />
+      </Route>
+      <Route path="/task-routes">
+        <TaskRoute />
+      </Route>
+      <Route path="/reports">
+        <div>reports</div>
+      </Route>
+      <Route path="/login">
+        <Login />
+      </Route>
+      <Route path="/home">
+        {home}
+      </Route>
+      <Route path="/">
+        {home}
+      </Route>
+    </Switch>
   )
 
   return (
     <ChakraProvider theme={customTheme}>
+      <Router ref={navigationRef} >
+        <Header user={user} />
+        <Box textAlign="center" fontSize="xl">
+          <Grid height="84vh" p={3}>
+            {mainApp}
+          </Grid>
+        </Box>
+      </Router>
       <Header user={user} />
       <Box textAlign="center" fontSize="xl">
         {breadcrumbs}
