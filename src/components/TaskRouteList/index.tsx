@@ -12,6 +12,7 @@ import { navigate } from "../../services/navigation"
 import { handleFetchTaskRoute } from "../../store/thunks/TaskRoute"
 import { _taskRoute } from "../../store/selectors/TaskRoute"
 import { ITaskRoute } from "../../models/taskRoute"
+import { IGarbage } from "../../models/garbage"
 
 export const TaskRouteList = () => {
   const taskRoutesData: any = useSelector(_taskRoute)
@@ -31,6 +32,8 @@ export const TaskRouteList = () => {
             <Th>S No.</Th>
             <Th>Id</Th>
             <Th>ルート名</Th>
+            <Th>顧客</Th>
+            <Th>品目</Th>
             <Th>date</Th>
           </Tr>
         </Thead>
@@ -44,6 +47,10 @@ export const TaskRouteList = () => {
               <Td>{idx + 1}</Td>
               <Td>{taskRoute.id}</Td>
               <Td>{taskRoute.name}</Td>
+              <Td>{taskRoute.customer?.name ?? '--'}</Td>
+              <Td>
+                {taskRoute.garbage.map((_garbage: IGarbage) => _garbage.name).join(', ')}
+              </Td>
               <Td>{taskRoute.date}</Td>
             </Tr>
           ))}
