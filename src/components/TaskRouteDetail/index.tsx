@@ -5,6 +5,7 @@ import {
   Table, Thead, Tbody, Tr, Th, Td,
   HStack,
   useToast,
+  Spinner,
 } from "@chakra-ui/react"
 import { useEffect } from "react"
 import { useSelector } from "react-redux"
@@ -14,14 +15,20 @@ import { _taskRoute } from "../../store/selectors/TaskRoute"
 import { ITaskRoute } from "../../models/taskRoute"
 import { useParams } from "react-router-dom"
 import { useMemo } from "react"
+import { useState } from "react"
+import { getTaskReports } from "../../services/apiRequests/taskReports"
+import { ITaskReport } from "../../models/taskReport"
+import { TaskReportList } from "../TaskReportList"
+import { IGarbage } from "../../models/garbage"
 
 export const TaskRouteDetail = () => {
-  const toast = useToast()
-
   let { taskRouteId }: { taskRouteId: string } = useParams();
   const selectedRouteId = Number(taskRouteId)
 
-  const taskRoutesData: any = useSelector(_taskRoute)
+  const toast = useToast()
+  const taskRoutesData: number = useSelector(_taskRoute)
+
+  const [taskreports, setTaskReports] = useState<ITaskReport[]>([]);
 
   const route: ITaskRoute = useMemo(() => {
     const taskRoute = taskRoutesData.data.find((taskRoute: ITaskRoute) => taskRoute.id === selectedRouteId)
@@ -35,20 +42,37 @@ export const TaskRouteDetail = () => {
       catch (e) {
         toast({
           title: "Incorrct route",
-          description: "please select an existing route",
+          description: "please select an existing task route",
           status: "error",
         })
         navigate('/list')
       }
     }
 
+    async function getReports() {
+      try {
+        const reportsData: ITaskReport[] = await getTaskReports(selectedRouteId);
+        setTaskReports(reportsData);
+      }
+      catch (e) {
+        toast({
+          title: "Error fetching task reports",
+          description: "",
+          status: "error",
+        });
+      }
+    }
+
     init()
-  }, [selectedRouteId, toast])
+    getReports()
+  }, [selectedRouteId, setTaskReports, toast])
+
+  if (!route) return <Spinner />
 
   return (
     <Container maxW="container.lg">
       <HStack marginBottom={5} justifyContent='space-between' >
-        <Heading textAlign='start' >TaskRouteList</Heading>
+        <Heading textAlign='start' >{route.name ?? 'Task name'}</Heading>
       </HStack>
       <Table size="sm" variant='simple' >
         <Thead>
