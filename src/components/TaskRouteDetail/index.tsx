@@ -96,7 +96,8 @@ export const TaskRouteDetail = () => {
           </Tr>
         </Tbody>
       </Table>
-
+      <Heading my={6} size='lg' textAlign='start' >Reports</Heading>
+      <TaskReportList reportsList={taskreports} />
     </Container>
   )
 }
