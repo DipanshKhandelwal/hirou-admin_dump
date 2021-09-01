@@ -23,6 +23,7 @@ import {
 import BaseRoute from "./apps/baseRoute"
 import TaskRoute from "./apps/taskRoute"
 import { navigationRef } from "./services/navigation"
+import { useMemo } from "react"
 
 export const App = () => {
   const customTheme = extendTheme(
@@ -36,28 +37,35 @@ export const App = () => {
     checkLogin()
   }, [])
 
-  const mainApp = (
-    <Switch>
-      <Route path="/base-routes">
-        <BaseRoute />
-      </Route>
-      <Route path="/task-routes">
-        <TaskRoute />
-      </Route>
-      <Route path="/reports">
-        <div>reports</div>
-      </Route>
-      <Route path="/login">
-        <Login />
-      </Route>
-      <Route path="/home">
-        <Redirect to='/' />
-      </Route>
-      <Route path="/">
-        <Home />
-      </Route>
-    </Switch>
-  )
+  const mainApp = useMemo(() => {
+    if (!user) return <Login />
+
+    return (
+      <Switch>
+        <Route path="/base-routes">
+          <BaseRoute />
+        </Route>
+        <Route path="/task-routes">
+          <TaskRoute />
+        </Route>
+        <Route path="/reports">
+          <div>reports</div>
+        </Route>
+        <Route path="/login">
+          <Login />
+        </Route>
+        <Route path="/home">
+          <Redirect to='/' />
+        </Route>
+        <Route exact path="/">
+          <Home />
+        </Route>
+        <Route path="*" >
+          <Redirect to='/' />
+        </Route>
+      </Switch>
+    )
+  }, [user])
 
   return (
     <ChakraProvider theme={customTheme}>
