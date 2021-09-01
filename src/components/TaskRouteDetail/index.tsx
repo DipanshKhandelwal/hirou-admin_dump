@@ -77,17 +77,21 @@ export const TaskRouteDetail = () => {
       <Table size="sm" variant='simple' >
         <Thead>
           <Tr>
-            <Th>S No.</Th>
             <Th>Id</Th>
             <Th>ルート名</Th>
+            <Th>顧客</Th>
+            <Th>品目</Th>
             <Th>date</Th>
           </Tr>
         </Thead>
         <Tbody >
           <Tr key={route.id} _hover={{ backgroundColor: 'blue.100', cursor: 'pointer' }}>
-            <Td>-</Td>
             <Td>{route.id}</Td>
             <Td>{route.name}</Td>
+            <Td>{route.customer?.name ?? '--'}</Td>
+            <Td>
+              {route.garbage.map((_garbage: IGarbage) => _garbage.name).join(', ')}
+            </Td>
             <Td>{route.date}</Td>
           </Tr>
         </Tbody>
