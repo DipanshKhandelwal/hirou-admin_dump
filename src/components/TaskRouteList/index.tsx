@@ -5,6 +5,7 @@ import {
   Table, Thead, Tbody, Tr, Th, Td,
   HStack,
   Spinner,
+  Button
 } from "@chakra-ui/react"
 import { useEffect } from "react"
 import { useSelector } from "react-redux"
@@ -106,6 +107,14 @@ export const TaskRouteList = () => {
           onChange={onChangeDate}
           showPopperArrow={true}
         />
+        <Button
+          isLoading={!taskRoutesData.isLoaded}
+          loadingText="Loading"
+          variant="outline"
+          onClick={() => onChangeDate(date)}
+        >
+          Reload
+        </Button>
       </HStack>
       {content}
     </Container>
