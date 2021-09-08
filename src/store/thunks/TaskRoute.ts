@@ -9,10 +9,10 @@ import {
   dispatchUpdateTaskRoute,
 } from '../dispatcher/TaskRoute';
 
-export const handleFetchTaskRoute = async () => {
+export const handleFetchTaskRoute = async (params?: any) => {
   dispatchGetTaskRouteStart();
   try {
-    const data = await getAllTaskRoute();
+    const data = await getAllTaskRoute(params);
     dispatchGetTaskRouteSuccess(data);
   } catch (e) {
     dispatchGetTaskRouteFailure(e.message);
