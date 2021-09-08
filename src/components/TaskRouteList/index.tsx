@@ -13,56 +13,85 @@ import { handleFetchTaskRoute } from "../../store/thunks/TaskRoute"
 import { _taskRoute } from "../../store/selectors/TaskRoute"
 import { ITaskRoute } from "../../models/taskRoute"
 import { IGarbage } from "../../models/garbage"
+import DatePicker from "../DatePicker"
+import { getDateString } from "../../utils/date"
 
 export const TaskRouteList = () => {
   const taskRoutesData: any = useSelector(_taskRoute)
+  const [date, setDate] = React.useState<Date>(new Date())
 
   useEffect(() => {
     handleFetchTaskRoute()
   }, [])
+  const fetchData = React.useCallback(() => {
+    const dateParam = getDateString(date);
+    handleFetchTaskRoute({ date: dateParam })
+  }, [date])
+
+  useEffect(() => fetchData(), [fetchData, date])
+
+  const onChangeDate = (d: any) => {
+    setDate(d)
+    const dateParam = getDateString(d);
+    navigate({ search: `?date=${dateParam}` });
+  }
 
   const selectTaskRoute = (taskRouteId: number) => navigate(`${taskRouteId}`)
 
-  let content = <Spinner />
+  let content;
   if (taskRoutesData.isLoaded) {
-    content = (
-      <Table size="sm" variant='simple' >
-        <Thead>
-          <Tr>
-            <Th>S No.</Th>
-            <Th>Id</Th>
-            <Th>ルート名</Th>
-            <Th>顧客</Th>
-            <Th>品目</Th>
-            <Th>date</Th>
-          </Tr>
-        </Thead>
-        <Tbody >
-          {taskRoutesData?.data?.map((taskRoute: ITaskRoute, idx: number) => (
-            <Tr
-              key={taskRoute.id}
-              _hover={{ backgroundColor: 'blue.100', cursor: 'pointer' }}
-              onClick={() => selectTaskRoute(taskRoute.id)}
-            >
-              <Td>{idx + 1}</Td>
-              <Td>{taskRoute.id}</Td>
-              <Td>{taskRoute.name}</Td>
-              <Td>{taskRoute.customer?.name ?? '--'}</Td>
-              <Td>
-                {taskRoute.garbage.map((_garbage: IGarbage) => _garbage.name).join(', ')}
-              </Td>
-              <Td>{taskRoute.date}</Td>
+    if (taskRoutesData?.data.length === 0) {
+      content = <Heading size='sm' >No task found for {date.toLocaleDateString()}</Heading>
+    }
+    else {
+      content = (
+        <Table size="sm" variant='simple' >
+          <Thead>
+            <Tr>
+              <Th>S No.</Th>
+              <Th>Id</Th>
+              <Th>ルート名</Th>
+              <Th>顧客</Th>
+              <Th>品目</Th>
+              <Th>date</Th>
             </Tr>
-          ))}
-        </Tbody>
-      </Table>
-    )
+          </Thead>
+          <Tbody >
+            {taskRoutesData?.data?.map((taskRoute: ITaskRoute, idx: number) => (
+              <Tr
+                key={taskRoute.id}
+                _hover={{ backgroundColor: 'blue.100', cursor: 'pointer' }}
+                onClick={() => selectTaskRoute(taskRoute.id)}
+              >
+                <Td>{idx + 1}</Td>
+                <Td>{taskRoute.id}</Td>
+                <Td>{taskRoute.name}</Td>
+                <Td>{taskRoute.customer?.name ?? '--'}</Td>
+                <Td>
+                  {taskRoute.garbage.map((_garbage: IGarbage) => _garbage.name).join(', ')}
+                </Td>
+                <Td>{taskRoute.date}</Td>
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
+      )
+    }
+  }
+  else {
+    content = <Spinner />;
   }
 
   return (
     <Container maxW="container.lg">
-      <HStack marginBottom={5} justifyContent='space-between' >
-        <Heading textAlign='start' >TaskRouteList</Heading>
+      <HStack marginBottom={5} >
+        <Heading textAlign='start' >Task Route List</Heading>
+        <DatePicker
+          id="published-date"
+          selectedDate={date}
+          onChange={onChangeDate}
+          showPopperArrow={true}
+        />
       </HStack>
       {content}
     </Container>
