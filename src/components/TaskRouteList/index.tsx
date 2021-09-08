@@ -14,15 +14,29 @@ import { _taskRoute } from "../../store/selectors/TaskRoute"
 import { ITaskRoute } from "../../models/taskRoute"
 import { IGarbage } from "../../models/garbage"
 import DatePicker from "../DatePicker"
+import { useHistory } from "react-router"
 import { getDateString } from "../../utils/date"
 
 export const TaskRouteList = () => {
+  const history = useHistory()
   const taskRoutesData: any = useSelector(_taskRoute)
   const [date, setDate] = React.useState<Date>(new Date())
 
   useEffect(() => {
-    handleFetchTaskRoute()
-  }, [])
+    const historyListener = history.listen((a) => {
+      const d = new URLSearchParams(a.search)
+      let data: any = {};
+      for (let params of d?.entries()) {
+        data[params[0]] = params[1];
+      }
+      let newDate;
+      if (data['date']) newDate = new Date(data['date'])
+      else newDate = new Date()
+      setDate(newDate)
+    })
+    return () => historyListener()
+  }, [history])
+
   const fetchData = React.useCallback(() => {
     const dateParam = getDateString(date);
     handleFetchTaskRoute({ date: dateParam })
