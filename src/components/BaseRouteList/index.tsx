@@ -90,6 +90,7 @@ export const BaseRouteList = () => {
       <Table size="sm" variant='simple' >
         <Thead>
           <Tr>
+            <Th>S No.</Th>
             <Th>Id</Th>
             <Th>ルート名</Th>
             <Th>品目</Th>
@@ -105,6 +106,7 @@ export const BaseRouteList = () => {
               onClick={() => selectBaseRoute(baseRoute.id)}
             >
               <Td>{idx + 1}</Td>
+              <Td>{baseRoute.id}</Td>
               <Td>{baseRoute.name}</Td>
               <Td>
                 {baseRoute.garbage.map((_garbage: IGarbage) => _garbage.name).join(', ')}
