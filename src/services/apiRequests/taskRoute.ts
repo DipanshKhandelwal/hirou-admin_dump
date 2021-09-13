@@ -3,7 +3,9 @@ import { hirouAxios } from '../httpInstance';
 
 export async function getAllTaskRoute(params: any): Promise<any> {
   try {
-    const response = await hirouAxios.get(TASK_ROUTE_URL, { params });
+    const response = await hirouAxios.get(TASK_ROUTE_URL, {
+      params: { ...params, type: 'list' },
+    });
     return response.data;
   } catch (e) {
     throw Error('Get all Task Route API failed');
