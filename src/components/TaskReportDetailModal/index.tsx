@@ -14,6 +14,8 @@ import {
   Center,
 } from "@chakra-ui/react"
 import { ITaskReport } from "../../models/taskReport";
+import './styles.css'
+import { BsDownload } from "react-icons/bs";
 
 interface TaskReportDetailModalProps {
   isOpen: boolean
@@ -33,14 +35,20 @@ export const TaskReportDetailModal = (props: TaskReportDetailModalProps) => {
       <ModalContent>
         <ModalHeader>report details</ModalHeader>
         <ModalBody>
-          <Center>
-            <Image
-              cursor='pointer'
-              boxSize="150px"
-              objectFit="cover"
-              src={taskReport?.image ?? "https://via.placeholder.com/150"}
-              alt="image"
-            />
+          <Center  >
+            <div className='task-report-image-container'>
+              <a href={taskReport?.image} download={`${taskReport?.id}.png`}>
+                <Image
+                  cursor='pointer'
+                  boxSize="150px"
+                  borderRadius={5}
+                  objectFit="cover"
+                  src={taskReport?.image ?? "https://via.placeholder.com/150"}
+                  alt="image"
+                />
+              </a>
+              <BsDownload size={32} className='task-report-image-download-icon' />
+            </div>
           </Center>
           <Table size='sm' border="1px" borderColor="blue.100" my={3}  >
             <Tbody>
