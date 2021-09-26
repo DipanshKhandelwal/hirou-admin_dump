@@ -1,0 +1,21 @@
+.task-report-image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.task-report-image-container:hover {
+  filter: brightness(52%);
+  -webkit-filter: brightness(52%);
+  -moz-filter: brightness(52%);
+  cursor: pointer;
+}
+
+.task-report-image-download-icon {
+  position: absolute;
+  display: none;
+}
+
+.task-report-image-container:hover .task-report-image-download-icon {
+  display: flex;
+}
