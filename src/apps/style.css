@@ -1,0 +1,24 @@
+.privacy-policy {
+  cursor: default;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  font-family: 'ＭＳ Ｐゴシック,ＭＳ ゴシック', sans-serif;
+  padding: 40px 5%;
+}
+
+.privacy-policy > h1 {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0 0 30px 0;
+}
+
+.privacy-policy > h2 {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.privacy-policy > p {
+  font-size: 14px;
+  margin-top: 0;
+}

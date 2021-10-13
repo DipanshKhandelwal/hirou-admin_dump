@@ -24,6 +24,7 @@ import BaseRoute from "./apps/baseRoute"
 import TaskRoute from "./apps/taskRoute"
 import { navigationRef } from "./services/navigation"
 import { useMemo } from "react"
+import PrivacyPolicy from "./apps/privacyPolicy"
 
 export const App = () => {
   const customTheme = extendTheme(
@@ -38,7 +39,17 @@ export const App = () => {
   }, [])
 
   const mainApp = useMemo(() => {
-    if (!user) return <Login />
+    if (!user) return <Switch>
+      <Route path="/login">
+        <Login />
+      </Route>
+      <Route path="/privacy-policy">
+        <PrivacyPolicy />
+      </Route>
+      <Route path="*" >
+        <Redirect to='/login' />
+      </Route>
+    </Switch>
 
     return (
       <Switch>
@@ -53,6 +64,9 @@ export const App = () => {
         </Route>
         <Route path="/login">
           <Login />
+        </Route>
+        <Route path="/privacy-policy">
+          <PrivacyPolicy />
         </Route>
         <Route path="/home">
           <Redirect to='/' />
