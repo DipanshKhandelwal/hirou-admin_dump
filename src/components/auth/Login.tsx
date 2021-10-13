@@ -34,9 +34,6 @@ const Login = () => {
   return (
     <VStack spacing={8} padding={10}>
       <Logo h="7vmin" pointerEvents="none" />
-      <Heading as="h2" size="xl" >
-        Field Protect Admin
-      </Heading>
       <Container maxW="container.sm" padding={20} >
         <Stack spacing={3}>
           <Formik
