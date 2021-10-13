@@ -19,6 +19,7 @@ import { IUser } from "../../models/user";
 import { useSelector } from "react-redux";
 import { _user } from "../../store/selectors/App";
 import { Redirect } from "react-router-dom";
+import Footer from "../common/Footer";
 
 const Login = () => {
   const toast = useToast()
@@ -102,6 +103,7 @@ const Login = () => {
           </Formik>
         </Stack>
       </Container>
+      <Footer />
     </VStack>
   );
 };
