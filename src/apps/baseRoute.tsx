@@ -12,19 +12,17 @@ function BaseRoute() {
   let match = useRouteMatch();
 
   return (
-    <div>
-      <Switch>
-        <Route path={`${match.path}/list`}>
-          <BaseRouteList />
-        </Route>
-        <Route path={`${match.path}/:baseRouteId`}>
-          <CreateBaseRoute />
-        </Route>
-        <Route path={match.path}>
-          <Redirect to={`${match.path}/list`} />
-        </Route>
-      </Switch>
-    </div>
+    <Switch>
+      <Route path={`${match.path}/list`}>
+        <BaseRouteList />
+      </Route>
+      <Route path={`${match.path}/:baseRouteId`}>
+        <CreateBaseRoute />
+      </Route>
+      <Route path={match.path}>
+        <Redirect to={`${match.path}/list`} />
+      </Route>
+    </Switch>
   );
 }
 
