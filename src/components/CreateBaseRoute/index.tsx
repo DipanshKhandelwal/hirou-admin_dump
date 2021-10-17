@@ -4,6 +4,8 @@ import {
   Box,
   Flex,
   Center,
+  Spinner,
+  Text,
   useToast,
 } from "@chakra-ui/react"
 import { IBaseRoute } from "../../models/baseRoute"
@@ -207,36 +209,35 @@ export const CreateBaseRoute = () => {
   }
 
   return (
-    <Box minWidth='1000px' height='inherit' >
-      <Flex backgroundColor='white' height='inherit' >
-        <Box flex="1" minWidth='300px' overflowY='scroll'>
-          <DragDropContext onDragEnd={onDragEnd}>
-            <Droppable droppableId="droppable">
-              {(provided, snapshot) => (
-                <Stack
-                  ref={provided.innerRef}
-                  backgroundColor={snapshot.isDraggingOver ? '#dbdbdb' : 'white'}
-                  {...provided.droppableProps}
-                >
-                  {collectionPointsList}
-                </Stack>
-              )}
-            </Droppable>
-          </DragDropContext>
-        </Box>
-        <Center flex="4"  >
-          <RouteMap
-            tempMarker={tempMarker}
-            setTempMarker={setTempMarker}
-            setAddCPModalOpen={setAddCPModalOpen}
-            baseRoute={route}
-            updateCollectionPointCoordinates={updateCollectionPointCoordinates}
-          />
-        </Center>
-      </Flex>
+    <Flex backgroundColor='white' height='inherit' >
+      <Box flex="1" minWidth='300px' overflowY='scroll'>
+        {localCollectionPoints.length === 0 && <Text>No Collection Points</Text>}
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable droppableId="droppable">
+            {(provided, snapshot) => (
+              <Stack
+                ref={provided.innerRef}
+                backgroundColor={snapshot.isDraggingOver ? '#dbdbdb' : 'white'}
+                {...provided.droppableProps}
+              >
+                {collectionPointsList}
+              </Stack>
+            )}
+          </Droppable>
+        </DragDropContext>
+      </Box>
+      <Center flex="4"  >
+        <RouteMap
+          tempMarker={tempMarker}
+          setTempMarker={setTempMarker}
+          setAddCPModalOpen={setAddCPModalOpen}
+          baseRoute={route}
+          updateCollectionPointCoordinates={updateCollectionPointCoordinates}
+        />
+      </Center>
       <AddCollectionPointModal collectionPoint={selectedCollectionPoint} marker={tempMarker} baseRouteId={route?.id} isOpen={isAddCPModalOpen} onClose={onEditModalClose} />
       <UpdateConfirmationModal onAccept={onSeqUpdate} cancelRef={cancelRef} onCancel={onSeqUpdateModalClose} isOpen={isSeqUpdateModalOpen} />
       <CollectionPointDeleteConfirmationModal onAccept={onDelete} cancelRef={cancelRef} onCancel={onDeleteModalClose} isOpen={isDeleteModalOpen} />
-    </Box >
+    </Flex>
   )
 }
