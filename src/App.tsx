@@ -86,7 +86,7 @@ export const App = () => {
       <Router ref={navigationRef} >
         <Header user={user} />
         <Box textAlign="center" fontSize="xl">
-          <Grid height="84vh" p={3}>
+          <Grid height="90vh" p={3}>
             {mainApp}
           </Grid>
         </Box>
