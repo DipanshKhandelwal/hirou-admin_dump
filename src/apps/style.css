@@ -4,6 +4,8 @@
   -webkit-user-select: none;
   font-family: 'ＭＳ Ｐゴシック,ＭＳ ゴシック', sans-serif;
   padding: 40px 5%;
+  text-align: left;
+  max-width: 1500px;
 }
 
 .privacy-policy > h1 {

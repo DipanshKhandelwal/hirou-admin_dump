@@ -12,7 +12,6 @@ function TaskRoute() {
   let match = useRouteMatch();
 
   return (
-    <div>
       <Switch>
         <Route path={`${match.path}/list`}>
           <TaskRouteList />
@@ -24,7 +23,6 @@ function TaskRoute() {
           <Redirect to={`${match.path}/list`} />
         </Route>
       </Switch>
-    </div>
   );
 }
 

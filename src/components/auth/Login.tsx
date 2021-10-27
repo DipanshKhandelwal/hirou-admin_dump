@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  Heading,
   VStack,
   Container,
   Stack,
@@ -97,7 +96,7 @@ const Login = () => {
                     onBlur={handleBlur} placeholder="password" size="md" />
                 </InputGroup>
                 {errors.password && touched.password && errors.password}
-                <Button variant="outline" type="submit" disabled={isSubmitting} >Login</Button>
+                <Button variant="outline" type="submit" disabled={isSubmitting} >ログイン</Button>
               </form>
             )}
           </Formik>
