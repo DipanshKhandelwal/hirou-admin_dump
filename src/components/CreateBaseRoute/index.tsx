@@ -4,7 +4,6 @@ import {
   Box,
   Flex,
   Center,
-  Spinner,
   Text,
   useToast,
 } from "@chakra-ui/react"

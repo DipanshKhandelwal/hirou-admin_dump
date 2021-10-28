@@ -36,7 +36,7 @@ const Header = (props: any) => {
       {user && (
         <>
           <Text marginRight={2} >{user.username}</Text>
-          <Button variant="outline" onClick={handleLogout} >Logout</Button>
+          <Button variant="outline" onClick={handleLogout} >ログアウト</Button>
         </>
       )}
       <ColorModeSwitcher />
