@@ -48,6 +48,18 @@ const RouteMap = (props: RouteMapProps) => {
       _markers.push(_marker)
     });
     setMarkers(_markers)
+
+    if (cps.length > 0) {
+      const firstCp = cps[0]
+      const [lat, lng] = firstCp.location.split(',')
+
+      setViewport({
+        latitude: Number(lat),
+        longitude: Number(lng),
+        zoom: 12
+      })
+    }
+
   }, [baseRoute])
 
   const add = (e: any) => {
