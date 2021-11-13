@@ -108,7 +108,7 @@ export const TaskRouteList = () => {
           showPopperArrow={true}
         />
         <Button
-          isLoading={!taskRoutesData.isLoaded}
+          isLoading={!taskRoutesData?.isLoaded}
           loadingText="Loading"
           variant="outline"
           onClick={() => onChangeDate(date)}
