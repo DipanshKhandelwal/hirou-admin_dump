@@ -6,6 +6,7 @@ import {
   HStack,
   useToast,
   Spinner,
+  Button,
 } from "@chakra-ui/react"
 import { useEffect } from "react"
 import { useSelector } from "react-redux"
@@ -20,6 +21,7 @@ import { getTaskReports } from "../../services/apiRequests/taskReports"
 import { ITaskReport } from "../../models/taskReport"
 import { TaskReportList } from "../TaskReportList"
 import { IGarbage } from "../../models/garbage"
+import { FaRoute } from 'react-icons/fa'
 
 export const TaskRouteDetail = () => {
   let { taskRouteId }: { taskRouteId: string } = useParams();
@@ -67,12 +69,17 @@ export const TaskRouteDetail = () => {
     getReports()
   }, [selectedRouteId, setTaskReports, toast])
 
+  const goToRouteMap = () => navigate(`/task-routes/map/${selectedRouteId}`)
+
   if (!route) return <Spinner />
 
   return (
     <Container maxW="container.lg">
       <HStack marginBottom={5} justifyContent='space-between' >
         <Heading textAlign='start' >{route.name ?? 'Task name'}</Heading>
+      </HStack>
+      <HStack my={4} >
+        <Button alignSelf='flex-start' rightIcon={<FaRoute />} variant="outline" onClick={goToRouteMap} >Task Map</Button>
       </HStack>
       <Table size="sm" variant='simple' >
         <Thead>
