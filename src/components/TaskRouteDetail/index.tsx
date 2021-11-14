@@ -24,6 +24,7 @@ import { IGarbage } from "../../models/garbage"
 import { FaRoute } from 'react-icons/fa'
 import { ITaskAmount } from "../../models/taskAmount"
 import { getTaskAmounts } from "../../services/apiRequests/taskAmounts"
+import { TaskAmountList } from "../TaskAmountList"
 
 export const TaskRouteDetail = () => {
   let { taskRouteId }: { taskRouteId: string } = useParams();
@@ -123,6 +124,8 @@ export const TaskRouteDetail = () => {
       </Table>
       <Heading my={6} size='lg' textAlign='start' >Reports</Heading>
       <TaskReportList reportsList={taskreports} />
+      <Heading my={6} size='lg' textAlign='start' >Amounts</Heading>
+      <TaskAmountList amountsList={taskAmounts} />
     </Container>
   )
 }
