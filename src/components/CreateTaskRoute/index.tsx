@@ -74,7 +74,17 @@ export const CreateTaskRoute = () => {
 
   const collectionPointsList = localCollectionPoints?.map((taskCollectionPoint: ITaskCollectionPoint, index: number) => {
     const onToggleAllTasks = async () => {
-
+      try {
+        const url = `${TASK_COLLECTION_POINT_URL}${taskCollectionPoint.id}/bulk_complete/`
+        await hirouAxios.post(url, {});
+        init(); // TODO : Remove after socket setup
+      } catch (e) {
+        toast({
+          title: "Error updating collection",
+          description: "please try again",
+          status: "error",
+        })
+      }
     }
 
     return <TaskCollectionPointListItem
