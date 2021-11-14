@@ -7,28 +7,45 @@ import {
   VStack,
   Button
 } from "@chakra-ui/react"
-import { MdEdit } from "react-icons/md";
+import { FaCheck } from "react-icons/fa";
 import { ITaskCollectionPoint } from "../../../models/taskCollectionPoint";
+import { ITaskCollection } from "../../../models/taskCollection";
 
 interface TaskCollectionPointListItemProps {
   taskCollectionPoint: ITaskCollectionPoint
-  onComplete: (taskCollectionPoint: ITaskCollectionPoint) => void
+  toggleTask: (taskCollection: ITaskCollection) => void
+  toggleAllTasks: () => void
+}
+
+function getCompleteStatus(collectionPoint: ITaskCollectionPoint) {
+  var complete = true
+  for (const tc of collectionPoint.task_collection) {
+    if (!tc.complete) {
+      complete = false
+      return complete
+    }
+  }
+  return complete
 }
 
 export const TaskCollectionPointListItem = (props: TaskCollectionPointListItemProps) => {
-  const { taskCollectionPoint: collectionPoint, onComplete } = props
+  const { taskCollectionPoint: collectionPoint, toggleTask, toggleAllTasks } = props
 
-  const onEditClick = () => onComplete(collectionPoint)
+  const toggleAll = () => toggleAllTasks()
 
-  const toggleCollection = (taskCollectionId: number) => { }
+  const toggleCollection = (taskCollection: ITaskCollection) => toggleTask(taskCollection)
+
+  const complete = getCompleteStatus(collectionPoint)
 
   return (
-    <Box key={collectionPoint.id} p={1}
+    <Box
+      key={collectionPoint.id}
+      p={1}
+      my={2}
       fontSize='0.8rem'
       borderWidth="1px"
       userSelect='none'
       backgroundColor='white'
-      my={2}
     >
       <HStack align="flex-start" >
         <Image
@@ -51,14 +68,14 @@ export const TaskCollectionPointListItem = (props: TaskCollectionPointListItemPr
         </VStack>
 
         <VStack p={1} >
-          <Button colorScheme="blue" size='xs' onClick={onEditClick} >
-            <MdEdit />
+          <Button variant={complete ? 'solid' : 'outline'} colorScheme="blue" size='xs' onClick={toggleAll} >
+            <FaCheck />
           </Button>
         </VStack>
       </HStack>
       <div >
         {collectionPoint.task_collection.map((taskCollection) => (
-          <Button onClick={() => toggleCollection(taskCollection.id)} m={0.5} fontSize={10} h={8} p={0} variant={taskCollection.complete ? 'solid' : 'outline'} >{taskCollection.garbage.name}</Button>
+          <Button key={taskCollection.id} onClick={() => toggleCollection(taskCollection)} m={0.5} fontSize={10} h={8} p={0} variant={taskCollection.complete ? 'solid' : 'outline'} >{taskCollection.garbage.name}</Button>
         ))}
       </div>
     </Box>
