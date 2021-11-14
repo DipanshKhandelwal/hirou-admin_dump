@@ -7,7 +7,7 @@ import { TaskReportDetailModal } from "../TaskReportDetailModal"
 import { useState } from "react"
 
 export const TaskReportList = ({ reportsList }: { reportsList: ITaskReport[] }) => {
-  const [selectedTaskReport, setSelectedTaskReport] = useState<ITaskReport | undefined>(reportsList[1])
+  const [selectedTaskReport, setSelectedTaskReport] = useState<ITaskReport | undefined>(undefined)
 
   return (
     <>
