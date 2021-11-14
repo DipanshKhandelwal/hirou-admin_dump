@@ -27,6 +27,7 @@ import { handleFetchUpdatedBaseRoute } from "../../store/thunks/BaseRoute"
 import { useParams } from "react-router-dom"
 import { navigate } from "../../services/navigation"
 
+// TODO: Connect socket
 export const CreateBaseRoute = () => {
   const [isSeqUpdateModalOpen, setIsSeqUpdateModalOpen] = useState(false)
   const [localCollectionPoints, setLocalCollectionPoints] = useState<ICollectionPoint[]>([])
@@ -103,6 +104,7 @@ export const CreateBaseRoute = () => {
 
   const onSeqUpdate = async () => {
     try {
+      // TODO : move to thunk
       const list = localCollectionPoints.map(cp => cp.id)
       const url = `${BASE_ROUTE_URL}${route.id}/reorder_points/`
       const data = { points: list }
