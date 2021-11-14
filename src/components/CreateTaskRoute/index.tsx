@@ -12,6 +12,7 @@ import { getTaskRoute } from '../../services/apiRequests/taskRoute'
 import { useState } from "react"
 import { TaskCollectionPointListItem } from "./components/TaskCollectionPointListItem"
 import { useEffect } from "react"
+import TaskRouteMap from "./components/TaskRouteMap"
 import { useParams } from "react-router-dom"
 import { navigate } from "../../services/navigation"
 import { ITaskRoute } from "../../models/taskRoute"
@@ -72,6 +73,9 @@ export const CreateTaskRoute = () => {
         {collectionPointsList}
       </Box>
       <Center flex="4"  >
+        <TaskRouteMap
+          baseRoute={route}
+        />
       </Center>
     </Flex>
   )
