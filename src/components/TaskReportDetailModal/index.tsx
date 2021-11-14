@@ -33,9 +33,9 @@ export const TaskReportDetailModal = (props: TaskReportDetailModalProps) => {
     >
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>report details</ModalHeader>
+        <ModalHeader>Report Details</ModalHeader>
         <ModalBody>
-          <Center  >
+          <Center>
             <div className='task-report-image-container'>
               <a href={taskReport?.image} download={`${taskReport?.id}.png`}>
                 <Image
@@ -47,25 +47,26 @@ export const TaskReportDetailModal = (props: TaskReportDetailModalProps) => {
                   alt="image"
                 />
               </a>
-              <BsDownload size={32} className='task-report-image-download-icon' />
+              {taskReport?.image &&
+                <BsDownload size={32} className='task-report-image-download-icon' />}
             </div>
           </Center>
           <Table size='sm' border="1px" borderColor="blue.100" my={3}  >
             <Tbody>
               <Tr>
-                <Td fontWeight='bold' >id</Td>
+                <Td fontWeight='bold' >Id</Td>
                 <Td>{taskReport?.id}</Td>
               </Tr>
               <Tr>
-                <Td fontWeight='bold' >description</Td>
+                <Td fontWeight='bold' >Description</Td>
                 <Td>{taskReport?.description}</Td>
               </Tr>
               <Tr>
-                <Td fontWeight='bold' >report type</Td>
+                <Td fontWeight='bold' >Report Type</Td>
                 <Td>{taskReport?.report_type.name}</Td>
               </Tr>
               <Tr>
-                <Td fontWeight='bold' >timestamp</Td>
+                <Td fontWeight='bold' >Timestamp</Td>
                 <Td>{taskReport?.timestamp}</Td>
               </Tr>
             </Tbody>

@@ -22,6 +22,9 @@ import { ITaskReport } from "../../models/taskReport"
 import { TaskReportList } from "../TaskReportList"
 import { IGarbage } from "../../models/garbage"
 import { FaRoute } from 'react-icons/fa'
+import { ITaskAmount } from "../../models/taskAmount"
+import { getTaskAmounts } from "../../services/apiRequests/taskAmounts"
+import { TaskAmountList } from "../TaskAmountList"
 
 export const TaskRouteDetail = () => {
   let { taskRouteId }: { taskRouteId: string } = useParams();
@@ -31,6 +34,7 @@ export const TaskRouteDetail = () => {
   const taskRoutesData: number = useSelector(_taskRoute)
 
   const [taskreports, setTaskReports] = useState<ITaskReport[]>([]);
+  const [taskAmounts, setTaskAmounts] = useState<ITaskAmount[]>([]);
 
   const route: ITaskRoute = useMemo(() => {
     const taskRoute = taskRoutesData.data.find((taskRoute: ITaskRoute) => taskRoute.id === selectedRouteId)
@@ -65,8 +69,23 @@ export const TaskRouteDetail = () => {
       }
     }
 
+    async function getAmounts() {
+      try {
+        const amounts: ITaskAmount[] = await getTaskAmounts(selectedRouteId);
+        setTaskAmounts(amounts);
+      }
+      catch (e) {
+        toast({
+          title: "Error fetching task amounts",
+          description: "",
+          status: "error",
+        });
+      }
+    }
+
     init()
     getReports()
+    getAmounts()
   }, [selectedRouteId, setTaskReports, toast])
 
   const goToRouteMap = () => navigate(`/task-routes/map/${selectedRouteId}`)
@@ -105,6 +124,8 @@ export const TaskRouteDetail = () => {
       </Table>
       <Heading my={6} size='lg' textAlign='start' >Reports</Heading>
       <TaskReportList reportsList={taskreports} />
+      <Heading my={6} size='lg' textAlign='start' >Amounts</Heading>
+      <TaskAmountList amountsList={taskAmounts} />
     </Container>
   )
 }
