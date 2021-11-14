@@ -1,3 +1,5 @@
+import { ITaskCollection } from './taskCollection';
+
 export interface ITaskCollectionPoint {
   id: number;
   name: string;
@@ -7,4 +9,5 @@ export interface ITaskCollectionPoint {
   route: number;
   sequence: number;
   image: string;
+  task_collection: [ITaskCollection];
 }

@@ -6,7 +6,7 @@ export interface ITaskRoute {
   id: number;
   name: string;
   customer: ICustomer;
-  collection_point: [ITaskCollectionPoint];
+  task_collection_point: [ITaskCollectionPoint];
   garbage: [IGarbage];
   date: string;
 }
