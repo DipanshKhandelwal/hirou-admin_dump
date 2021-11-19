@@ -25,9 +25,11 @@ export async function editBaseRoute(
   }
 }
 
-export async function getAllBaseRoute(): Promise<any> {
+export async function getAllBaseRoute(params?: any): Promise<any> {
   try {
-    const response = await hirouAxios.get(BASE_ROUTE_URL);
+    const response = await hirouAxios.get(BASE_ROUTE_URL, {
+      params: { ...params, type: 'list' },
+    });
     return response.data;
   } catch (e) {
     throw Error('Get all Base Route API failed');
