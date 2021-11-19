@@ -9,5 +9,5 @@ export interface ITaskCollectionPoint {
   route: number;
   sequence: number;
   image: string;
-  task_collection: [ITaskCollection];
+  task_collection: ITaskCollection[];
 }

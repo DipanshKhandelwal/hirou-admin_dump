@@ -13,7 +13,7 @@ import { ITaskCollection } from "../../../models/taskCollection";
 
 interface TaskCollectionPointListItemProps {
   taskCollectionPoint: ITaskCollectionPoint
-  toggleTask: (taskCollection: ITaskCollection) => void
+  toggleTask: (taskCollection: ITaskCollection, tcpId: number) => void
   toggleAllTasks: () => void
 }
 
@@ -33,7 +33,7 @@ export const TaskCollectionPointListItem = (props: TaskCollectionPointListItemPr
 
   const toggleAll = () => toggleAllTasks()
 
-  const toggleCollection = (taskCollection: ITaskCollection) => toggleTask(taskCollection)
+  const toggleCollection = (taskCollection: ITaskCollection) => toggleTask(taskCollection, collectionPoint.id)
 
   const complete = getCompleteStatus(collectionPoint)
 
