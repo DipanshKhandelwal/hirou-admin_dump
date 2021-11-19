@@ -58,11 +58,33 @@ export const CreateTaskRoute = () => {
     setLocalCollectionPoints(cps ?? [])
   }, [route])
 
-  const onToggleTask = async (taskCollection: ITaskCollection) => {
+  const toggleTaskLocal = (updatedTask: ITaskCollection, tcpId: number) => {
+    const localCollectionPointsCopy = Array.from(localCollectionPoints);
+    localCollectionPointsCopy.forEach((tcp) => {
+      if (tcp.id === tcpId) {
+        const localCollectionsCopy = Array.from(tcp.task_collection);
+        localCollectionsCopy.forEach((tc) => {
+          if (tc.id === updatedTask.id) tc.complete = updatedTask.complete
+        })
+        tcp.task_collection = localCollectionsCopy
+      }
+    })
+    setLocalCollectionPoints(localCollectionPointsCopy)
+  };
+
+  const toggleAllTasksLocal = (updatedTasks: ITaskCollection[], tcpId: number) => {
+    const localCollectionPointsCopy = Array.from(localCollectionPoints);
+    localCollectionPointsCopy.forEach((tcp) => {
+      if (tcp.id === tcpId) tcp.task_collection = updatedTasks
+    })
+    setLocalCollectionPoints(localCollectionPointsCopy)
+  };
+
+  const onToggleTask = async (taskCollection: ITaskCollection, tcpId: number) => {
     try {
       const url = `${TASK_COLLECTION_URL}${taskCollection.id}/`
-      await hirouAxios.put(url, { complete: !taskCollection.complete });
-      init(); // TODO : Remove after socket setup
+      const data = await hirouAxios.put(url, { complete: !taskCollection.complete });
+      toggleTaskLocal(data.data, tcpId)
     } catch (e) {
       toast({
         title: "Error updating collection",
@@ -76,8 +98,8 @@ export const CreateTaskRoute = () => {
     const onToggleAllTasks = async () => {
       try {
         const url = `${TASK_COLLECTION_POINT_URL}${taskCollectionPoint.id}/bulk_complete/`
-        await hirouAxios.post(url, {});
-        init(); // TODO : Remove after socket setup
+        const data = await hirouAxios.post(url, {});
+        toggleAllTasksLocal(data.data, taskCollectionPoint.id)
       } catch (e) {
         toast({
           title: "Error updating collection",
@@ -102,6 +124,7 @@ export const CreateTaskRoute = () => {
         {collectionPointsList}
       </Box>
       <Center flex="4"  >
+        {/* can optimize it, no need to send route only send tcps which can help remove extra route state*/}
         <TaskRouteMap baseRoute={route} />
       </Center>
     </Flex>
