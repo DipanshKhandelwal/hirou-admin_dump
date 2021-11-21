@@ -25,6 +25,7 @@ import { FaRoute } from 'react-icons/fa'
 import { ITaskAmount } from "../../models/taskAmount"
 import { getTaskAmounts } from "../../services/apiRequests/taskAmounts"
 import { TaskAmountList } from "../TaskAmountList"
+import { TaskRouteDetailsTable } from "./components/TaskRouteDetailsTable"
 
 export const TaskRouteDetail = () => {
   let { taskRouteId }: { taskRouteId: string } = useParams();
@@ -97,35 +98,24 @@ export const TaskRouteDetail = () => {
       <HStack marginBottom={5} justifyContent='space-between' >
         <Heading textAlign='start' >{route.name ?? 'Task name'}</Heading>
       </HStack>
+
       <HStack my={4} >
         <Button alignSelf='flex-start' rightIcon={<FaRoute />} variant="outline" onClick={goToRouteMap} >Task Map</Button>
       </HStack>
-      <Table size="sm" variant='simple' >
-        <Thead>
-          <Tr>
-            <Th>Id</Th>
-            <Th>ルート名</Th>
-            <Th>顧客</Th>
-            <Th>品目</Th>
-            <Th>date</Th>
-          </Tr>
-        </Thead>
-        <Tbody >
-          <Tr key={route.id} _hover={{ backgroundColor: 'blue.100', cursor: 'pointer' }}>
-            <Td>{route.id}</Td>
-            <Td>{route.name}</Td>
-            <Td>{route.customer?.name ?? '--'}</Td>
-            <Td>
-              {route.garbage.map((_garbage: IGarbage) => _garbage.name).join(', ')}
-            </Td>
-            <Td>{route.date}</Td>
-          </Tr>
-        </Tbody>
-      </Table>
-      <Heading my={6} size='lg' textAlign='start' >Reports</Heading>
+      <TaskRouteDetailsTable route={route} />
+
+      <HStack my={6} justifyContent='space-between' >
+        <Heading size='lg' textAlign='start' >Reports</Heading>
+        <Button onClick={() => { }} >Add reports</Button>
+      </HStack>
       <TaskReportList reportsList={taskreports} />
-      <Heading my={6} size='lg' textAlign='start' >Amounts</Heading>
+
+      <HStack my={6} justifyContent='space-between' >
+        <Heading size='lg' textAlign='start' >Amounts</Heading>
+        <Button onClick={() => { }} >Add Amounts</Button>
+      </HStack>
       <TaskAmountList amountsList={taskAmounts} />
+
     </Container>
   )
 }
