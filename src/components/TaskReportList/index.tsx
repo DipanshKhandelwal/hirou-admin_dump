@@ -1,6 +1,6 @@
 import * as React from "react"
 import {
-  Table, Thead, Tbody, Tr, Th, Td,
+  Table, Thead, Tbody, Tr, Th, Td, HStack, Heading, Button
 } from "@chakra-ui/react"
 import { ITaskReport } from "../../models/taskReport"
 import { TaskReportDetailModal } from "../TaskReportDetailModal"
@@ -16,6 +16,10 @@ export const TaskReportList = ({ reportsList }: { reportsList: ITaskReport[] }) 
         onClose={() => setSelectedTaskReport(undefined)}
         taskReport={selectedTaskReport}
       />
+      <HStack my={6} justifyContent='space-between' >
+        <Heading size='lg' textAlign='start' >Reports</Heading>
+        <Button onClick={() => { }} >Add reports</Button>
+      </HStack>
       <Table size="sm" variant='simple' >
         <Thead>
           <Tr>

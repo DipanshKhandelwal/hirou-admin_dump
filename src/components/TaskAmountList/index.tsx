@@ -1,6 +1,6 @@
 import * as React from "react"
 import {
-  Table, Thead, Tbody, Tr, Th, Td,
+  Table, Thead, Tbody, Tr, Th, Td, HStack, Heading, Button
 } from "@chakra-ui/react"
 import { useState } from "react"
 import { ITaskAmount } from "../../models/taskAmount"
@@ -16,6 +16,10 @@ export const TaskAmountList = ({ amountsList }: { amountsList: ITaskAmount[] }) 
         onClose={() => setSelectedTaskAmount(undefined)}
         taskAmount={selectedTaskAmount}
       />
+      <HStack my={6} justifyContent='space-between' >
+        <Heading size='lg' textAlign='start' >Amounts</Heading>
+        <Button onClick={() => { }} >Add Amounts</Button>
+      </HStack>
       <Table size="sm" variant='simple' >
         <Thead>
           <Tr>
