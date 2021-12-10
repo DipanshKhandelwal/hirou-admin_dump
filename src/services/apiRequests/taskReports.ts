@@ -42,3 +42,14 @@ export async function editTaskReport(
     throw Error('Update Task Report API failed');
   }
 }
+
+export async function deleteTaskReport(reportId: number): Promise<any> {
+  if (!reportId) throw Error('Please provide report id');
+  try {
+    const url = `${TASK_REPORT_URL}${reportId}/`;
+    const response = await hirouAxios.delete(url);
+    return response.data;
+  } catch (e) {
+    throw Error('Delete Task Report API failed');
+  }
+}
