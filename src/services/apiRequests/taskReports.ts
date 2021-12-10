@@ -13,3 +13,15 @@ export async function getTaskReports(
     throw Error('Get Task Reports API failed');
   }
 }
+
+export async function addTaskReport(data: any): Promise<any> {
+  try {
+    const url = TASK_REPORT_URL;
+    const response = await hirouAxios.post(url, data, {
+      'Content-Type': `multipart/form-data`,
+    });
+    return response.data;
+  } catch (e) {
+    throw Error('Create Task Report API failed');
+  }
+}
