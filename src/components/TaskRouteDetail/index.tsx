@@ -39,19 +39,6 @@ export const TaskRouteDetail = () => {
   }, [taskRoutesData, selectedRouteId])
 
   useEffect(() => {
-    async function init() {
-      // try fetching the route else redirect to list
-      try { await handleFetchUpdatedTaskRoute(selectedRouteId) }
-      catch (e) {
-        toast({
-          title: "Incorrct route",
-          description: "please select an existing task route",
-          status: "error",
-        })
-        navigate('/list')
-      }
-    }
-
     async function getReports() {
       try {
         const reportsData: ITaskReport[] = await getTaskReports(selectedRouteId);
@@ -80,15 +67,31 @@ export const TaskRouteDetail = () => {
       }
     }
 
-    init()
     getReports()
     getAmounts()
+  }, [route])
+
+  useEffect(() => {
+    async function init() {
+      // try fetching the route else redirect to list
+      try { await handleFetchUpdatedTaskRoute(selectedRouteId) }
+      catch (e) {
+        toast({
+          title: "Incorrct route",
+          description: "please select an existing task route",
+          status: "error",
+        })
+        navigate('/list')
+      }
+    }
+
+    init()
   }, [selectedRouteId, setTaskReports, toast])
 
   if (!route) return <Spinner />
 
   return (
-    <Container maxW="container.lg">
+    <Container maxW="container.lg" pb={6} >
       <HStack marginBottom={5} justifyContent='space-between' >
         <Heading textAlign='start' >{route.name ?? 'Task name'}</Heading>
       </HStack>
