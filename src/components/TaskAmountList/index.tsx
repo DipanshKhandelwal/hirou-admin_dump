@@ -5,6 +5,39 @@ import {
 import { useState } from "react"
 import { ITaskAmount } from "../../models/taskAmount"
 import { TaskAmountDetailModal } from "../TaskAmountDetailModal"
+import { ITaskAmountItem } from "../../models/taskAmountItem"
+
+const TaskAmountItemTable = ({ taskAmountItems }: { taskAmountItems: Array<ITaskAmountItem> }) => {
+  return (
+    <Table size="sm"  >
+      <Thead>
+        <Tr>
+          <Th>S No.</Th>
+          <Th>Id</Th>
+          <Th>Garbage</Th>
+          <Th>Gross Weight</Th>
+          <Th>Vehicle Weight</Th>
+          <Th>Net Weight</Th>
+        </Tr>
+      </Thead>
+      <Tbody >
+        {taskAmountItems?.map((taskAmountItem: ITaskAmountItem, idx: number) => (
+          <Tr
+            key={taskAmountItem.id}
+            _hover={{ backgroundColor: 'blue.100', cursor: 'pointer' }}
+          >
+            <Td>{idx + 1}</Td>
+            <Td>{taskAmountItem.id}</Td>
+            <Td>{taskAmountItem.garbage.name}</Td>
+            <Td>{taskAmountItem.gross_weight}</Td>
+            <Td>{taskAmountItem.vehicle_weight}</Td>
+            <Td>{taskAmountItem.net_weight}</Td>
+          </Tr>
+        ))}
+      </Tbody>
+    </Table>
+  )
+}
 
 export const TaskAmountList = ({ amountsList }: { amountsList: ITaskAmount[] }) => {
   const [selectedTaskAmount, setSelectedTaskAmount] = useState<ITaskAmount | undefined>(undefined)
