@@ -13,3 +13,43 @@ export async function getTaskReports(
     throw Error('Get Task Reports API failed');
   }
 }
+
+export async function addTaskReport(data: any): Promise<any> {
+  try {
+    const url = TASK_REPORT_URL;
+    const response = await hirouAxios.post(url, data, {
+      'Content-Type': `multipart/form-data`,
+    });
+    return response.data;
+  } catch (e) {
+    throw Error('Create Task Report API failed');
+  }
+}
+
+export async function editTaskReport(
+  reportId: number,
+  data: any
+): Promise<any> {
+  if (!reportId) throw Error('Please provide report id');
+
+  try {
+    const url = `${TASK_REPORT_URL}${reportId}/`;
+    const response = await hirouAxios.put(url, data, {
+      'Content-Type': `multipart/form-data`,
+    });
+    return response.data;
+  } catch (e) {
+    throw Error('Update Task Report API failed');
+  }
+}
+
+export async function deleteTaskReport(reportId: number): Promise<any> {
+  if (!reportId) throw Error('Please provide report id');
+  try {
+    const url = `${TASK_REPORT_URL}${reportId}/`;
+    const response = await hirouAxios.delete(url);
+    return response.data;
+  } catch (e) {
+    throw Error('Delete Task Report API failed');
+  }
+}
