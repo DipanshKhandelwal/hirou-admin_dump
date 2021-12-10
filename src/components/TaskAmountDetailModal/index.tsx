@@ -38,20 +38,20 @@ export const TaskAmountDetailModal = (props: TaskAmountDetailModalProps) => {
                 <Td>{taskAmount?.id}</Td>
               </Tr>
               <Tr>
-                <Td fontWeight='bold' >Type</Td>
-                <Td>{taskAmount?.garbage.name}</Td>
+                <Td fontWeight='bold' >Vehicle</Td>
+                <Td>{taskAmount?.vehicle?.registration_number}</Td>
               </Tr>
               <Tr>
                 <Td fontWeight='bold' >Timestamp</Td>
                 <Td>{taskAmount?.timestamp}</Td>
               </Tr>
               <Tr>
-                <Td fontWeight='bold' >Amount</Td>
-                <Td>{taskAmount?.amount}</Td>
+                <Td fontWeight='bold' >Work Type</Td>
+                <Td>{taskAmount?.work_type ?? '-'}</Td>
               </Tr>
               <Tr>
-                <Td fontWeight='bold' >Memo</Td>
-                <Td>{taskAmount?.memo || '-'}</Td>
+                <Td fontWeight='bold' >Deal Type</Td>
+                <Td>{taskAmount?.deal_type ?? '-'}</Td>
               </Tr>
             </Tbody>
           </Table>
