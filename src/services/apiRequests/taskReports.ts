@@ -25,3 +25,20 @@ export async function addTaskReport(data: any): Promise<any> {
     throw Error('Create Task Report API failed');
   }
 }
+
+export async function editTaskReport(
+  reportId: number,
+  data: any
+): Promise<any> {
+  if (!reportId) throw Error('Please provide report id');
+
+  try {
+    const url = `${TASK_REPORT_URL}${reportId}/`;
+    const response = await hirouAxios.put(url, data, {
+      'Content-Type': `multipart/form-data`,
+    });
+    return response.data;
+  } catch (e) {
+    throw Error('Update Task Report API failed');
+  }
+}
