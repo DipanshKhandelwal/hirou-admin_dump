@@ -96,7 +96,7 @@ export const TaskRouteDetail = () => {
         <Heading textAlign='start' >{route.name ?? 'Task name'}</Heading>
       </HStack>
       <TaskRouteDetailsTable route={route} />
-      <TaskReportList reportsList={taskreports} />
+      <TaskReportList taskRoute={route} reportsList={taskreports} />
       <TaskAmountList amountsList={taskAmounts} />
     </Container>
   )
