@@ -31,6 +31,8 @@ export async function editCollectionPoint(
 }
 
 export async function deleteCollectionPoint(cpId: number): Promise<any> {
+  if (!cpId) throw Error('Please provide collection point id');
+
   try {
     const url = `${COLLECTION_POINT_URL}${cpId}/`;
     const response = await hirouAxios.delete(url);
