@@ -79,7 +79,13 @@ export const TaskReportList = ({ reportsList, taskRoute }: { reportsList: ITaskR
         onClose={() => setSelectedTaskReport(undefined)}
         taskReport={selectedTaskReport}
       />
-      <TaskReportDeleteConfirmationModal onAccept={onDelete} cancelRef={cancelRef} onCancel={onDeleteModalClose} isOpen={isDeleteModalOpen} />
+      <TaskReportDeleteConfirmationModal
+        taskReport={selectedTaskReport}
+        onAccept={onDelete}
+        cancelRef={cancelRef}
+        onCancel={onDeleteModalClose}
+        isOpen={isDeleteModalOpen}
+      />
       <AddReportModal selectedTaskReport={selectedTaskReport} taskRoute={taskRoute} isOpen={isAddReportModalOpen} onClose={onEditModalClose} />
       <HStack my={6} justifyContent='space-between' >
         <Heading size='lg' textAlign='start' >Reports</Heading>
@@ -120,14 +126,14 @@ export const TaskReportList = ({ reportsList, taskRoute }: { reportsList: ITaskR
                 /></Td>
               <Td>
                 <HStack>
-                  <Button colorScheme="blue" onClick={(e: any) => {
+                  <Button size='sm' colorScheme="blue" onClick={(e: any) => {
                     e.stopPropagation()
                     onEditIconClicked(taskReport.id)
                   }} >
                     <MdEdit />
                   </Button>
 
-                  <Button colorScheme="red" onClick={(e: any) => {
+                  <Button size='sm' colorScheme="red" onClick={(e: any) => {
                     e.stopPropagation()
                     onDeleteIconClicked(taskReport.id)
                   }} >

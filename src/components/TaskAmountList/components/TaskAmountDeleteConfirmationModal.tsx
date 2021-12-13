@@ -6,10 +6,16 @@ import {
   AlertDialogHeader,
   AlertDialogFooter,
   AlertDialogBody,
-  Button
+  Button,
 } from "@chakra-ui/react"
+import { ITaskAmountItem } from "../../../models/taskAmountItem"
+import { ITaskAmount } from "../../../models/taskAmount"
+import { TaskAmountTable } from "./TaskAmountTable"
+import { TaskAmountItemTable } from "./TaskAmountItemTable"
 
 interface TaskAmountDeleteConfirmationModalProps {
+  taskAmountItem?: ITaskAmountItem
+  taskAmount?: ITaskAmount
   isOpen: boolean
   cancelRef: any
   onCancel: () => void
@@ -17,7 +23,7 @@ interface TaskAmountDeleteConfirmationModalProps {
 }
 
 export const TaskAmountDeleteConfirmationModal = (props: TaskAmountDeleteConfirmationModalProps) => {
-  const { isOpen, cancelRef, onCancel, onAccept } = props
+  const { isOpen, cancelRef, onCancel, onAccept, taskAmount, taskAmountItem } = props
 
   return (
     <AlertDialog
@@ -32,6 +38,7 @@ export const TaskAmountDeleteConfirmationModal = (props: TaskAmountDeleteConfirm
           </AlertDialogHeader>
           <AlertDialogBody>
             This functions is irreversible
+            {taskAmountItem ? <TaskAmountItemTable taskAmountItem={taskAmountItem} /> : <TaskAmountTable taskAmount={taskAmount} />}
           </AlertDialogBody>
           <AlertDialogFooter>
             <Button ref={cancelRef} onClick={onCancel}>
