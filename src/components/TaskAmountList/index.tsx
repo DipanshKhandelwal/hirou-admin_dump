@@ -57,6 +57,14 @@ export const TaskAmountList = ({ amountsList, taskRoute }: { amountsList: ITaskA
 
   const cancelRef = React.useRef()
 
+  const onDeleteIconClicked = (amountId: number) => {
+    const _taskAmount = getAmountFromId(amountId)
+    if (_taskAmount) {
+      setSelectedTaskAmount(_taskAmount)
+      setIsDeleteModalOpen(true)
+    }
+  }
+
   const onDelete = async () => {
     if (selectedTaskAmount !== null) {
       try {
@@ -149,6 +157,12 @@ export const TaskAmountList = ({ amountsList, taskRoute }: { amountsList: ITaskA
                       <MdEdit />
                     </Button>
 
+                    <Button colorScheme="red" onClick={(e: any) => {
+                      e.stopPropagation()
+                      onDeleteIconClicked(taskAmount.id)
+                    }} >
+                      <MdDeleteForever />
+                    </Button>
                   </HStack>
                 </Td>
               </Tr>
