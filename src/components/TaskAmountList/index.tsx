@@ -11,7 +11,8 @@ import { AddAmountModal } from "./components/AddAmountModal"
 import { handleFetchUpdatedTaskRoute } from "../../store/thunks/TaskRoute"
 import { deleteTaskAmount } from "../../services/apiRequests/taskAmounts"
 import { ITaskRoute } from "../../models/taskRoute"
-import { MdDeleteForever, MdEdit } from "react-icons/md";
+import { MdDeleteForever, MdEdit, MdAdd } from "react-icons/md";
+import { AddAmountItemModal } from "./components/AddAmountItemModal"
 
 const TaskAmountItemTable = ({ taskAmountItems }: { taskAmountItems: Array<ITaskAmountItem> }) => {
   return (
@@ -34,7 +35,7 @@ const TaskAmountItemTable = ({ taskAmountItems }: { taskAmountItems: Array<ITask
           >
             <Td>{idx + 1}</Td>
             <Td>{taskAmountItem.id}</Td>
-            <Td>{taskAmountItem.garbage.name}</Td>
+            <Td>{taskAmountItem.garbage?.name}</Td>
             <Td>{taskAmountItem.gross_weight}</Td>
             <Td>{taskAmountItem.vehicle_weight}</Td>
             <Td>{taskAmountItem.net_weight}</Td>
@@ -47,11 +48,14 @@ const TaskAmountItemTable = ({ taskAmountItems }: { taskAmountItems: Array<ITask
 
 export const TaskAmountList = ({ amountsList, taskRoute }: { amountsList: ITaskAmount[], taskRoute: ITaskRoute }) => {
   const [selectedTaskAmount, setSelectedTaskAmount] = useState<ITaskAmount | undefined>(undefined)
+  const [selectedTaskAmountItem, setSelectedTaskAmountItem] = useState<ITaskAmountItem | undefined>(undefined)
 
   const toast = useToast();
 
   const [isAddAmountModalOpen, setAddAmountModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+
+  const [isAddAmountItemModalOpen, setAddAmountItemModalOpen] = useState(false)
 
   const addAmountModalOpen = () => setAddAmountModalOpen(true)
 
@@ -104,8 +108,20 @@ export const TaskAmountList = ({ amountsList, taskRoute }: { amountsList: ITaskA
     setAddAmountModalOpen(false)
   }
 
-  const getAmountFromId = (amountId: number) => amountsList.find((taskAmountItem: ITaskAmount) => amountId === taskAmountItem.id)
+  const onEditItemModalClose = () => {
+    setSelectedTaskAmount(undefined)
+    setAddAmountItemModalOpen(false)
+  }
 
+  const onAddIconClicked = (amountId: number) => {
+    const _taskAmount = getAmountFromId(amountId)
+    if (_taskAmount) {
+      setAddAmountItemModalOpen(true)
+      setSelectedTaskAmount(_taskAmount)
+    }
+  }
+
+  const getAmountFromId = (amountId: number) => amountsList.find((taskAmountItem: ITaskAmount) => amountId === taskAmountItem.id)
 
   return (
     <>
@@ -116,6 +132,7 @@ export const TaskAmountList = ({ amountsList, taskRoute }: { amountsList: ITaskA
       />
       <TaskAmountDeleteConfirmationModal onAccept={onDelete} cancelRef={cancelRef} onCancel={onDeleteModalClose} isOpen={isDeleteModalOpen} />
       <AddAmountModal selectedTaskAmount={selectedTaskAmount} taskRoute={taskRoute} isOpen={isAddAmountModalOpen} onClose={onEditModalClose} />
+      <AddAmountItemModal selectedTaskAmountItem={selectedTaskAmountItem} taskRoute={taskRoute} taskAmount={selectedTaskAmount} isOpen={isAddAmountItemModalOpen} onClose={onEditItemModalClose} />
 
       <HStack my={6} justifyContent='space-between' >
         <Heading size='lg' textAlign='start' >Amounts</Heading>
@@ -150,7 +167,13 @@ export const TaskAmountList = ({ amountsList, taskRoute }: { amountsList: ITaskA
                 <Td>{taskAmount.deal_type ?? '-'}</Td>
                 <Td>
                   <HStack>
-                    <Button colorScheme="blue" onClick={(e: any) => {
+                    <Button size='sm' colorScheme="green" onClick={(e: any) => {
+                      e.stopPropagation()
+                      onAddIconClicked(taskAmount.id)
+                    }} >
+                      <MdAdd />
+                    </Button>
+
                     <Button size='sm' colorScheme="blue" onClick={(e: any) => {
                       e.stopPropagation()
                       onEditIconClicked(taskAmount.id)
