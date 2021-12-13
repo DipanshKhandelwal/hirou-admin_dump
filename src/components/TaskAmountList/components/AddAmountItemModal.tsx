@@ -200,6 +200,21 @@ export const AddAmountItemModal = (props: AddAmountItemModalProps) => {
                   <FormErrorMessage>{errors.vehicle_weight}</FormErrorMessage>
                 </FormControl>
 
+                <FormControl >
+                  <FormLabel  >Net Weight</FormLabel>
+                  <InputGroup marginY={2} >
+                    <InputLeftElement
+                      pointerEvents="none"
+                      children={<RiRouteFill color="gray.300" />}
+                    />
+                    <Input
+                      disabled
+                      value={values.gross_weight - values.vehicle_weight}
+                      placeholder="net weight"
+                      size="md" />
+                  </InputGroup>
+                </FormControl>
+
               </ModalBody>
               <ModalFooter>
                 <Button disabled={isSubmitting} onClick={onClose} mr={3}>Cancel</Button>
