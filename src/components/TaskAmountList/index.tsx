@@ -82,7 +82,7 @@ export const TaskAmountList = ({ amountsList, taskRoute }: { amountsList: ITaskA
               </Tr>
             </Tbody>
           </Table>
-          <TaskAmountItemTable taskAmountItems={taskAmount.amount_item} />
+          {taskAmount.amount_item.length > 0 && <TaskAmountItemTable taskAmountItems={taskAmount.amount_item} />}
         </>
       ))}
 
