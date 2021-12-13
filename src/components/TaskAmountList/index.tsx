@@ -11,6 +11,7 @@ import { AddAmountModal } from "./components/AddAmountModal"
 import { handleFetchUpdatedTaskRoute } from "../../store/thunks/TaskRoute"
 import { deleteTaskAmount } from "../../services/apiRequests/taskAmounts"
 import { ITaskRoute } from "../../models/taskRoute"
+import { MdDeleteForever, MdEdit } from "react-icons/md";
 
 const TaskAmountItemTable = ({ taskAmountItems }: { taskAmountItems: Array<ITaskAmountItem> }) => {
   return (
@@ -82,10 +83,21 @@ export const TaskAmountList = ({ amountsList, taskRoute }: { amountsList: ITaskA
     setIsDeleteModalOpen(false)
   }
 
+  const onEditIconClicked = (amountId: number) => {
+    const _taskAmount = getAmountFromId(amountId)
+    if (_taskAmount) {
+      setAddAmountModalOpen(true)
+      setSelectedTaskAmount(_taskAmount)
+    }
+  }
+
   const onEditModalClose = () => {
     setSelectedTaskAmount(undefined)
     setAddAmountModalOpen(false)
   }
+
+  const getAmountFromId = (amountId: number) => amountsList.find((taskAmountItem: ITaskAmount) => amountId === taskAmountItem.id)
+
 
   return (
     <>
@@ -113,6 +125,7 @@ export const TaskAmountList = ({ amountsList, taskRoute }: { amountsList: ITaskA
                 <Th>Timestamp</Th>
                 <Th>Work Type</Th>
                 <Th>Deal Type</Th>
+                <Th>操作</Th>
               </Tr>
             </Thead>
             <Tbody >
@@ -127,6 +140,17 @@ export const TaskAmountList = ({ amountsList, taskRoute }: { amountsList: ITaskA
                 <Td>{taskAmount.timestamp}</Td>
                 <Td>{taskAmount.work_type ?? '-'}</Td>
                 <Td>{taskAmount.deal_type ?? '-'}</Td>
+                <Td>
+                  <HStack>
+                    <Button colorScheme="blue" onClick={(e: any) => {
+                      e.stopPropagation()
+                      onEditIconClicked(taskAmount.id)
+                    }} >
+                      <MdEdit />
+                    </Button>
+
+                  </HStack>
+                </Td>
               </Tr>
             </Tbody>
           </Table>
