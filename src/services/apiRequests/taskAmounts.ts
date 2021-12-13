@@ -30,7 +30,7 @@ export async function editTaskAmount(
   amountId: number,
   data: any
 ): Promise<any> {
-  if (!amountId) throw Error('Please provide report id');
+  if (!amountId) throw Error('Please provide amount id');
 
   try {
     const url = `${TASK_AMOUNT_URL}${amountId}/`;

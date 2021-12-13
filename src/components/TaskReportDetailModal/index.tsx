@@ -7,15 +7,12 @@ import {
   ModalCloseButton,
   Image,
   ModalBody,
-  Tr,
-  Tbody,
-  Td,
-  Table,
   Center,
 } from "@chakra-ui/react"
 import { ITaskReport } from "../../models/taskReport";
 import './styles.css'
 import { BsDownload } from "react-icons/bs";
+import { TaskReportTable } from "../TaskReportTable";
 
 interface TaskReportDetailModalProps {
   isOpen: boolean
@@ -51,26 +48,7 @@ export const TaskReportDetailModal = (props: TaskReportDetailModalProps) => {
                 <BsDownload size={32} className='task-report-image-download-icon' />}
             </div>
           </Center>
-          <Table size='sm' border="1px" borderColor="blue.100" my={3}  >
-            <Tbody>
-              <Tr>
-                <Td fontWeight='bold' >Id</Td>
-                <Td>{taskReport?.id}</Td>
-              </Tr>
-              <Tr>
-                <Td fontWeight='bold' >Description</Td>
-                <Td>{taskReport?.description}</Td>
-              </Tr>
-              <Tr>
-                <Td fontWeight='bold' >Report Type</Td>
-                <Td>{taskReport?.report_type.name}</Td>
-              </Tr>
-              <Tr>
-                <Td fontWeight='bold' >Timestamp</Td>
-                <Td>{taskReport?.timestamp}</Td>
-              </Tr>
-            </Tbody>
-          </Table>
+          <TaskReportTable taskReport={taskReport} />
         </ModalBody>
         <ModalCloseButton />
       </ModalContent>

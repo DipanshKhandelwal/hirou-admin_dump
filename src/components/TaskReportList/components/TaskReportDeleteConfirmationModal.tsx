@@ -8,8 +8,11 @@ import {
   AlertDialogBody,
   Button
 } from "@chakra-ui/react"
+import { TaskReportTable } from "../../TaskReportTable"
+import { ITaskReport } from "../../../models/taskReport"
 
 interface TaskReportDeleteConfirmationModalProps {
+  taskReport?: ITaskReport
   isOpen: boolean
   cancelRef: any
   onCancel: () => void
@@ -17,7 +20,7 @@ interface TaskReportDeleteConfirmationModalProps {
 }
 
 export const TaskReportDeleteConfirmationModal = (props: TaskReportDeleteConfirmationModalProps) => {
-  const { isOpen, cancelRef, onCancel, onAccept } = props
+  const { isOpen, cancelRef, onCancel, onAccept, taskReport } = props
 
   return (
     <AlertDialog
@@ -32,6 +35,7 @@ export const TaskReportDeleteConfirmationModal = (props: TaskReportDeleteConfirm
           </AlertDialogHeader>
           <AlertDialogBody>
             This functions is irreversible
+            <TaskReportTable taskReport={taskReport} />
           </AlertDialogBody>
           <AlertDialogFooter>
             <Button ref={cancelRef} onClick={onCancel}>
