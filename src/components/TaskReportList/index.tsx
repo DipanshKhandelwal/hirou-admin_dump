@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React from "react"
 import {
   Table, Thead, Tbody, Tr, Th, Td, HStack, Heading, Button, Image, useToast
 } from "@chakra-ui/react"

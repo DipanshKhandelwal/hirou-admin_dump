@@ -69,7 +69,7 @@ export const TaskRouteDetail = () => {
 
     getReports()
     getAmounts()
-  }, [route])
+  }, [route, toast])
 
   useEffect(() => {
     async function init() {
@@ -97,7 +97,7 @@ export const TaskRouteDetail = () => {
       </HStack>
       <TaskRouteDetailsTable route={route} />
       <TaskReportList taskRoute={route} reportsList={taskreports} />
-      <TaskAmountList amountsList={taskAmounts} />
+      <TaskAmountList taskRoute={route} amountsList={taskAmounts} />
     </Container>
   )
 }

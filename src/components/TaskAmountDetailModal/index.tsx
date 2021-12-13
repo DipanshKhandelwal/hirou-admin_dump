@@ -53,6 +53,14 @@ export const TaskAmountDetailModal = (props: TaskAmountDetailModalProps) => {
                 <Td fontWeight='bold' >Deal Type</Td>
                 <Td>{taskAmount?.deal_type ?? '-'}</Td>
               </Tr>
+              <Tr>
+                <Td fontWeight='bold' >Memo</Td>
+                <Td>{taskAmount?.memo ?? '-'}</Td>
+              </Tr>
+              <Tr>
+                <Td fontWeight='bold' >User</Td>
+                <Td>{taskAmount?.user?.username ?? '-'}</Td>
+              </Tr>
             </Tbody>
           </Table>
         </ModalBody>
