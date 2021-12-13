@@ -13,3 +13,4 @@ export const COLLECTION_POINT_URL = 'api/collection_point/';
 export const TASK_COLLECTION_POINT_URL = 'api/task_collection_point/';
 export const CUSTOMER_URL = '/api/customer/';
 export const GARBAGE_URL = '/api/garbage/';
+export const VEHICLE_URL = '/api/vehicle/';
