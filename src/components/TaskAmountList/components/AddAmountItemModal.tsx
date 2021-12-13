@@ -89,7 +89,7 @@ export const AddAmountItemModal = (props: AddAmountItemModalProps) => {
               errors.vehicle_weight = 'Required, please add a vehicle weight';
             }
 
-            if (isNumeric(values.vehicle_weight) && isNumeric(values.gross_weight) && values.gross_weight < values.vehicle_weight) {
+            if (isNumeric(values.vehicle_weight) && isNumeric(values.gross_weight) && Number(values.gross_weight) < Number(values.vehicle_weight)) {
               errors.vehicle_weight = 'Vehicle weight cannot be more then gross weight';
               errors.gross_weight = 'Vehicle weight cannot be more then gross weight';
             }
@@ -175,7 +175,7 @@ export const AddAmountItemModal = (props: AddAmountItemModalProps) => {
                       name="gross_weight"
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      placeholder="gross_weight"
+                      placeholder="Gross Weight"
                       size="md" />
                   </InputGroup>
                   <FormErrorMessage>{errors.gross_weight}</FormErrorMessage>
@@ -194,7 +194,7 @@ export const AddAmountItemModal = (props: AddAmountItemModalProps) => {
                       name="vehicle_weight"
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      placeholder="vehicle_weight"
+                      placeholder="Vehicle Weight"
                       size="md" />
                   </InputGroup>
                   <FormErrorMessage>{errors.vehicle_weight}</FormErrorMessage>
