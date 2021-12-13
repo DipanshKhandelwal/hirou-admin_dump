@@ -13,8 +13,9 @@ import { deleteTaskAmount } from "../../services/apiRequests/taskAmounts"
 import { ITaskRoute } from "../../models/taskRoute"
 import { MdDeleteForever, MdEdit, MdAdd } from "react-icons/md";
 import { AddAmountItemModal } from "./components/AddAmountItemModal"
+import { deleteTaskAmountItem } from "../../services/apiRequests/taskAmountItems"
 
-const TaskAmountItemTable = ({ taskAmountItems }: { taskAmountItems: Array<ITaskAmountItem> }) => {
+const TaskAmountItemTable = ({ taskAmountItems, onEditItemIconClicked, onDeleteItemIconClicked }: { taskAmountItems: Array<ITaskAmountItem>, onEditItemIconClicked: (id: number) => void, onDeleteItemIconClicked: (id: number) => void }) => {
   return (
     <Table size="sm"  >
       <Thead>
@@ -25,6 +26,7 @@ const TaskAmountItemTable = ({ taskAmountItems }: { taskAmountItems: Array<ITask
           <Th>Gross Weight</Th>
           <Th>Vehicle Weight</Th>
           <Th>Net Weight</Th>
+          <Th>操作</Th>
         </Tr>
       </Thead>
       <Tbody >
@@ -39,6 +41,23 @@ const TaskAmountItemTable = ({ taskAmountItems }: { taskAmountItems: Array<ITask
             <Td>{taskAmountItem.gross_weight}</Td>
             <Td>{taskAmountItem.vehicle_weight}</Td>
             <Td>{taskAmountItem.net_weight}</Td>
+            <Td>
+              <HStack>
+                <Button size='xs' colorScheme="blue" onClick={(e: any) => {
+                  e.stopPropagation()
+                  onEditItemIconClicked(taskAmountItem.id)
+                }} >
+                  <MdEdit />
+                </Button>
+
+                <Button size='xs' colorScheme="red" onClick={(e: any) => {
+                  e.stopPropagation()
+                  onDeleteItemIconClicked(taskAmountItem.id)
+                }} >
+                  <MdDeleteForever />
+                </Button>
+              </HStack>
+            </Td>
           </Tr>
         ))}
       </Tbody>
@@ -70,21 +89,42 @@ export const TaskAmountList = ({ amountsList, taskRoute }: { amountsList: ITaskA
   }
 
   const onDelete = async () => {
-    if (selectedTaskAmount !== null) {
-      try {
-        await deleteTaskAmount(selectedTaskAmount!.id)
-        handleFetchUpdatedTaskRoute(taskRoute.id)
-        toast({
-          title: "Task amount deleted",
-          description: "",
-        })
+    if (selectedTaskAmount) {
+      if (selectedTaskAmountItem) {
+        // delete task amount item
+        try {
+          await deleteTaskAmountItem(selectedTaskAmountItem!.id)
+          handleFetchUpdatedTaskRoute(taskRoute.id)
+          toast({
+            title: "Task amount item deleted",
+            description: "",
+          })
+        }
+        catch {
+          toast({
+            title: "Error deleting task amount",
+            description: "please try again",
+            status: "error",
+          })
+        }
       }
-      catch {
-        toast({
-          title: "Error deleting task amount",
-          description: "please try again",
-          status: "error",
-        })
+      else {
+        // delete task amount
+        try {
+          await deleteTaskAmount(selectedTaskAmount!.id)
+          handleFetchUpdatedTaskRoute(taskRoute.id)
+          toast({
+            title: "Task amount deleted",
+            description: "",
+          })
+        }
+        catch {
+          toast({
+            title: "Error deleting task amount",
+            description: "please try again",
+            status: "error",
+          })
+        }
       }
     }
     onDeleteModalClose()
@@ -92,6 +132,7 @@ export const TaskAmountList = ({ amountsList, taskRoute }: { amountsList: ITaskA
 
   const onDeleteModalClose = () => {
     setSelectedTaskAmount(undefined)
+    setSelectedTaskAmountItem(undefined)
     setIsDeleteModalOpen(false)
   }
 
@@ -110,7 +151,33 @@ export const TaskAmountList = ({ amountsList, taskRoute }: { amountsList: ITaskA
 
   const onEditItemModalClose = () => {
     setSelectedTaskAmount(undefined)
+    setSelectedTaskAmountItem(undefined)
     setAddAmountItemModalOpen(false)
+  }
+
+  const onEditItemIconClicked = (amountItemId: number, amountId: number) => {
+    const _taskAmount = getAmountFromId(amountId)
+    if (!_taskAmount) return
+
+    const _taskAmountItem = getAmountItemFromId(_taskAmount, amountItemId)
+    if (_taskAmountItem) {
+      setAddAmountItemModalOpen(true)
+      setSelectedTaskAmount(_taskAmount)
+      setSelectedTaskAmountItem(_taskAmountItem)
+    }
+  }
+
+  const onDeleteItemIconClicked = (amountItemId: number, amountId: number) => {
+    const _taskAmount = getAmountFromId(amountId)
+    if (!_taskAmount) return
+
+    const _taskAmountItem = getAmountItemFromId(_taskAmount, amountItemId)
+    if (_taskAmountItem) {
+      setSelectedTaskAmount(_taskAmount)
+      setSelectedTaskAmountItem(_taskAmountItem)
+      setIsDeleteModalOpen(true)
+
+    }
   }
 
   const onAddIconClicked = (amountId: number) => {
@@ -122,6 +189,7 @@ export const TaskAmountList = ({ amountsList, taskRoute }: { amountsList: ITaskA
   }
 
   const getAmountFromId = (amountId: number) => amountsList.find((taskAmountItem: ITaskAmount) => amountId === taskAmountItem.id)
+  const getAmountItemFromId = (taskAmount: ITaskAmount, amountItemId: number) => taskAmount.amount_item.find((taskAmountItem: ITaskAmountItem) => amountItemId === taskAmountItem.id)
 
   return (
     <>
@@ -130,7 +198,14 @@ export const TaskAmountList = ({ amountsList, taskRoute }: { amountsList: ITaskA
         onClose={() => setSelectedTaskAmount(undefined)}
         taskAmount={selectedTaskAmount}
       />
-      <TaskAmountDeleteConfirmationModal onAccept={onDelete} cancelRef={cancelRef} onCancel={onDeleteModalClose} isOpen={isDeleteModalOpen} />
+      <TaskAmountDeleteConfirmationModal
+        taskAmount={selectedTaskAmount}
+        taskAmountItem={selectedTaskAmountItem}
+        onAccept={onDelete}
+        cancelRef={cancelRef}
+        onCancel={onDeleteModalClose}
+        isOpen={isDeleteModalOpen}
+      />
       <AddAmountModal selectedTaskAmount={selectedTaskAmount} taskRoute={taskRoute} isOpen={isAddAmountModalOpen} onClose={onEditModalClose} />
       <AddAmountItemModal selectedTaskAmountItem={selectedTaskAmountItem} taskRoute={taskRoute} taskAmount={selectedTaskAmount} isOpen={isAddAmountItemModalOpen} onClose={onEditItemModalClose} />
 
@@ -192,7 +267,12 @@ export const TaskAmountList = ({ amountsList, taskRoute }: { amountsList: ITaskA
               </Tr>
             </Tbody>
           </Table>
-          {taskAmount.amount_item.length > 0 && <TaskAmountItemTable taskAmountItems={taskAmount.amount_item} />}
+          {taskAmount.amount_item.length > 0 &&
+            <TaskAmountItemTable
+              onEditItemIconClicked={(amountItemId: number) => onEditItemIconClicked(amountItemId, taskAmount.id)}
+              onDeleteItemIconClicked={(amountItemId: number) => onDeleteItemIconClicked(amountItemId, taskAmount.id)}
+              taskAmountItems={taskAmount.amount_item}
+            />}
         </>
       ))}
 
