@@ -151,13 +151,14 @@ export const TaskAmountList = ({ amountsList, taskRoute }: { amountsList: ITaskA
                 <Td>
                   <HStack>
                     <Button colorScheme="blue" onClick={(e: any) => {
+                    <Button size='sm' colorScheme="blue" onClick={(e: any) => {
                       e.stopPropagation()
                       onEditIconClicked(taskAmount.id)
                     }} >
                       <MdEdit />
                     </Button>
 
-                    <Button colorScheme="red" onClick={(e: any) => {
+                    <Button size='sm' colorScheme="red" onClick={(e: any) => {
                       e.stopPropagation()
                       onDeleteIconClicked(taskAmount.id)
                     }} >

@@ -120,14 +120,14 @@ export const TaskReportList = ({ reportsList, taskRoute }: { reportsList: ITaskR
                 /></Td>
               <Td>
                 <HStack>
-                  <Button colorScheme="blue" onClick={(e: any) => {
+                  <Button size='sm' colorScheme="blue" onClick={(e: any) => {
                     e.stopPropagation()
                     onEditIconClicked(taskReport.id)
                   }} >
                     <MdEdit />
                   </Button>
 
-                  <Button colorScheme="red" onClick={(e: any) => {
+                  <Button size='sm' colorScheme="red" onClick={(e: any) => {
                     e.stopPropagation()
                     onDeleteIconClicked(taskReport.id)
                   }} >
