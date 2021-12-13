@@ -13,3 +13,15 @@ export async function getTaskAmounts(
     throw Error('Get Task Amounts API failed');
   }
 }
+
+export async function addTaskAmount(data: any): Promise<any> {
+  try {
+    const url = TASK_AMOUNT_URL;
+    const response = await hirouAxios.post(url, data, {
+      'Content-Type': `multipart/form-data`,
+    });
+    return response.data;
+  } catch (e) {
+    throw Error('Create Task Amount API failed');
+  }
+}
