@@ -79,7 +79,13 @@ export const TaskReportList = ({ reportsList, taskRoute }: { reportsList: ITaskR
         onClose={() => setSelectedTaskReport(undefined)}
         taskReport={selectedTaskReport}
       />
-      <TaskReportDeleteConfirmationModal onAccept={onDelete} cancelRef={cancelRef} onCancel={onDeleteModalClose} isOpen={isDeleteModalOpen} />
+      <TaskReportDeleteConfirmationModal
+        taskReport={selectedTaskReport}
+        onAccept={onDelete}
+        cancelRef={cancelRef}
+        onCancel={onDeleteModalClose}
+        isOpen={isDeleteModalOpen}
+      />
       <AddReportModal selectedTaskReport={selectedTaskReport} taskRoute={taskRoute} isOpen={isAddReportModalOpen} onClose={onEditModalClose} />
       <HStack my={6} justifyContent='space-between' >
         <Heading size='lg' textAlign='start' >Reports</Heading>
