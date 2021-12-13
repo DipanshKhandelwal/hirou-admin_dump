@@ -39,7 +39,7 @@ const TaskAmountItemTable = ({ taskAmountItems }: { taskAmountItems: Array<ITask
   )
 }
 
-export const TaskAmountList = ({ amountsList }: { amountsList: ITaskAmount[] }) => {
+export const TaskAmountList = ({ amountsList, taskRoute }: { amountsList: ITaskAmount[], taskRoute: ITaskRoute }) => {
   const [selectedTaskAmount, setSelectedTaskAmount] = useState<ITaskAmount | undefined>(undefined)
 
   return (
