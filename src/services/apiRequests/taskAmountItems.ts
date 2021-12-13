@@ -12,3 +12,20 @@ export async function addTaskAmountItem(data: any): Promise<any> {
     throw Error('Create Task Amount Item API failed');
   }
 }
+
+export async function editTaskAmountItem(
+  amountItemId: number,
+  data: any
+): Promise<any> {
+  if (!amountItemId) throw Error('Please provide amount item id');
+
+  try {
+    const url = `${TASK_AMOUNT_ITEM_URL}${amountItemId}/`;
+    const response = await hirouAxios.put(url, data, {
+      'Content-Type': `multipart/form-data`,
+    });
+    return response.data;
+  } catch (e) {
+    throw Error('Update Task Amount Item API failed');
+  }
+}
