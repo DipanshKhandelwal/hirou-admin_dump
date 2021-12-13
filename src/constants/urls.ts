@@ -8,6 +8,7 @@ export const TASK_ROUTE_URL = '/api/task_route/';
 export const TASK_REPORT_URL = '/api/task_report/';
 export const REPORT_TYPE_URL = '/api/report_type/';
 export const TASK_AMOUNT_URL = '/api/task_amount/';
+export const TASK_AMOUNT_ITEM_URL = '/api/task_amount_item/';
 export const TASK_COLLECTION_URL = 'api/task_collection/';
 export const COLLECTION_POINT_URL = 'api/collection_point/';
 export const TASK_COLLECTION_POINT_URL = 'api/task_collection_point/';
