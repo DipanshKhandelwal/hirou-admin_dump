@@ -42,3 +42,14 @@ export async function editTaskAmount(
     throw Error('Update Task Amount API failed');
   }
 }
+
+export async function deleteTaskAmount(amountId: number): Promise<any> {
+  if (!amountId) throw Error('Please provide amount id');
+  try {
+    const url = `${TASK_AMOUNT_URL}${amountId}/`;
+    const response = await hirouAxios.delete(url);
+    return response.data;
+  } catch (e) {
+    throw Error('Delete Task Amount API failed');
+  }
+}
