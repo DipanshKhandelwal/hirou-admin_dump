@@ -68,7 +68,7 @@ export const AddAmountModal = (props: AddAmountModalProps) => {
         <Formik
           enableReinitialize
           initialValues={{
-            vehicle: selectedTaskAmount?.vehicle ?? '',
+            vehicle: selectedTaskAmount?.vehicle?.id ?? '',
             memo: selectedTaskAmount?.memo ?? '',
             deal_type: selectedTaskAmount?.deal_type ?? '',
             work_type: selectedTaskAmount?.work_type ?? '',
