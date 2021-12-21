@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { MAPBOX_ACCESS_TOKEN, MAPBOX_STYLE } from '../../../../constants/mapbox';
+import { GOOGLE_MAPS_API_TOKEN } from '../../../../constants/mapbox';
 import {
   Container,
   VStack,
@@ -9,9 +9,11 @@ import {
 import './styles.css'
 import { IBaseRoute } from '../../../../models/baseRoute';
 import { ICollectionPoint } from '../../../../models/collectionPoint';
-import ReactMapGL, { Marker } from 'react-map-gl';
 import { useMemo } from 'react';
 import CustomMarker from '../Marker'
+import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
+import NewMarkerIcon from '../../../../assets/border-new.svg';
+
 interface RouteMapProps {
   baseRoute: IBaseRoute
   tempMarker: any
@@ -29,6 +31,7 @@ const RouteMap = (props: RouteMapProps) => {
   });
 
   const [markers, setMarkers] = useState<any>([])
+  const [google, setGoogle] = useState();
 
   useEffect(() => {
     if (!baseRoute) return;
@@ -80,35 +83,39 @@ const RouteMap = (props: RouteMapProps) => {
     )
   }, [markers, updateCollectionPointCoordinates])
 
-  const tempMarkerUpdate = (evt: any) => {
-    const [lng, lat] = evt.lngLat
+  const tempMarkerUpdate = (props: any, marker: any, e: any) => {
     setTempMarker({
-      longitude: lng,
-      latitude: lat
+      longitude: e.latLng.lng(),
+      latitude: e.latLng.lat()
     })
   }
 
   return (
     <Container position='relative' height='100%' width='100%' maxW='unset' m={0} p={0}  >
-      <ReactMapGL
-        height='100%' width='100%'
-        mapStyle={MAPBOX_STYLE}
-        mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN}
-        {...viewport}
-        onViewportChange={(nextViewport: any) => setViewport(nextViewport)}
+      <GoogleProvider onChange={(google: any) => setGoogle(google)} />
+      <Map
         onClick={tempMarkerUpdate}
+        google={google}
+        initialCenter={{ lat: viewport.latitude, lng: viewport.longitude }}
+        zoom={viewport.zoom}
       >
         {markersView}
-        {tempMarker &&
+        {tempMarker && google &&
           <Marker
-            onDragEnd={tempMarkerUpdate}
-            longitude={tempMarker.longitude}
-            latitude={tempMarker.latitude}
+            {...props}
+            position={{ lat: tempMarker.latitude, lng: tempMarker.longitude }}
+            onDragend={tempMarkerUpdate}
             draggable={true}
-          >
-            <div className="marker temporary-marker"><span></span></div>
-          </Marker>}
-      </ReactMapGL>
+            title='New'
+            name='New'
+            label='N'
+            icon={{
+              url: NewMarkerIcon,
+              anchor: new google.maps.Point(10, 10),
+              scaledSize: new google.maps.Size(20, 20),
+            }}
+          />}
+      </Map>
       <Box position='absolute' p={2} top={0} left={0} backgroundColor='#5050505c' >
         <VStack>
           <Button onClick={add} disabled={!tempMarker} >
@@ -119,5 +126,16 @@ const RouteMap = (props: RouteMapProps) => {
     </Container>
   )
 }
+
+function Wrapper(props: any) {
+  useEffect(() => {
+    props.onChange(props.google);
+  }, [props]);
+  return null;
+}
+
+const GoogleProvider = GoogleApiWrapper({
+  apiKey: GOOGLE_MAPS_API_TOKEN,
+})(Wrapper);
 
 export default RouteMap;
