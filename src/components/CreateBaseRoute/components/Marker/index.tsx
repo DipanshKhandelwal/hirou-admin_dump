@@ -1,8 +1,9 @@
 import React from 'react'
 import { ICollectionPoint } from '../../../../models/collectionPoint';
-import { Marker as Mapmarker } from 'react-map-gl';
 import { UpdateConfirmationModal } from '../UpdateConfirmationModal';
 import { useRef } from 'react';
+import { Marker as Mapmarker } from 'google-maps-react';
+import MarkerIcon from '../../../../assets/border.svg';
 
 interface MarkerProps {
   marker: any
@@ -11,7 +12,7 @@ interface MarkerProps {
 }
 
 export default function Marker(props: MarkerProps) {
-  const { marker, index, updateCollectionPointCoordinates } = props
+  const { marker, index, updateCollectionPointCoordinates, google } = props
 
   const cancelRef = useRef()
 
@@ -34,26 +35,33 @@ export default function Marker(props: MarkerProps) {
     setIsOpen(false);
   }
 
-  const handleCpDrag = (evt: any) => {
-    const [lng, lat] = evt.lngLat
+  const handleCpDrag = (props: any, marker: any, e: any) => {
     setLocation({
-      longitude: lng,
-      latitude: lat
+      longitude: e.latLng.lng(),
+      latitude: e.latLng.lat()
     })
     setIsOpen(true)
   }
 
+  if (!google) return null;
+
   return (
-    <Mapmarker
-      longitude={location.longitude}
-      latitude={location.latitude}
-      draggable={true}
-      onDragEnd={handleCpDrag}
-    >
-      <div className="marker">
-        <span><b>{index + 1}</b></span>
-      </div>
+    <>
+      <Mapmarker
+        {...props}
+        position={{ lat: location.latitude, lng: location.longitude }}
+        draggable={true}
+        title={String(index + 1)}
+        name={String(index + 1)}
+        label={String(index + 1)}
+        onDragend={handleCpDrag}
+        icon={{
+          url: MarkerIcon,
+          anchor: new google.maps.Point(10, 10),
+          scaledSize: new google.maps.Size(20, 20),
+        }}
+      />
       <UpdateConfirmationModal cancelRef={cancelRef} onAccept={onUpdate} onCancel={onCancel} isOpen={isOpen} />
-    </Mapmarker>
+    </>
   );
 }
