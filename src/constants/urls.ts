@@ -1,4 +1,4 @@
-const { REACT_APP_URL } = process.env;
+import { REACT_APP_URL } from './env';
 
 export const URL = REACT_APP_URL;
 
