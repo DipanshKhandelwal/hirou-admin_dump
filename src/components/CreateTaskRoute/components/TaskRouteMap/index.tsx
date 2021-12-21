@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { MAPBOX_ACCESS_TOKEN, MAPBOX_STYLE } from '../../../../constants/mapbox';
+import { GOOGLE_MAPS_API_TOKEN, } from '../../../../constants/mapbox';
 import { Container } from "@chakra-ui/react"
 import './styles.css'
-import ReactMapGL from 'react-map-gl';
 import { useMemo } from 'react';
-import CustomMarker from '../Marker'
 import { ITaskRoute } from '../../../../models/taskRoute';
 import { ITaskCollectionPoint } from '../../../../models/taskCollectionPoint';
+import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
+import MarkerIcon from '../../../../assets/border.svg';
 
 interface TaskRouteMapProps {
   baseRoute: ITaskRoute | null
@@ -21,6 +21,7 @@ const TaskRouteMap = (props: TaskRouteMapProps) => {
   });
 
   const [markers, setMarkers] = useState<any>([])
+  const [google, setGoogle] = useState();
 
   useEffect(() => {
     if (!baseRoute) return;
@@ -54,30 +55,50 @@ const TaskRouteMap = (props: TaskRouteMapProps) => {
   }, [baseRoute])
 
   const markersView = useMemo(() => {
+    if (!google) return null
     return (
       markers.map((marker: any, index: number) => (
-        <CustomMarker
+        <Marker
+          {...props}
           key={`marker-${index}`}
-          index={index}
-          marker={marker}
+          position={{ lat: marker.latitude, lng: marker.longitude }}
+          draggable={false}
+          title={String(index + 1)}
+          name={String(index + 1)}
+          label={String(index + 1)}
+          icon={{
+            url: MarkerIcon,
+            anchor: new google.maps.Point(10, 10),
+            scaledSize: new google.maps.Size(20, 20),
+          }}
         />
       ))
     )
-  }, [markers])
+  }, [markers, google, props])
 
   return (
     <Container position='relative' height='100%' width='100%' maxW='unset' m={0} p={0}  >
-      <ReactMapGL
-        height='100%' width='100%'
-        mapStyle={MAPBOX_STYLE}
-        mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN}
-        {...viewport}
-        onViewportChange={(nextViewport: any) => setViewport(nextViewport)}
+      <GoogleProvider onChange={(google: any) => setGoogle(google)} />
+      <Map
+        google={google}
+        initialCenter={{ lat: viewport.latitude, lng: viewport.longitude }}
+        zoom={viewport.zoom}
       >
         {markersView}
-      </ReactMapGL>
+      </Map>
     </Container>
   )
 }
+
+function Wrapper(props: any) {
+  useEffect(() => {
+    props.onChange(props.google);
+  }, [props]);
+  return null;
+}
+
+const GoogleProvider = GoogleApiWrapper({
+  apiKey: GOOGLE_MAPS_API_TOKEN,
+})(Wrapper);
 
 export default TaskRouteMap;
