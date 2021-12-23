@@ -97,6 +97,7 @@ const RouteMap = (props: RouteMapProps) => {
         onClick={tempMarkerUpdate}
         google={google}
         initialCenter={{ lat: viewport.latitude, lng: viewport.longitude }}
+        center={{ lat: viewport.latitude, lng: viewport.longitude }}
         zoom={viewport.zoom}
       >
         {markersView}
