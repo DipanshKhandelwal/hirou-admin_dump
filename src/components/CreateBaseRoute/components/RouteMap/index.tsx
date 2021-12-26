@@ -137,6 +137,8 @@ function Wrapper(props: any) {
 
 const GoogleProvider = GoogleApiWrapper({
   apiKey: GOOGLE_MAPS_API_TOKEN,
+  language: 'ja',
+  region: 'JP'
 })(Wrapper);
 
 export default RouteMap;
