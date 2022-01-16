@@ -9,7 +9,7 @@ import {
 import Header from "./components/common/Header"
 import Login from "./components/auth/Login"
 import { useSelector } from "react-redux"
-import { _user } from "./store/selectors/App"
+import { _isAdmin, _user } from "./store/selectors/App"
 import { IUser } from "./models/user"
 import { checkLogin } from "./store/thunks/App"
 import Home from './components/home'
@@ -34,6 +34,7 @@ export const App = () => {
     }))
 
   const user: IUser = useSelector(_user)
+  const isAdmin: boolean = useSelector(_isAdmin)
 
   useEffect(() => {
     checkLogin()
@@ -41,16 +42,39 @@ export const App = () => {
 
   const mainApp = useMemo(() => {
     if (!user) return <Switch>
-      <Route path="/login">
+      <Route path={routes.LOGIN}>
         <Login />
       </Route>
-      <Route path="/privacy-policy">
+      <Route path={routes.PRIVACY_POLICY}>
         <PrivacyPolicy />
       </Route>
       <Route path="*" >
-        <Redirect to='/login' />
+        <Redirect to={routes.LOGIN} />
       </Route>
     </Switch>
+
+    if (!isAdmin) {
+      return <Switch>
+        <Route path={routes.TASK_ROUTE}>
+          <TaskRoute />
+        </Route>
+        <Route path={routes.LOGIN}>
+          <Login />
+        </Route>
+        <Route path={routes.PRIVACY_POLICY}>
+          <PrivacyPolicy />
+        </Route>
+        <Route path={routes.HOME}>
+          <Redirect to='/' />
+        </Route>
+        <Route exact path="/">
+          <Home />
+        </Route>
+        <Route path="*" >
+          <Redirect to='/' />
+        </Route>
+      </Switch>
+    }
 
     return (
       <Switch>
@@ -80,7 +104,7 @@ export const App = () => {
         </Route>
       </Switch>
     )
-  }, [user])
+  }, [user, isAdmin])
 
   return (
     <ChakraProvider theme={customTheme}>
