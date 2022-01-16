@@ -22,6 +22,7 @@ import { ITaskAmount } from "../../models/taskAmount"
 import { getTaskAmounts } from "../../services/apiRequests/taskAmounts"
 import { TaskAmountList } from "../TaskAmountList"
 import { TaskRouteDetailsTable } from "./components/TaskRouteDetailsTable"
+import { _isAdmin } from "../../store/selectors/App"
 
 export const TaskRouteDetail = () => {
   let { taskRouteId }: { taskRouteId: string } = useParams();
@@ -29,6 +30,7 @@ export const TaskRouteDetail = () => {
 
   const toast = useToast()
   const taskRoutesData: number = useSelector(_taskRoute)
+  const isAdmin: boolean = useSelector(_isAdmin)
 
   const [taskreports, setTaskReports] = useState<ITaskReport[]>([]);
   const [taskAmounts, setTaskAmounts] = useState<ITaskAmount[]>([]);
@@ -96,8 +98,10 @@ export const TaskRouteDetail = () => {
         <Heading textAlign='start' >{route.name ?? 'Task name'}</Heading>
       </HStack>
       <TaskRouteDetailsTable route={route} />
-      <TaskReportList taskRoute={route} reportsList={taskreports} />
-      <TaskAmountList taskRoute={route} amountsList={taskAmounts} />
+      {isAdmin && <>
+        <TaskReportList taskRoute={route} reportsList={taskreports} />
+        <TaskAmountList taskRoute={route} amountsList={taskAmounts} />
+      </>}
     </Container>
   )
 }
