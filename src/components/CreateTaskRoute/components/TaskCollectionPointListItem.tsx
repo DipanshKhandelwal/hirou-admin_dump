@@ -1,9 +1,9 @@
-import * as React from "react";
-import { Box, Text, Image, HStack, VStack, Button } from "@chakra-ui/react";
-import { FaCheck } from "react-icons/fa";
-import { ITaskCollectionPoint } from "../../../models/taskCollectionPoint";
-import { ITaskCollection } from "../../../models/taskCollection";
-import useOnScreen from "../../../utils/useOnScreen";
+import * as React from 'react';
+import { Box, Text, Image, HStack, VStack, Button } from '@chakra-ui/react';
+import { FaCheck } from 'react-icons/fa';
+import { ITaskCollectionPoint } from '../../../models/taskCollectionPoint';
+import { ITaskCollection } from '../../../models/taskCollection';
+import useOnScreen from '../../../utils/useOnScreen';
 
 interface TaskCollectionPointListItemProps {
   isSelected: boolean;
@@ -14,7 +14,7 @@ interface TaskCollectionPointListItemProps {
 }
 
 function getCompleteStatus(collectionPoint: ITaskCollectionPoint) {
-  var complete = true;
+  let complete = true;
   for (const tc of collectionPoint.task_collection) {
     if (!tc.complete) {
       complete = false;
@@ -54,39 +54,39 @@ export const TaskCollectionPointListItem = (
       key={collectionPoint.id}
       p={1}
       my={2}
-      fontSize="0.8rem"
-      borderWidth="1px"
-      userSelect="none"
-      backgroundColor={isSelected ? "gray.300" : "white"}
+      fontSize='0.8rem'
+      borderWidth='1px'
+      userSelect='none'
+      backgroundColor={isSelected ? 'gray.300' : 'white'}
       ref={refTaskPoint}
     >
-      <HStack align="flex-start">
+      <HStack align='flex-start'>
         <Image
-          minHeight="90px"
-          minWidth="90px"
-          height="90px"
-          width="90px"
+          minHeight='90px'
+          minWidth='90px'
+          height='90px'
+          width='90px'
           src={collectionPoint.image}
-          alt="image"
-          objectFit="contain"
-          fontSize="10px"
-          backgroundColor="gray.100"
+          alt='image'
+          objectFit='contain'
+          fontSize='10px'
+          backgroundColor='gray.100'
           onClick={onClickPoint}
-          cursor="pointer"
+          cursor='pointer'
         />
-        <VStack align="stretch" p={1} paddingX={0} flex={1}>
+        <VStack align='stretch' p={1} paddingX={0} flex={1}>
           <HStack>
             <Text>{collectionPoint.sequence}</Text>
             <Text>{collectionPoint.name} </Text>
           </HStack>
-          <Text textAlign="left">{collectionPoint.memo}</Text>
+          <Text textAlign='left'>{collectionPoint.memo}</Text>
         </VStack>
 
         <VStack p={1}>
           <Button
-            variant={complete ? "solid" : "outline"}
-            colorScheme="blue"
-            size="xs"
+            variant={complete ? 'solid' : 'outline'}
+            colorScheme='blue'
+            size='xs'
             onClick={toggleAll}
           >
             <FaCheck />
@@ -102,7 +102,7 @@ export const TaskCollectionPointListItem = (
             fontSize={10}
             h={8}
             p={0}
-            variant={taskCollection.complete ? "solid" : "outline"}
+            variant={taskCollection.complete ? 'solid' : 'outline'}
           >
             {taskCollection.garbage.name}
           </Button>

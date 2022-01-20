@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { GOOGLE_MAPS_API_TOKEN } from "../../../../constants/mapbox";
-import { Container } from "@chakra-ui/react";
-import "./styles.css";
-import { useMemo } from "react";
-import { ITaskRoute } from "../../../../models/taskRoute";
-import { ITaskCollectionPoint } from "../../../../models/taskCollectionPoint";
-import { Map, Marker, GoogleApiWrapper } from "google-maps-react";
-import MarkerIcon from "../../../../assets/border.svg";
+import React, { useState, useEffect, useCallback } from 'react';
+import { GOOGLE_MAPS_API_TOKEN } from '../../../../constants/mapbox';
+import { Container } from '@chakra-ui/react';
+import './styles.css';
+import { useMemo } from 'react';
+import { ITaskRoute } from '../../../../models/taskRoute';
+import { ITaskCollectionPoint } from '../../../../models/taskCollectionPoint';
+import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
+import MarkerIcon from '../../../../assets/border.svg';
 interface TaskRouteMapProps {
   baseRoute: ITaskRoute | null;
   locationFocus: ITaskCollectionPoint | null;
@@ -26,7 +26,7 @@ const TaskRouteMap = (props: TaskRouteMapProps) => {
 
   useEffect(() => {
     if (locationFocus?.location) {
-      const [lat, lng] = locationFocus.location.split(",");
+      const [lat, lng] = locationFocus.location.split(',');
       setViewport({
         latitude: Number(lat),
         longitude: Number(lng),
@@ -46,7 +46,7 @@ const TaskRouteMap = (props: TaskRouteMapProps) => {
     );
 
     cps?.forEach((cp: ITaskCollectionPoint) => {
-      const [lat, lng] = cp.location.split(",");
+      const [lat, lng] = cp.location.split(',');
       const _marker = {
         longitude: Number(lng),
         latitude: Number(lat),
@@ -58,7 +58,7 @@ const TaskRouteMap = (props: TaskRouteMapProps) => {
 
     if (cps.length > 0) {
       const firstCp = cps[0];
-      const [lat, lng] = firstCp.location.split(",");
+      const [lat, lng] = firstCp.location.split(',');
 
       setViewport({
         latitude: Number(lat),
@@ -99,10 +99,10 @@ const TaskRouteMap = (props: TaskRouteMapProps) => {
 
   return (
     <Container
-      position="relative"
-      height="100%"
-      width="100%"
-      maxW="unset"
+      position='relative'
+      height='100%'
+      width='100%'
+      maxW='unset'
       m={0}
       p={0}
     >
@@ -128,8 +128,8 @@ function Wrapper(props: any) {
 
 const GoogleProvider = GoogleApiWrapper({
   apiKey: GOOGLE_MAPS_API_TOKEN,
-  language: "ja",
-  region: "JP",
+  language: 'ja',
+  region: 'JP',
 })(Wrapper);
 
 export default TaskRouteMap;

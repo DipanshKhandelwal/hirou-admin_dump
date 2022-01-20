@@ -1,22 +1,21 @@
-import * as React from "react";
-import { Box, Flex, Center, Text, useToast } from "@chakra-ui/react";
+import * as React from 'react';
+import { Box, Flex, Center, Text, useToast } from '@chakra-ui/react';
 
-import { getTaskRoute } from "../../services/apiRequests/taskRoute";
+import { getTaskRoute } from '../../services/apiRequests/taskRoute';
 
-import { useState, useCallback } from "react";
-import { TaskCollectionPointListItem } from "./components/TaskCollectionPointListItem";
-import { useEffect } from "react";
-import TaskRouteMap from "./components/TaskRouteMap";
-import { useParams } from "react-router-dom";
-import { navigate } from "../../services/navigation";
-import { ITaskRoute } from "../../models/taskRoute";
-import { ITaskCollectionPoint } from "../../models/taskCollectionPoint";
+import { useState, useCallback } from 'react';
+import { TaskCollectionPointListItem } from './components/TaskCollectionPointListItem';
+import TaskRouteMap from './components/TaskRouteMap';
+import { useParams } from 'react-router-dom';
+import { navigate } from '../../services/navigation';
+import { ITaskRoute } from '../../models/taskRoute';
+import { ITaskCollectionPoint } from '../../models/taskCollectionPoint';
 import {
   TASK_COLLECTION_POINT_URL,
   TASK_COLLECTION_URL,
-} from "../../constants/urls";
-import { ITaskCollection } from "../../models/taskCollection";
-import { hirouAxios } from "../../services/httpInstance";
+} from '../../constants/urls';
+import { ITaskCollection } from '../../models/taskCollection';
+import { hirouAxios } from '../../services/httpInstance';
 
 // TODO: Connect socket
 export const CreateTaskRoute = () => {
@@ -29,7 +28,7 @@ export const CreateTaskRoute = () => {
   const [locationFocus, setLocationFocus] =
     useState<ITaskCollectionPoint | null>(null);
 
-  let { taskRouteId }: { taskRouteId: string } = useParams();
+  const { taskRouteId }: { taskRouteId: string } = useParams();
   const selectedRouteId = Number(taskRouteId);
 
   const init = useCallback(async () => {
@@ -39,19 +38,19 @@ export const CreateTaskRoute = () => {
       setRoute(data);
     } catch (e) {
       toast({
-        title: "Incorrct route",
-        description: "please select an existing route",
-        status: "error",
+        title: 'Incorrct route',
+        description: 'please select an existing route',
+        status: 'error',
       });
-      navigate("/list");
+      navigate('/list');
     }
   }, [selectedRouteId, toast]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     init();
   }, [init]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const cps = route?.task_collection_point.sort(
       (a: ITaskCollectionPoint, b: ITaskCollectionPoint) => {
         return a.sequence - b.sequence;
@@ -97,9 +96,9 @@ export const CreateTaskRoute = () => {
       toggleTaskLocal(data.data, tcpId);
     } catch (e) {
       toast({
-        title: "Error updating collection",
-        description: "please try again",
-        status: "error",
+        title: 'Error updating collection',
+        description: 'please try again',
+        status: 'error',
       });
     }
   };
@@ -113,9 +112,9 @@ export const CreateTaskRoute = () => {
           toggleAllTasksLocal(data.data, taskCollectionPoint.id);
         } catch (e) {
           toast({
-            title: "Error updating collection",
-            description: "please try again",
-            status: "error",
+            title: 'Error updating collection',
+            description: 'please try again',
+            status: 'error',
           });
         }
       };
@@ -140,14 +139,14 @@ export const CreateTaskRoute = () => {
   );
 
   return (
-    <Flex backgroundColor="white" height="inherit">
-      <Box flex="1" minWidth="300px" overflowY="scroll">
+    <Flex backgroundColor='white' height='inherit'>
+      <Box flex='1' minWidth='300px' overflowY='scroll'>
         {localCollectionPoints.length === 0 && (
           <Text>No Collection Points</Text>
         )}
         {collectionPointsList}
       </Box>
-      <Center flex="4">
+      <Center flex='4'>
         {/* can optimize it, no need to send route only send tcps which can help remove extra route state*/}
         <TaskRouteMap
           baseRoute={route}
