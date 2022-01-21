@@ -1,12 +1,13 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { GOOGLE_MAPS_API_TOKEN } from '../../../../constants/mapbox';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Container } from '@chakra-ui/react';
-import './styles.css';
-import { useMemo } from 'react';
+import { Map, Marker, GoogleApiWrapper, InfoWindow } from 'google-maps-react';
+import { Box, Text, Image, HStack, VStack, Button } from '@chakra-ui/react';
+import { GOOGLE_MAPS_API_TOKEN } from '../../../../constants/mapbox';
 import { ITaskRoute } from '../../../../models/taskRoute';
 import { ITaskCollectionPoint } from '../../../../models/taskCollectionPoint';
-import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
 import MarkerIcon from '../../../../assets/border.svg';
+import './styles.css';
+
 interface TaskRouteMapProps {
   baseRoute: ITaskRoute | null;
   locationFocus: ITaskCollectionPoint | null;
@@ -15,6 +16,8 @@ interface TaskRouteMapProps {
 
 const TaskRouteMap = (props: TaskRouteMapProps) => {
   const { baseRoute, locationFocus, setLocationFocus } = props;
+  const [activeMarker, setActiveMarker] = useState(null);
+  const [showingInfoWindow, setShowingInfoWindow] = useState(false);
   const [viewport, setViewport] = useState({
     latitude: 35.679467,
     longitude: 139.771008,
@@ -50,7 +53,7 @@ const TaskRouteMap = (props: TaskRouteMapProps) => {
       const _marker = {
         longitude: Number(lng),
         latitude: Number(lat),
-        cp: cp,
+        cp,
       };
       _markers.push(_marker);
     });
@@ -69,12 +72,20 @@ const TaskRouteMap = (props: TaskRouteMapProps) => {
   }, [baseRoute]);
 
   const onFocusMaker = useCallback(
-    (marker: any) => {
+    (marker: any, activeMarker) => {
+      setActiveMarker(activeMarker);
+      setShowingInfoWindow(true);
       const { cp, task_collection } = marker;
       setLocationFocus({ ...cp, task_collection });
     },
     [setLocationFocus]
   );
+
+  const onInfoWindowClose = () => {
+    console.log('onInfoWindowClose');
+    setShowingInfoWindow(false);
+    setActiveMarker(null);
+  };
 
   const markersView = useMemo(() => {
     if (!google) return null;
@@ -87,15 +98,53 @@ const TaskRouteMap = (props: TaskRouteMapProps) => {
         title={String(index + 1)}
         name={String(index + 1)}
         label={String(index + 1)}
-        onClick={() => onFocusMaker(marker)}
+        onClick={(_, activeMarker) => onFocusMaker(marker, activeMarker)}
         icon={{
           url: MarkerIcon,
           anchor: new google.maps.Point(10, 10),
           scaledSize: new google.maps.Size(20, 20),
         }}
-      />
+      >
+        <div id={`marker-${marker.id}`} />
+      </Marker>
     ));
-  }, [markers, google, props, onFocusMaker]);
+  }, [markers, google, onFocusMaker]);
+
+  const infoWindowView = useMemo(() => {
+    console.log(locationFocus);
+    return (
+      <InfoWindow
+        visible={showingInfoWindow}
+        marker={activeMarker}
+        onClose={onInfoWindowClose}
+      >
+        <VStack
+          align='stretch'
+          p={1}
+          paddingX={0}
+          flex={1}
+          alignItems={'center'}
+        >
+          <HStack minWidth={100}>
+            <Text color='black' fontWeight='bold' flexGrow={0} fontSize={16}>
+              # {locationFocus?.sequence}
+            </Text>
+            <Text flexGrow={0} color='black' fontWeight='bold' fontSize={16}>
+              |
+            </Text>
+            <Text
+              color='black'
+              fontWeight='bold'
+              flexGrow={1}
+              textAlign='center'
+            >
+              {locationFocus?.name}{' '}
+            </Text>
+          </HStack>
+        </VStack>
+      </InfoWindow>
+    );
+  }, [showingInfoWindow, activeMarker, locationFocus]);
 
   return (
     <Container
@@ -112,8 +161,10 @@ const TaskRouteMap = (props: TaskRouteMapProps) => {
         initialCenter={{ lat: viewport.latitude, lng: viewport.longitude }}
         center={{ lat: viewport.latitude, lng: viewport.longitude }}
         zoom={viewport.zoom}
+        onClick={onInfoWindowClose}
       >
         {markersView}
+        {infoWindowView}
       </Map>
     </Container>
   );
