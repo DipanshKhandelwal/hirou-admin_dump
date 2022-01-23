@@ -20,7 +20,7 @@ const TaskAmountItemTable = ({ taskAmountItems, onEditItemIconClicked, onDeleteI
     <Table size="sm"  >
       <Thead>
         <Tr>
-          <Th>S No.</Th>
+          <Th>No.</Th>
           <Th>Id</Th>
           <Th>Garbage</Th>
           <Th>Gross Weight</Th>
@@ -219,10 +219,10 @@ export const TaskAmountList = ({ amountsList, taskRoute }: { amountsList: ITaskA
           <Table mt={10} size="sm" variant='unstyled' bgColor='blue.100' >
             <Thead>
               <Tr>
-                {/* <Th>S No.</Th> */}
+                {/* <Th>No.</Th> */}
                 <Th>Id</Th>
                 <Th>Vehicle</Th>
-                <Th>Timestamp</Th>
+                <Th>作成日</Th>
                 <Th>Work Type</Th>
                 <Th>Deal Type</Th>
                 <Th>操作</Th>

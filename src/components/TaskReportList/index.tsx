@@ -94,12 +94,12 @@ export const TaskReportList = ({ reportsList, taskRoute }: { reportsList: ITaskR
       <Table size="sm" variant='simple' >
         <Thead>
           <Tr>
-            <Th>S No.</Th>
+            <Th>No.</Th>
             <Th>Id</Th>
-            <Th>Type</Th>
-            <Th>Timestamp</Th>
-            <Th>Description</Th>
-            <Th>Image</Th>
+            <Th>種類</Th>
+            <Th>作成日</Th>
+            <Th>内容</Th>
+            <Th>画像</Th>
             <Th>操作</Th>
           </Tr>
         </Thead>

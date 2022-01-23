@@ -18,7 +18,7 @@ export const TaskReportTable = ({
           <Td>{taskReport?.id}</Td>
         </Tr>
         <Tr>
-          <Td fontWeight='bold' >Description</Td>
+          <Td fontWeight='bold' >内容</Td>
           <Td>{taskReport?.description}</Td>
         </Tr>
         <Tr>
@@ -26,7 +26,7 @@ export const TaskReportTable = ({
           <Td>{taskReport?.report_type.name}</Td>
         </Tr>
         <Tr>
-          <Td fontWeight='bold' >Timestamp</Td>
+          <Td fontWeight='bold' >作成日</Td>
           <Td>{taskReport?.timestamp}</Td>
         </Tr>
       </Tbody>

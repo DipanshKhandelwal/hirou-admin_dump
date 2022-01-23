@@ -63,12 +63,12 @@ export const TaskRouteList = () => {
         <Table size="sm" variant='simple' >
           <Thead>
             <Tr>
-              <Th>S No.</Th>
+              <Th>No.</Th>
               <Th>Id</Th>
               <Th>ルート名</Th>
               <Th>顧客</Th>
               <Th>品目</Th>
-              <Th>date</Th>
+              <Th>作成日</Th>
             </Tr>
           </Thead>
           <Tbody >
@@ -100,7 +100,7 @@ export const TaskRouteList = () => {
   return (
     <Container maxW="container.lg">
       <HStack marginBottom={5} >
-        <Heading textAlign='start' >Task Route List</Heading>
+        <Heading textAlign='start' >タスク</Heading>
         <DatePicker
           id="published-date"
           selectedDate={date}
@@ -113,7 +113,7 @@ export const TaskRouteList = () => {
           variant="outline"
           onClick={() => onChangeDate(date)}
         >
-          Reload
+          更新
         </Button>
       </HStack>
       {content}

@@ -23,7 +23,7 @@ export const TaskRouteDetailsTable = ({ route }: { route: ITaskRoute }) => {
             <Th>ルート名</Th>
             <Th>顧客</Th>
             <Th>品目</Th>
-            <Th>date</Th>
+            <Th>作成日</Th>
           </Tr>
         </Thead>
         <Tbody >

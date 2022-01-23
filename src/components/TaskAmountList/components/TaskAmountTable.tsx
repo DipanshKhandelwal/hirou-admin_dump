@@ -22,7 +22,7 @@ export const TaskAmountTable = ({
           <Td>{taskAmount?.vehicle?.registration_number}</Td>
         </Tr>
         <Tr>
-          <Td fontWeight='bold'>Timestamp</Td>
+          <Td fontWeight='bold'>作成日</Td>
           <Td>{taskAmount?.timestamp}</Td>
         </Tr>
         <Tr>

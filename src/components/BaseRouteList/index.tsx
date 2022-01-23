@@ -90,7 +90,7 @@ export const BaseRouteList = () => {
       <Table size="sm" variant='simple' >
         <Thead>
           <Tr>
-            <Th>S No.</Th>
+            <Th>No.</Th>
             <Th>Id</Th>
             <Th>ルート名</Th>
             <Th>品目</Th>
