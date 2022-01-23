@@ -46,10 +46,8 @@ export const TaskCollectionPointListItem = (
     toggleTask(taskCollection, collectionPoint.id);
 
   const complete = getCompleteStatus(collectionPoint);
-
-  const complete = getCompleteStatus(collectionPoint)
   const isAdmin: boolean = useSelector(_isAdmin);
-  
+
   React.useEffect(() => {
     if (!isVisible && isSelected && refTaskPoint.current) {
       (refTaskPoint.current as Element).scrollIntoView();

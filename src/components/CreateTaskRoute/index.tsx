@@ -23,7 +23,7 @@ export const CreateTaskRoute = () => {
   const [localCollectionPoints, setLocalCollectionPoints] = useState<
     ITaskCollectionPoint[]
   >([]);
-    const [selectedTaskCollectionPoint, setSelectedTaskCollectionPoint] = useState<ITaskCollectionPoint | null>(null);
+  const [selectedTaskCollectionPoint, setSelectedTaskCollectionPoint] = useState<ITaskCollectionPoint | null>(null);
   const toast = useToast();
 
   const [route, setRoute] = useState<ITaskRoute | null>(null);
@@ -134,20 +134,12 @@ export const CreateTaskRoute = () => {
           toggleTask={onToggleTask}
           key={taskCollectionPoint.id}
           taskCollectionPoint={taskCollectionPoint}
+          onSelect={() => setSelectedTaskCollectionPoint(taskCollectionPoint)}
           onClickPoint={onClickPoint}
         />
       );
     }
   );
-
-    return <TaskCollectionPointListItem
-      toggleAllTasks={onToggleAllTasks}
-      toggleTask={onToggleTask}
-      key={taskCollectionPoint.id}
-      onSelect={() => setSelectedTaskCollectionPoint(taskCollectionPoint)}
-      taskCollectionPoint={taskCollectionPoint}
-    />
-  })
 
   return (
     <Flex backgroundColor='white' height='inherit'>
