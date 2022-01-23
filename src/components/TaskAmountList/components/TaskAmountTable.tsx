@@ -1,7 +1,5 @@
 import * as React from 'react';
-import {
-  Table, Tbody, Tr, Td,
-} from "@chakra-ui/react"
+import { Table, Tbody, Tr, Td } from '@chakra-ui/react';
 import { ITaskAmount } from '../../../models/taskAmount';
 
 export const TaskAmountTable = ({
@@ -9,7 +7,7 @@ export const TaskAmountTable = ({
 }: {
   taskAmount?: ITaskAmount;
 }) => {
-  if (!taskAmount) return null
+  if (!taskAmount) return null;
   return (
     <Table size='sm' border='1px' borderColor='blue.100' my={3}>
       <Tbody>
@@ -43,7 +41,5 @@ export const TaskAmountTable = ({
         </Tr>
       </Tbody>
     </Table>
-
   );
 };
-

@@ -1,93 +1,100 @@
-import * as React from "react"
+import * as React from 'react';
 import {
   Container,
   Heading,
-  Table, Thead, Tbody, Tr, Th, Td,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
   HStack,
   Spinner,
   Button,
   useToast,
-} from "@chakra-ui/react"
-import { useEffect } from "react"
-import { handleFetchBaseRoute } from "../../store/thunks/BaseRoute"
-import { IBaseRoute } from "../../models/baseRoute"
-import { _baseRoute } from "../../store/selectors/BaseRoute"
-import { useSelector } from "react-redux"
-import { IGarbage } from "../../models/garbage"
-import { MdDeleteForever, MdEdit } from "react-icons/md";
-import { useState } from "react"
-import { CreateBaseRouteModal } from "./components/CreateBaseRouteModal"
-import { BaseRouteDeleteConfirmationModal } from "./components/BaseRouteDeleteConfirmationModal"
-import { deleteBaseRoute } from "../../services/apiRequests/baseRoute"
-import { navigate } from "../../services/navigation"
+} from '@chakra-ui/react';
+import { useEffect } from 'react';
+import { handleFetchBaseRoute } from '../../store/thunks/BaseRoute';
+import { IBaseRoute } from '../../models/baseRoute';
+import { _baseRoute } from '../../store/selectors/BaseRoute';
+import { useSelector } from 'react-redux';
+import { IGarbage } from '../../models/garbage';
+import { MdDeleteForever, MdEdit } from 'react-icons/md';
+import { useState } from 'react';
+import { CreateBaseRouteModal } from './components/CreateBaseRouteModal';
+import { BaseRouteDeleteConfirmationModal } from './components/BaseRouteDeleteConfirmationModal';
+import { deleteBaseRoute } from '../../services/apiRequests/baseRoute';
+import { navigate } from '../../services/navigation';
 
 export const BaseRouteList = () => {
-  const baseRoutesData: any = useSelector(_baseRoute)
-  const [isCreateRouteModalOpen, setCreateRouteModalOpen] = useState(false)
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
-  const [selectedRoute, setSelectedRoute] = useState<IBaseRoute | null>(null)
-  const cancelRef = React.useRef()
-  const toast = useToast()
+  const baseRoutesData: any = useSelector(_baseRoute);
+  const [isCreateRouteModalOpen, setCreateRouteModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [selectedRoute, setSelectedRoute] = useState<IBaseRoute | null>(null);
+  const cancelRef = React.useRef();
+  const toast = useToast();
 
   useEffect(() => {
-    handleFetchBaseRoute()
-  }, [])
+    handleFetchBaseRoute();
+  }, []);
 
-  const selectBaseRoute = (baseRouteId: number) => navigate(`${baseRouteId}`)
+  const selectBaseRoute = (baseRouteId: number) => navigate(`${baseRouteId}`);
 
-  const getRouteFromId = (baseRouteId: number) => baseRoutesData.data.find((baseRoute: IBaseRoute) => baseRoute.id === baseRouteId)
+  const getRouteFromId = (baseRouteId: number) =>
+    baseRoutesData.data.find(
+      (baseRoute: IBaseRoute) => baseRoute.id === baseRouteId
+    );
 
   const onDeleteIconClicked = (baseRouteId: number) => {
-    const _baseRoute = getRouteFromId(baseRouteId)
+    const _baseRoute = getRouteFromId(baseRouteId);
     if (_baseRoute) {
-      setSelectedRoute(_baseRoute)
-      setIsDeleteModalOpen(true)
+      setSelectedRoute(_baseRoute);
+      setIsDeleteModalOpen(true);
     }
-  }
+  };
 
   const onDelete = async () => {
     if (selectedRoute !== null) {
       try {
-        await deleteBaseRoute(selectedRoute.id)
-        handleFetchBaseRoute()
+        await deleteBaseRoute(selectedRoute.id);
+        handleFetchBaseRoute();
         toast({
-          title: "Base route deleted",
-          description: "",
-        })
-      }
-      catch {
+          title: 'Base route deleted',
+          description: '',
+        });
+      } catch {
         toast({
-          title: "Error deleting base route",
-          description: "please try again",
-          status: "error",
-        })
+          title: 'Error deleting base route',
+          description: 'please try again',
+          status: 'error',
+        });
       }
     }
-    onDeleteModalClose()
-  }
+    onDeleteModalClose();
+  };
 
   const onDeleteModalClose = () => {
-    setSelectedRoute(null)
-    setIsDeleteModalOpen(false)
-  }
+    setSelectedRoute(null);
+    setIsDeleteModalOpen(false);
+  };
 
   const onEditIconClicked = (baseRouteId: number) => {
-    const _baseRoute = getRouteFromId(baseRouteId)
+    const _baseRoute = getRouteFromId(baseRouteId);
     if (_baseRoute) {
-      setSelectedRoute(_baseRoute)
-      setCreateRouteModalOpen(true)
+      setSelectedRoute(_baseRoute);
+      setCreateRouteModalOpen(true);
     }
-  }
+  };
 
   const onEditModalClose = () => {
-    setSelectedRoute(null)
-    setCreateRouteModalOpen(false)
-  }
+    setSelectedRoute(null);
+    setCreateRouteModalOpen(false);
+  };
 
-  let content = <Spinner />
+  let content = <Spinner />;
   if (baseRoutesData.isLoaded) {
     content = (
-      <Table size="sm" variant='simple' >
+      <Table size='sm' variant='simple'>
         <Thead>
           <Tr>
             <Th>No.</Th>
@@ -98,7 +105,7 @@ export const BaseRouteList = () => {
             <Th>操作</Th>
           </Tr>
         </Thead>
-        <Tbody >
+        <Tbody>
           {baseRoutesData?.data?.map((baseRoute: IBaseRoute, idx: number) => (
             <Tr
               key={baseRoute.id}
@@ -109,22 +116,30 @@ export const BaseRouteList = () => {
               <Td>{baseRoute.id}</Td>
               <Td>{baseRoute.name}</Td>
               <Td>
-                {baseRoute.garbage.map((_garbage: IGarbage) => _garbage.name).join(', ')}
+                {baseRoute.garbage
+                  .map((_garbage: IGarbage) => _garbage.name)
+                  .join(', ')}
               </Td>
               <Td>{baseRoute.customer?.name ?? '--'}</Td>
               <Td>
                 <HStack>
-                  <Button colorScheme="blue" onClick={(e: any) => {
-                    e.stopPropagation()
-                    onEditIconClicked(baseRoute.id)
-                  }} >
+                  <Button
+                    colorScheme='blue'
+                    onClick={(e: any) => {
+                      e.stopPropagation();
+                      onEditIconClicked(baseRoute.id);
+                    }}
+                  >
                     <MdEdit />
                   </Button>
 
-                  <Button colorScheme="red" onClick={(e: any) => {
-                    e.stopPropagation()
-                    onDeleteIconClicked(baseRoute.id)
-                  }} >
+                  <Button
+                    colorScheme='red'
+                    onClick={(e: any) => {
+                      e.stopPropagation();
+                      onDeleteIconClicked(baseRoute.id);
+                    }}
+                  >
                     <MdDeleteForever />
                   </Button>
                 </HStack>
@@ -133,23 +148,32 @@ export const BaseRouteList = () => {
           ))}
         </Tbody>
       </Table>
-    )
+    );
   }
 
   const onOpen = () => {
-    setSelectedRoute(null)
-    setCreateRouteModalOpen(true)
-  }
+    setSelectedRoute(null);
+    setCreateRouteModalOpen(true);
+  };
 
   return (
-    <Container maxW="container.xl">
-      <HStack marginBottom={5} justifyContent='space-between' >
-        <Heading textAlign='start' >ルート一覧</Heading>
-        <Button onClick={onOpen} >新規作成</Button>
-        <CreateBaseRouteModal baseRoute={selectedRoute} isOpen={isCreateRouteModalOpen} onClose={onEditModalClose} />
+    <Container maxW='container.xl'>
+      <HStack marginBottom={5} justifyContent='space-between'>
+        <Heading textAlign='start'>ルート一覧</Heading>
+        <Button onClick={onOpen}>新規作成</Button>
+        <CreateBaseRouteModal
+          baseRoute={selectedRoute}
+          isOpen={isCreateRouteModalOpen}
+          onClose={onEditModalClose}
+        />
       </HStack>
       {content}
-      <BaseRouteDeleteConfirmationModal onAccept={onDelete} cancelRef={cancelRef} onCancel={onDeleteModalClose} isOpen={isDeleteModalOpen} />
+      <BaseRouteDeleteConfirmationModal
+        onAccept={onDelete}
+        cancelRef={cancelRef}
+        onCancel={onDeleteModalClose}
+        isOpen={isDeleteModalOpen}
+      />
     </Container>
-  )
-}
+  );
+};

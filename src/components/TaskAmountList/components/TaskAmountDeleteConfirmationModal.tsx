@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from 'react';
 import {
   AlertDialog,
   AlertDialogOverlay,
@@ -7,23 +7,26 @@ import {
   AlertDialogFooter,
   AlertDialogBody,
   Button,
-} from "@chakra-ui/react"
-import { ITaskAmountItem } from "../../../models/taskAmountItem"
-import { ITaskAmount } from "../../../models/taskAmount"
-import { TaskAmountTable } from "./TaskAmountTable"
-import { TaskAmountItemTable } from "./TaskAmountItemTable"
+} from '@chakra-ui/react';
+import { ITaskAmountItem } from '../../../models/taskAmountItem';
+import { ITaskAmount } from '../../../models/taskAmount';
+import { TaskAmountTable } from './TaskAmountTable';
+import { TaskAmountItemTable } from './TaskAmountItemTable';
 
 interface TaskAmountDeleteConfirmationModalProps {
-  taskAmountItem?: ITaskAmountItem
-  taskAmount?: ITaskAmount
-  isOpen: boolean
-  cancelRef: any
-  onCancel: () => void
-  onAccept: () => void
+  taskAmountItem?: ITaskAmountItem;
+  taskAmount?: ITaskAmount;
+  isOpen: boolean;
+  cancelRef: any;
+  onCancel: () => void;
+  onAccept: () => void;
 }
 
-export const TaskAmountDeleteConfirmationModal = (props: TaskAmountDeleteConfirmationModalProps) => {
-  const { isOpen, cancelRef, onCancel, onAccept, taskAmount, taskAmountItem } = props
+export const TaskAmountDeleteConfirmationModal = (
+  props: TaskAmountDeleteConfirmationModalProps
+) => {
+  const { isOpen, cancelRef, onCancel, onAccept, taskAmount, taskAmountItem } =
+    props;
 
   return (
     <AlertDialog
@@ -33,23 +36,27 @@ export const TaskAmountDeleteConfirmationModal = (props: TaskAmountDeleteConfirm
     >
       <AlertDialogOverlay>
         <AlertDialogContent>
-          <AlertDialogHeader fontSize="lg" fontWeight="bold">
+          <AlertDialogHeader fontSize='lg' fontWeight='bold'>
             Delete Task Amount ?
           </AlertDialogHeader>
           <AlertDialogBody>
             This functions is irreversible
-            {taskAmountItem ? <TaskAmountItemTable taskAmountItem={taskAmountItem} /> : <TaskAmountTable taskAmount={taskAmount} />}
+            {taskAmountItem ? (
+              <TaskAmountItemTable taskAmountItem={taskAmountItem} />
+            ) : (
+              <TaskAmountTable taskAmount={taskAmount} />
+            )}
           </AlertDialogBody>
           <AlertDialogFooter>
             <Button ref={cancelRef} onClick={onCancel}>
               Cancel
             </Button>
-            <Button colorScheme="red" onClick={onAccept} ml={3}>
+            <Button colorScheme='red' onClick={onAccept} ml={3}>
               Delete
             </Button>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialogOverlay>
     </AlertDialog>
-  )
-}
+  );
+};

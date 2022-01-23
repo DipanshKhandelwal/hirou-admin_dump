@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  Switch,
-  Route,
-  useRouteMatch,
-  Redirect,
-} from 'react-router-dom';
+import { Switch, Route, useRouteMatch, Redirect } from 'react-router-dom';
 import { BaseRouteList } from '../components/BaseRouteList';
 import { CreateBaseRoute } from '../components/CreateBaseRoute';
 
