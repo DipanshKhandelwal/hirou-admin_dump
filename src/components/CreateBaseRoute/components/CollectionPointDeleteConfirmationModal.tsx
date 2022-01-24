@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from 'react';
 import {
   AlertDialog,
   AlertDialogOverlay,
@@ -6,18 +6,20 @@ import {
   AlertDialogHeader,
   AlertDialogFooter,
   AlertDialogBody,
-  Button
-} from "@chakra-ui/react"
+  Button,
+} from '@chakra-ui/react';
 
 interface CollectionPointDeleteConfirmationModalProps {
-  isOpen: boolean
-  cancelRef: any
-  onCancel: () => void
-  onAccept: () => void
+  isOpen: boolean;
+  cancelRef: any;
+  onCancel: () => void;
+  onAccept: () => void;
 }
 
-export const CollectionPointDeleteConfirmationModal = (props: CollectionPointDeleteConfirmationModalProps) => {
-  const { isOpen, cancelRef, onCancel, onAccept } = props
+export const CollectionPointDeleteConfirmationModal = (
+  props: CollectionPointDeleteConfirmationModalProps
+) => {
+  const { isOpen, cancelRef, onCancel, onAccept } = props;
 
   return (
     <AlertDialog
@@ -27,22 +29,20 @@ export const CollectionPointDeleteConfirmationModal = (props: CollectionPointDel
     >
       <AlertDialogOverlay>
         <AlertDialogContent>
-          <AlertDialogHeader fontSize="lg" fontWeight="bold">
+          <AlertDialogHeader fontSize='lg' fontWeight='bold'>
             Delete Collection Point ?
           </AlertDialogHeader>
-          <AlertDialogBody>
-            This functions is irreversible
-          </AlertDialogBody>
+          <AlertDialogBody>This functions is irreversible</AlertDialogBody>
           <AlertDialogFooter>
             <Button ref={cancelRef} onClick={onCancel}>
               Cancel
             </Button>
-            <Button colorScheme="red" onClick={onAccept} ml={3}>
+            <Button colorScheme='red' onClick={onAccept} ml={3}>
               Delete
             </Button>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialogOverlay>
     </AlertDialog>
-  )
-}
+  );
+};

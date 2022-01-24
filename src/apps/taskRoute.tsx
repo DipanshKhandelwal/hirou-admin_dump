@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  Switch,
-  Route,
-  useRouteMatch,
-  Redirect,
-} from 'react-router-dom';
+import { Switch, Route, useRouteMatch, Redirect } from 'react-router-dom';
 import { TaskRouteList } from '../components/TaskRouteList';
 import { TaskRouteDetail } from '../components/TaskRouteDetail';
 import { CreateTaskRoute } from '../components/CreateTaskRoute';

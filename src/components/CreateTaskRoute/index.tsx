@@ -3,7 +3,7 @@ import { Box, Flex, Center, Text, useToast } from '@chakra-ui/react';
 
 import { getTaskRoute } from '../../services/apiRequests/taskRoute';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { TaskCollectionPointListItem } from './components/TaskCollectionPointListItem';
 import TaskRouteMap from './components/TaskRouteMap';
 import { useParams } from 'react-router-dom';
@@ -16,12 +16,15 @@ import {
 } from '../../constants/urls';
 import { ITaskCollection } from '../../models/taskCollection';
 import { hirouAxios } from '../../services/httpInstance';
+import { TaskCollectionPointDetailModal } from '../TaskCollectionPointDetailModal';
 
 // TODO: Connect socket
 export const CreateTaskRoute = () => {
   const [localCollectionPoints, setLocalCollectionPoints] = useState<
     ITaskCollectionPoint[]
   >([]);
+  const [selectedTaskCollectionPoint, setSelectedTaskCollectionPoint] =
+    useState<ITaskCollectionPoint | null>(null);
   const toast = useToast();
 
   const [route, setRoute] = useState<ITaskRoute | null>(null);
@@ -132,6 +135,7 @@ export const CreateTaskRoute = () => {
           toggleTask={onToggleTask}
           key={taskCollectionPoint.id}
           taskCollectionPoint={taskCollectionPoint}
+          onSelect={() => setSelectedTaskCollectionPoint(taskCollectionPoint)}
           onClickPoint={onClickPoint}
         />
       );
@@ -154,6 +158,10 @@ export const CreateTaskRoute = () => {
           setLocationFocus={setLocationFocus}
         />
       </Center>
+      <TaskCollectionPointDetailModal
+        onClose={() => setSelectedTaskCollectionPoint(null)}
+        taskCollectionPoint={selectedTaskCollectionPoint}
+      />
     </Flex>
   );
 };

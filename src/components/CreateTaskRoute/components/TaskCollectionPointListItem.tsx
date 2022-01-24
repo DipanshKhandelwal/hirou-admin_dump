@@ -4,6 +4,8 @@ import { FaCheck } from 'react-icons/fa';
 import { ITaskCollectionPoint } from '../../../models/taskCollectionPoint';
 import { ITaskCollection } from '../../../models/taskCollection';
 import useOnScreen from '../../../utils/useOnScreen';
+import { _isAdmin } from '../../../store/selectors/App';
+import { useSelector } from 'react-redux';
 
 interface TaskCollectionPointListItemProps {
   isSelected: boolean;
@@ -11,6 +13,7 @@ interface TaskCollectionPointListItemProps {
   toggleTask: (taskCollection: ITaskCollection, tcpId: number) => void;
   toggleAllTasks: () => void;
   onClickPoint: () => void;
+  onSelect: () => void;
 }
 
 function getCompleteStatus(collectionPoint: ITaskCollectionPoint) {
@@ -33,6 +36,7 @@ export const TaskCollectionPointListItem = (
     toggleTask,
     toggleAllTasks,
     onClickPoint,
+    onSelect,
   } = props;
 
   const refTaskPoint = React.useRef(null);
@@ -42,12 +46,61 @@ export const TaskCollectionPointListItem = (
     toggleTask(taskCollection, collectionPoint.id);
 
   const complete = getCompleteStatus(collectionPoint);
+  const isAdmin: boolean = useSelector(_isAdmin);
 
   React.useEffect(() => {
     if (!isVisible && isSelected && refTaskPoint.current) {
       (refTaskPoint.current as Element).scrollIntoView();
     }
   }, [isVisible, isSelected, refTaskPoint]);
+
+  const onItemClick = () => !isAdmin && onSelect();
+
+  let toggleAllButton = null;
+  let toggleGarbageButtons = collectionPoint.task_collection.map(
+    (taskCollection) => (
+      <Button
+        key={taskCollection.id}
+        m={0.5}
+        fontSize={10}
+        h={8}
+        p={0}
+        variant={taskCollection.complete ? 'solid' : 'outline'}
+      >
+        {taskCollection.garbage.name}
+      </Button>
+    )
+  );
+  if (isAdmin) {
+    toggleAllButton = (
+      <VStack p={1}>
+        <Button
+          variant={complete ? 'solid' : 'outline'}
+          colorScheme='blue'
+          size='xs'
+          onClick={toggleAll}
+        >
+          <FaCheck />
+        </Button>
+      </VStack>
+    );
+
+    toggleGarbageButtons = collectionPoint.task_collection.map(
+      (taskCollection) => (
+        <Button
+          key={taskCollection.id}
+          onClick={() => toggleCollection(taskCollection)}
+          m={0.5}
+          fontSize={10}
+          h={8}
+          p={0}
+          variant={taskCollection.complete ? 'solid' : 'outline'}
+        >
+          {taskCollection.garbage.name}
+        </Button>
+      )
+    );
+  }
 
   return (
     <Box
@@ -59,6 +112,8 @@ export const TaskCollectionPointListItem = (
       userSelect='none'
       backgroundColor={isSelected ? 'gray.300' : 'white'}
       ref={refTaskPoint}
+      cursor='pointer'
+      onClick={onItemClick}
     >
       <HStack align='flex-start'>
         <Image
@@ -82,32 +137,9 @@ export const TaskCollectionPointListItem = (
           <Text textAlign='left'>{collectionPoint.memo}</Text>
         </VStack>
 
-        <VStack p={1}>
-          <Button
-            variant={complete ? 'solid' : 'outline'}
-            colorScheme='blue'
-            size='xs'
-            onClick={toggleAll}
-          >
-            <FaCheck />
-          </Button>
-        </VStack>
+        {toggleAllButton}
       </HStack>
-      <div>
-        {collectionPoint.task_collection.map((taskCollection) => (
-          <Button
-            key={taskCollection.id}
-            onClick={() => toggleCollection(taskCollection)}
-            m={0.5}
-            fontSize={10}
-            h={8}
-            p={0}
-            variant={taskCollection.complete ? 'solid' : 'outline'}
-          >
-            {taskCollection.garbage.name}
-          </Button>
-        ))}
-      </div>
+      <div>{toggleGarbageButtons}</div>
     </Box>
   );
 };

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Container } from '@chakra-ui/react';
 import { Map, Marker, GoogleApiWrapper, InfoWindow } from 'google-maps-react';
-import { Box, Text, Image, HStack, VStack, Button } from '@chakra-ui/react';
+import { Text, HStack, VStack } from '@chakra-ui/react';
 import { GOOGLE_MAPS_API_TOKEN } from '../../../../constants/mapbox';
 import { ITaskRoute } from '../../../../models/taskRoute';
 import { ITaskCollectionPoint } from '../../../../models/taskCollectionPoint';
@@ -156,16 +156,18 @@ const TaskRouteMap = (props: TaskRouteMapProps) => {
       p={0}
     >
       <GoogleProvider onChange={(google: any) => setGoogle(google)} />
-      <Map
-        google={google}
-        initialCenter={{ lat: viewport.latitude, lng: viewport.longitude }}
-        center={{ lat: viewport.latitude, lng: viewport.longitude }}
-        zoom={viewport.zoom}
-        onClick={onInfoWindowClose}
-      >
-        {markersView}
-        {infoWindowView}
-      </Map>
+      {google && (
+        <Map
+          google={google}
+          initialCenter={{ lat: viewport.latitude, lng: viewport.longitude }}
+          center={{ lat: viewport.latitude, lng: viewport.longitude }}
+          zoom={viewport.zoom}
+          onClick={onInfoWindowClose}
+        >
+          {markersView}
+          {infoWindowView}
+        </Map>
+      )}
     </Container>
   );
 };
