@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { ICollectionPoint } from '../../../../models/collectionPoint';
 import { UpdateConfirmationModal } from '../UpdateConfirmationModal';
 import { useRef } from 'react';
@@ -6,42 +6,44 @@ import { Marker as Mapmarker } from 'google-maps-react';
 import MarkerIcon from '../../../../assets/border.svg';
 
 interface MarkerProps {
-  marker: any
-  index: number
-  updateCollectionPointCoordinates: (cp: ICollectionPoint, newCoordinates: any) => void
+  marker: any;
+  index: number;
+  updateCollectionPointCoordinates: (
+    cp: ICollectionPoint,
+    newCoordinates: any
+  ) => void;
 }
 
 export default function Marker(props: MarkerProps) {
-  const { marker, index, updateCollectionPointCoordinates, google } = props
+  const { marker, index, updateCollectionPointCoordinates, google } = props;
 
-  const cancelRef = useRef()
+  const cancelRef = useRef();
 
-  const [location, setLocation] = React.useState(marker)
-  const [isOpen, setIsOpen] = React.useState(false)
+  const [location, setLocation] = React.useState(marker);
+  const [isOpen, setIsOpen] = React.useState(false);
 
   const onUpdate = () => {
     try {
       updateCollectionPointCoordinates(marker.cp, {
         longitude: location.longitude,
-        latitude: location.latitude
-      })
+        latitude: location.latitude,
+      });
       setIsOpen(false);
-    }
-    catch (e) { }
-  }
+    } catch (e) {}
+  };
 
   const onCancel = () => {
     setLocation(marker);
     setIsOpen(false);
-  }
+  };
 
   const handleCpDrag = (props: any, marker: any, e: any) => {
     setLocation({
       longitude: e.latLng.lng(),
-      latitude: e.latLng.lat()
-    })
-    setIsOpen(true)
-  }
+      latitude: e.latLng.lat(),
+    });
+    setIsOpen(true);
+  };
 
   if (!google) return null;
 
@@ -61,7 +63,12 @@ export default function Marker(props: MarkerProps) {
           scaledSize: new google.maps.Size(20, 20),
         }}
       />
-      <UpdateConfirmationModal cancelRef={cancelRef} onAccept={onUpdate} onCancel={onCancel} isOpen={isOpen} />
+      <UpdateConfirmationModal
+        cancelRef={cancelRef}
+        onAccept={onUpdate}
+        onCancel={onCancel}
+        isOpen={isOpen}
+      />
     </>
   );
 }

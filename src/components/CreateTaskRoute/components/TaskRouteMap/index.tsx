@@ -156,8 +156,8 @@ const TaskRouteMap = (props: TaskRouteMapProps) => {
       p={0}
     >
       <GoogleProvider onChange={(google: any) => setGoogle(google)} />
-      {
-        google && <Map
+      {google && (
+        <Map
           google={google}
           initialCenter={{ lat: viewport.latitude, lng: viewport.longitude }}
           center={{ lat: viewport.latitude, lng: viewport.longitude }}
@@ -167,8 +167,7 @@ const TaskRouteMap = (props: TaskRouteMapProps) => {
           {markersView}
           {infoWindowView}
         </Map>
-      }
-
+      )}
     </Container>
   );
 };

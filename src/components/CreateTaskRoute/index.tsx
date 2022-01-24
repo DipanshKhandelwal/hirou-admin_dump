@@ -16,14 +16,15 @@ import {
 } from '../../constants/urls';
 import { ITaskCollection } from '../../models/taskCollection';
 import { hirouAxios } from '../../services/httpInstance';
-import { TaskCollectionPointDetailModal } from "../TaskCollectionPointDetailModal"
+import { TaskCollectionPointDetailModal } from '../TaskCollectionPointDetailModal';
 
 // TODO: Connect socket
 export const CreateTaskRoute = () => {
   const [localCollectionPoints, setLocalCollectionPoints] = useState<
     ITaskCollectionPoint[]
   >([]);
-  const [selectedTaskCollectionPoint, setSelectedTaskCollectionPoint] = useState<ITaskCollectionPoint | null>(null);
+  const [selectedTaskCollectionPoint, setSelectedTaskCollectionPoint] =
+    useState<ITaskCollectionPoint | null>(null);
   const toast = useToast();
 
   const [route, setRoute] = useState<ITaskRoute | null>(null);
@@ -157,7 +158,10 @@ export const CreateTaskRoute = () => {
           setLocationFocus={setLocationFocus}
         />
       </Center>
-      <TaskCollectionPointDetailModal onClose={() => setSelectedTaskCollectionPoint(null)} taskCollectionPoint={selectedTaskCollectionPoint} />
+      <TaskCollectionPointDetailModal
+        onClose={() => setSelectedTaskCollectionPoint(null)}
+        taskCollectionPoint={selectedTaskCollectionPoint}
+      />
     </Flex>
   );
 };
