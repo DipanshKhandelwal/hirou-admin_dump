@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from 'react';
 import {
   AlertDialog,
   AlertDialogOverlay,
@@ -6,18 +6,20 @@ import {
   AlertDialogHeader,
   AlertDialogFooter,
   AlertDialogBody,
-  Button
-} from "@chakra-ui/react"
+  Button,
+} from '@chakra-ui/react';
 
 interface UpdateConfirmationModalProps {
-  isOpen: boolean
-  cancelRef: any
-  onCancel: () => void
-  onAccept: () => void
+  isOpen: boolean;
+  cancelRef: any;
+  onCancel: () => void;
+  onAccept: () => void;
 }
 
-export const UpdateConfirmationModal = (props: UpdateConfirmationModalProps) => {
-  const { isOpen, cancelRef, onCancel, onAccept } = props
+export const UpdateConfirmationModal = (
+  props: UpdateConfirmationModalProps
+) => {
+  const { isOpen, cancelRef, onCancel, onAccept } = props;
 
   return (
     <AlertDialog
@@ -27,22 +29,20 @@ export const UpdateConfirmationModal = (props: UpdateConfirmationModalProps) => 
     >
       <AlertDialogOverlay>
         <AlertDialogContent>
-          <AlertDialogHeader fontSize="lg" fontWeight="bold">
+          <AlertDialogHeader fontSize='lg' fontWeight='bold'>
             Update sequence
           </AlertDialogHeader>
-          <AlertDialogBody>
-            Are you sure?
-          </AlertDialogBody>
+          <AlertDialogBody>Are you sure?</AlertDialogBody>
           <AlertDialogFooter>
             <Button ref={cancelRef} onClick={onCancel}>
               Cancel
             </Button>
-            <Button colorScheme="green" onClick={onAccept} ml={3}>
+            <Button colorScheme='green' onClick={onAccept} ml={3}>
               Update
             </Button>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialogOverlay>
     </AlertDialog>
-  )
-}
+  );
+};

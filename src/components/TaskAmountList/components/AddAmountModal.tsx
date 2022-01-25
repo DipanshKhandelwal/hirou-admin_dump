@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect } from 'react';
 import {
   Modal,
   InputLeftElement,
@@ -16,51 +16,51 @@ import {
   FormErrorMessage,
   useToast,
   Select,
-} from "@chakra-ui/react"
+} from '@chakra-ui/react';
 import { Formik, Field } from 'formik';
-import { RiRouteFill, } from "react-icons/ri";
-import { ITaskRoute } from "../../../models/taskRoute";
-import { handleFetchUpdatedTaskRoute } from "../../../store/thunks/TaskRoute";
-import { getVehicles } from "../../../services/apiRequests/vehicles";
-import { IVehicle } from "../../../models/vehicle";
-import { ITaskAmount } from "../../../models/taskAmount";
-import { addTaskAmount, editTaskAmount } from "../../../services/apiRequests/taskAmounts";
+import { RiRouteFill } from 'react-icons/ri';
+import { ITaskRoute } from '../../../models/taskRoute';
+import { handleFetchUpdatedTaskRoute } from '../../../store/thunks/TaskRoute';
+import { getVehicles } from '../../../services/apiRequests/vehicles';
+import { IVehicle } from '../../../models/vehicle';
+import { ITaskAmount } from '../../../models/taskAmount';
+import {
+  addTaskAmount,
+  editTaskAmount,
+} from '../../../services/apiRequests/taskAmounts';
 
 interface AddAmountModalProps {
-  taskRoute: ITaskRoute
-  selectedTaskAmount?: ITaskAmount
-  isOpen: boolean
-  onClose: () => void
+  taskRoute: ITaskRoute;
+  selectedTaskAmount?: ITaskAmount;
+  isOpen: boolean;
+  onClose: () => void;
 }
 
 export const AddAmountModal = (props: AddAmountModalProps) => {
-  const [vehiclesList, setVehiclesList] = useState<IVehicle[]>([])
+  const [vehiclesList, setVehiclesList] = useState<IVehicle[]>([]);
 
-  const toast = useToast()
-  const { isOpen, onClose, taskRoute, selectedTaskAmount } = props
+  const toast = useToast();
+  const { isOpen, onClose, taskRoute, selectedTaskAmount } = props;
 
   useEffect(() => {
     async function getAllVehicles() {
       try {
         const _vehiclesList = await getVehicles();
-        setVehiclesList(_vehiclesList)
+        setVehiclesList(_vehiclesList);
       } catch (e) {
         toast({
-          title: "Error fetching vehicles",
-          description: "please try again",
-          status: "error",
-        })
+          title: 'Error fetching vehicles',
+          description: 'please try again',
+          status: 'error',
+        });
       }
     }
 
-    getAllVehicles()
-  }, [toast])
+    getAllVehicles();
+  }, [toast]);
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onClose={onClose}
-    >
+    <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Add task amount</ModalHeader>
@@ -74,7 +74,7 @@ export const AddAmountModal = (props: AddAmountModalProps) => {
             work_type: selectedTaskAmount?.work_type ?? '',
           }}
           validate={(values) => {
-            const errors: any = {}
+            const errors: any = {};
             if (values.vehicle === '') {
               errors.vehicle = 'Required, please select a vehicle';
             }
@@ -91,39 +91,37 @@ export const AddAmountModal = (props: AddAmountModalProps) => {
           }}
           onSubmit={async (values, { setSubmitting }) => {
             try {
-              const formData = new FormData()
-              formData.append('route', String(taskRoute.id))
-              formData.append('memo', values.memo)
-              formData.append('vehicle', String(values.vehicle))
-              formData.append('deal_type', String(values.deal_type))
-              formData.append('work_type', String(values.work_type))
+              const formData = new FormData();
+              formData.append('route', String(taskRoute.id));
+              formData.append('memo', values.memo);
+              formData.append('vehicle', String(values.vehicle));
+              formData.append('deal_type', String(values.deal_type));
+              formData.append('work_type', String(values.work_type));
 
               if (selectedTaskAmount) {
-                await editTaskAmount(selectedTaskAmount.id, formData)
+                await editTaskAmount(selectedTaskAmount.id, formData);
                 toast({
-                  title: "Updated task amount",
-                  description: "",
-                  status: "success",
-                })
-              }
-              else {
-                await addTaskAmount(formData)
+                  title: 'Updated task amount',
+                  description: '',
+                  status: 'success',
+                });
+              } else {
+                await addTaskAmount(formData);
                 toast({
-                  title: "Added task amount",
-                  description: "",
-                  status: "success",
-                })
+                  title: 'Added task amount',
+                  description: '',
+                  status: 'success',
+                });
               }
-              handleFetchUpdatedTaskRoute(taskRoute.id)
-              onClose()
-            }
-            catch (e) {
-              console.log("e", e)
+              handleFetchUpdatedTaskRoute(taskRoute.id);
+              onClose();
+            } catch (e) {
+              console.log('e', e);
               toast({
-                title: "Error adding amount",
-                description: "please check the credentials",
-                status: "error",
-              })
+                title: 'Error adding amount',
+                description: 'please check the credentials',
+                status: 'error',
+              });
             }
             setSubmitting(false);
           }}
@@ -136,87 +134,111 @@ export const AddAmountModal = (props: AddAmountModalProps) => {
             handleBlur,
             handleSubmit,
             isSubmitting,
-            setFieldValue
+            setFieldValue,
           }) => (
             <form onSubmit={handleSubmit}>
               <ModalBody pb={6}>
-                <FormControl id="vehicle" isInvalid={!!(errors.vehicle && touched.vehicle)} >
-                  <FormLabel htmlFor="vehicle" >Vehicle</FormLabel>
-                  <InputGroup marginY={2} >
-                    <Field name="vehicle" >
-                      {({ field, form }: { field: any, form: any }) => (
-                        <Select {...field} placeholder="Select vehicle" id="vehicle" name="vehicle" >
+                <FormControl
+                  id='vehicle'
+                  isInvalid={!!(errors.vehicle && touched.vehicle)}
+                >
+                  <FormLabel htmlFor='vehicle'>Vehicle</FormLabel>
+                  <InputGroup marginY={2}>
+                    <Field name='vehicle'>
+                      {({ field, form }: { field: any; form: any }) => (
+                        <Select
+                          {...field}
+                          placeholder='Select vehicle'
+                          id='vehicle'
+                          name='vehicle'
+                        >
                           {vehiclesList.map((vehicleItem: IVehicle) => (
-                            <option key={vehicleItem.id} value={vehicleItem.id} >{vehicleItem.registration_number}</option>
+                            <option key={vehicleItem.id} value={vehicleItem.id}>
+                              {vehicleItem.registration_number}
+                            </option>
                           ))}
                         </Select>
                       )}
                     </Field>
                   </InputGroup>
-                  <FormErrorMessage>{errors.vehicle && touched.vehicle}</FormErrorMessage>
+                  <FormErrorMessage>
+                    {errors.vehicle && touched.vehicle}
+                  </FormErrorMessage>
                 </FormControl>
 
-                <FormControl isInvalid={!!(errors.deal_type && touched.deal_type)}>
-                  <FormLabel htmlFor="deal_type" >Deal Type</FormLabel>
-                  <InputGroup marginY={2} >
+                <FormControl
+                  isInvalid={!!(errors.deal_type && touched.deal_type)}
+                >
+                  <FormLabel htmlFor='deal_type'>Deal Type</FormLabel>
+                  <InputGroup marginY={2}>
                     <InputLeftElement
-                      pointerEvents="none"
-                      children={<RiRouteFill color="gray.300" />}
+                      pointerEvents='none'
+                      children={<RiRouteFill color='gray.300' />}
                     />
                     <Input
                       value={values.deal_type}
-                      type="deal_type"
-                      name="deal_type"
+                      type='deal_type'
+                      name='deal_type'
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      placeholder="deal_type"
-                      size="md" />
+                      placeholder='deal_type'
+                      size='md'
+                    />
                   </InputGroup>
                   <FormErrorMessage>{errors.deal_type}</FormErrorMessage>
                 </FormControl>
 
-                <FormControl isInvalid={!!(errors.work_type && touched.work_type)}>
-                  <FormLabel htmlFor="work_type" >Work Type</FormLabel>
-                  <InputGroup marginY={2} >
+                <FormControl
+                  isInvalid={!!(errors.work_type && touched.work_type)}
+                >
+                  <FormLabel htmlFor='work_type'>Work Type</FormLabel>
+                  <InputGroup marginY={2}>
                     <InputLeftElement
-                      pointerEvents="none"
-                      children={<RiRouteFill color="gray.300" />}
+                      pointerEvents='none'
+                      children={<RiRouteFill color='gray.300' />}
                     />
                     <Input
                       value={values.work_type}
-                      type="work_type"
-                      name="work_type"
+                      type='work_type'
+                      name='work_type'
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      placeholder="work_type"
-                      size="md" />
+                      placeholder='work_type'
+                      size='md'
+                    />
                   </InputGroup>
                   <FormErrorMessage>{errors.work_type}</FormErrorMessage>
                 </FormControl>
 
                 <FormControl isInvalid={!!(errors.memo && touched.memo)}>
-                  <FormLabel htmlFor="memo" >Memo</FormLabel>
-                  <InputGroup marginY={2} >
+                  <FormLabel htmlFor='memo'>Memo</FormLabel>
+                  <InputGroup marginY={2}>
                     <InputLeftElement
-                      pointerEvents="none"
-                      children={<RiRouteFill color="gray.300" />}
+                      pointerEvents='none'
+                      children={<RiRouteFill color='gray.300' />}
                     />
                     <Input
                       value={values.memo}
-                      type="memo"
-                      name="memo"
+                      type='memo'
+                      name='memo'
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      placeholder="memo"
-                      size="md" />
+                      placeholder='memo'
+                      size='md'
+                    />
                   </InputGroup>
                   <FormErrorMessage>{errors.memo}</FormErrorMessage>
                 </FormControl>
-
               </ModalBody>
               <ModalFooter>
-                <Button disabled={isSubmitting} onClick={onClose} mr={3}>Cancel</Button>
-                <Button disabled={isSubmitting} type="submit" colorScheme="green" >
+                <Button disabled={isSubmitting} onClick={onClose} mr={3}>
+                  Cancel
+                </Button>
+                <Button
+                  disabled={isSubmitting}
+                  type='submit'
+                  colorScheme='green'
+                >
                   Save
                 </Button>
               </ModalFooter>
@@ -224,6 +246,6 @@ export const AddAmountModal = (props: AddAmountModalProps) => {
           )}
         </Formik>
       </ModalContent>
-    </Modal >
-  )
-}
+    </Modal>
+  );
+};

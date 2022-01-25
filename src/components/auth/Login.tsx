@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   VStack,
   Container,
@@ -7,34 +7,34 @@ import {
   InputLeftElement,
   Button,
   InputGroup,
-  useToast
-} from "@chakra-ui/react";
+  useToast,
+} from '@chakra-ui/react';
 import { Formik } from 'formik';
-import { Logo } from "../../components/common/Logo"
-import { AiOutlineUser } from "react-icons/ai";
-import { RiLock2Line } from "react-icons/ri";
-import { handleLogin } from "../../store/thunks/App";
-import { IUser } from "../../models/user";
-import { useSelector } from "react-redux";
-import { _user } from "../../store/selectors/App";
-import { Redirect } from "react-router-dom";
-import Footer from "../common/Footer";
+import { Logo } from '../../components/common/Logo';
+import { AiOutlineUser } from 'react-icons/ai';
+import { RiLock2Line } from 'react-icons/ri';
+import { handleLogin } from '../../store/thunks/App';
+import { IUser } from '../../models/user';
+import { useSelector } from 'react-redux';
+import { _user } from '../../store/selectors/App';
+import { Redirect } from 'react-router-dom';
+import Footer from '../common/Footer';
 
 const Login = () => {
-  const toast = useToast()
+  const toast = useToast();
 
-  const user: IUser = useSelector(_user)
+  const user: IUser = useSelector(_user);
 
-  const initialFormValues = { username: '', password: '' }
+  const initialFormValues = { username: '', password: '' };
 
   if (user) {
-    return <Redirect to='home' />
+    return <Redirect to='home' />;
   }
 
   return (
     <VStack spacing={8} padding={10}>
-      <Logo h="7vmin" pointerEvents="none" />
-      <Container maxW="container.sm" padding={20} >
+      <Logo h='7vmin' pointerEvents='none' />
+      <Container maxW='container.sm' padding={20}>
         <Stack spacing={3}>
           <Formik
             initialValues={initialFormValues}
@@ -42,20 +42,19 @@ const Login = () => {
               try {
                 await handleLogin({
                   username: values.username,
-                  password: values.password
-                })
+                  password: values.password,
+                });
                 toast({
-                  title: "Login successful",
-                  description: "",
-                  status: "success",
-                })
-              }
-              catch (e) {
+                  title: 'Login successful',
+                  description: '',
+                  status: 'success',
+                });
+              } catch (e) {
                 toast({
-                  title: "Error",
-                  description: "please check the credentials",
-                  status: "error",
-                })
+                  title: 'Error',
+                  description: 'please check the credentials',
+                  status: 'error',
+                });
               }
               setSubmitting(false);
             }}
@@ -70,33 +69,41 @@ const Login = () => {
               isSubmitting,
             }) => (
               <form onSubmit={handleSubmit}>
-                <InputGroup margin={2} >
+                <InputGroup margin={2}>
                   <InputLeftElement
-                    pointerEvents="none"
-                    children={<AiOutlineUser color="gray.300" />}
+                    pointerEvents='none'
+                    children={<AiOutlineUser color='gray.300' />}
                   />
                   <Input
-                    type="username"
-                    name="username"
+                    type='username'
+                    name='username'
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    value={values.username} placeholder="username" size="md" />
+                    value={values.username}
+                    placeholder='username'
+                    size='md'
+                  />
                 </InputGroup>
                 {errors.username && touched.username && errors.username}
-                <InputGroup margin={2} >
+                <InputGroup margin={2}>
                   <InputLeftElement
-                    pointerEvents="none"
-                    children={<RiLock2Line color="gray.300" />}
+                    pointerEvents='none'
+                    children={<RiLock2Line color='gray.300' />}
                   />
                   <Input
                     value={values.password}
-                    type="password"
-                    name="password"
+                    type='password'
+                    name='password'
                     onChange={handleChange}
-                    onBlur={handleBlur} placeholder="password" size="md" />
+                    onBlur={handleBlur}
+                    placeholder='password'
+                    size='md'
+                  />
                 </InputGroup>
                 {errors.password && touched.password && errors.password}
-                <Button variant="outline" type="submit" disabled={isSubmitting} >ログイン</Button>
+                <Button variant='outline' type='submit' disabled={isSubmitting}>
+                  ログイン
+                </Button>
               </form>
             )}
           </Formik>
