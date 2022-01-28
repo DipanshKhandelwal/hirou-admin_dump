@@ -12,7 +12,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { ITaskCollectionPoint } from '../../models/taskCollectionPoint';
-import { ImCheckmark, ImCross } from 'react-icons/im';
+import { ImCheckmark, ImRadioChecked } from 'react-icons/im';
 
 interface TaskCollectionPointDetailModalProps {
   onClose: () => void;
@@ -27,26 +27,43 @@ export const TaskCollectionPointDetailModal = (
   let content = null;
 
   if (taskCollectionPoint) {
-    content = taskCollectionPoint.task_collection.map((taskCollection) => (
-      <HStack
-        justifyContent='space-between'
-        my={3}
-        key={taskCollection.id}
-        onClick={() => console.log('a', taskCollection)}
-      >
-        <HStack>
-          <Text>{taskCollection.garbage.name}</Text>
-          {!!taskCollection.complete ? (
-            <ImCheckmark color='green' />
-          ) : (
-            <ImCross color='red' />
+    content = taskCollectionPoint.task_collection.map((taskCollection) => {
+      let dateTimeJapanese = '';
+      if (taskCollection.complete && taskCollection.timestamp) {
+        const dateJapan = new Date(taskCollection.timestamp);
+        const options = {
+          weekday: 'long',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        } as any;
+
+        dateTimeJapanese = dateJapan.toLocaleDateString(
+          'ja-JP-u-ca-japanese',
+          options
+        );
+      }
+      return (
+        <HStack
+          justifyContent='space-between'
+          my={3}
+          key={taskCollection.id}
+          onClick={() => console.log('a', taskCollection)}
+        >
+          <HStack>
+            <Text>{taskCollection.garbage.name}</Text>
+            {!!taskCollection.complete ? (
+              <ImCheckmark color='green' />
+            ) : (
+              <ImRadioChecked color='#FFB81D' />
+            )}
+          </HStack>
+          {!!taskCollection.complete && (
+            <Text fontSize='medium'>{dateTimeJapanese}</Text>
           )}
         </HStack>
-        {!!taskCollection.complete && (
-          <Text fontSize='medium'>{taskCollection.timestamp}</Text>
-        )}
-      </HStack>
-    ));
+      );
+    });
   }
 
   return (
@@ -55,7 +72,12 @@ export const TaskCollectionPointDetailModal = (
       <ModalContent>
         <ModalHeader>{taskCollectionPoint?.name}</ModalHeader>
         <ModalBody>
-          <Center>
+          <Center
+            borderWidth='2px'
+            borderColor='red.400'
+            borderStyle='solid'
+            borderRadius='5px'
+          >
             <Image
               cursor='pointer'
               boxSize='120px'
