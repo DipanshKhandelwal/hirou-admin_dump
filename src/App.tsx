@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { Fragment, useEffect, useMemo } from 'react';
 import {
   ChakraProvider,
   Box,
@@ -13,6 +13,7 @@ import { _isAdmin, _user } from './store/selectors/App';
 import { IUser } from './models/user';
 import { checkLogin } from './store/thunks/App';
 import Home from './components/home';
+import { PageLayout } from './components/layout';
 
 import {
   BrowserRouter as Router,
@@ -23,7 +24,6 @@ import {
 import BaseRoute from './apps/baseRoute';
 import TaskRoute from './apps/taskRoute';
 import { navigationRef } from './services/navigation';
-import { useMemo } from 'react';
 import PrivacyPolicy from './apps/privacyPolicy';
 import routes from './constants/routes';
 
@@ -115,12 +115,16 @@ export const App = () => {
   return (
     <ChakraProvider theme={customTheme}>
       <Router ref={navigationRef}>
-        <Header user={user} />
-        <Box textAlign='center' fontSize='xl'>
-          <Grid height='90vh' p={3}>
-            {mainApp}
-          </Grid>
-        </Box>
+        <PageLayout>
+          <Fragment>
+            <Header user={user} />
+            <Box textAlign='center' fontSize='xl'>
+              <Grid height='90vh' p={3}>
+                {mainApp}
+              </Grid>
+            </Box>
+          </Fragment>
+        </PageLayout>
       </Router>
     </ChakraProvider>
   );
