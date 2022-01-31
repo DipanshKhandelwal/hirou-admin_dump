@@ -13,6 +13,7 @@ import {
 } from '@chakra-ui/react';
 import { ITaskCollectionPoint } from '../../models/taskCollectionPoint';
 import { ImCheckmark, ImClock } from 'react-icons/im';
+import { getJapaneseDateString } from '../../utils/date';
 
 interface TaskCollectionPointDetailModalProps {
   onClose: () => void;
@@ -30,18 +31,7 @@ export const TaskCollectionPointDetailModal = (
     content = taskCollectionPoint.task_collection.map((taskCollection) => {
       let dateTimeJapanese = '';
       if (taskCollection.complete && taskCollection.timestamp) {
-        const dateJapan = new Date(taskCollection.timestamp);
-        const options = {
-          weekday: 'long',
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-        } as any;
-
-        dateTimeJapanese = dateJapan.toLocaleDateString(
-          'ja-JP-u-ca-japanese',
-          options
-        );
+        dateTimeJapanese = getJapaneseDateString(taskCollection.timestamp)
       }
       return (
         <HStack
