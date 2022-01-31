@@ -12,7 +12,8 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { ITaskCollectionPoint } from '../../models/taskCollectionPoint';
-import { ImCheckmark, ImCross } from 'react-icons/im';
+import { ImCheckmark, ImClock } from 'react-icons/im';
+import { getJapaneseDateString } from '../../utils/date';
 
 interface TaskCollectionPointDetailModalProps {
   onClose: () => void;
@@ -27,26 +28,32 @@ export const TaskCollectionPointDetailModal = (
   let content = null;
 
   if (taskCollectionPoint) {
-    content = taskCollectionPoint.task_collection.map((taskCollection) => (
-      <HStack
-        justifyContent='space-between'
-        my={3}
-        key={taskCollection.id}
-        onClick={() => console.log('a', taskCollection)}
-      >
-        <HStack>
-          <Text>{taskCollection.garbage.name}</Text>
-          {!!taskCollection.complete ? (
-            <ImCheckmark color='green' />
-          ) : (
-            <ImCross color='red' />
+    content = taskCollectionPoint.task_collection.map((taskCollection) => {
+      let dateTimeJapanese = '';
+      if (taskCollection.complete && taskCollection.timestamp) {
+        dateTimeJapanese = getJapaneseDateString(taskCollection.timestamp)
+      }
+      return (
+        <HStack
+          justifyContent='space-between'
+          my={3}
+          key={taskCollection.id}
+          onClick={() => console.log('a', taskCollection)}
+        >
+          <HStack>
+            <Text>{taskCollection.garbage.name}</Text>
+            {!!taskCollection.complete ? (
+              <ImCheckmark color='green' />
+            ) : (
+              <ImClock color='#FFB81D' />
+            )}
+          </HStack>
+          {!!taskCollection.complete && (
+            <Text fontSize='medium'>{dateTimeJapanese}</Text>
           )}
         </HStack>
-        {!!taskCollection.complete && (
-          <Text fontSize='medium'>{taskCollection.timestamp}</Text>
-        )}
-      </HStack>
-    ));
+      );
+    });
   }
 
   return (
@@ -55,12 +62,15 @@ export const TaskCollectionPointDetailModal = (
       <ModalContent>
         <ModalHeader>{taskCollectionPoint?.name}</ModalHeader>
         <ModalBody>
-          <Center>
+          <Center >
             <Image
               cursor='pointer'
               boxSize='120px'
               borderRadius={5}
               objectFit='cover'
+              borderWidth='2px'
+              borderColor='black'
+              borderStyle='solid'
               src={
                 taskCollectionPoint?.image ?? 'https://via.placeholder.com/150'
               }

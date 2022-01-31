@@ -33,7 +33,7 @@ const TaskRouteMap = (props: TaskRouteMapProps) => {
       setViewport({
         latitude: Number(lat),
         longitude: Number(lng),
-        zoom: 24,
+        zoom: 16,
       });
     }
   }, [locationFocus]);
@@ -76,13 +76,13 @@ const TaskRouteMap = (props: TaskRouteMapProps) => {
       setActiveMarker(activeMarker);
       setShowingInfoWindow(true);
       const { cp, task_collection } = marker;
+      setViewport((currentState) => ({ ...currentState, zoom: 15 }));
       setLocationFocus({ ...cp, task_collection });
     },
     [setLocationFocus]
   );
 
   const onInfoWindowClose = () => {
-    console.log('onInfoWindowClose');
     setShowingInfoWindow(false);
     setActiveMarker(null);
   };
@@ -111,7 +111,6 @@ const TaskRouteMap = (props: TaskRouteMapProps) => {
   }, [markers, google, onFocusMaker]);
 
   const infoWindowView = useMemo(() => {
-    console.log(locationFocus);
     return (
       <InfoWindow
         visible={showingInfoWindow}
