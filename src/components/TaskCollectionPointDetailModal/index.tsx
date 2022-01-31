@@ -12,7 +12,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { ITaskCollectionPoint } from '../../models/taskCollectionPoint';
-import { ImCheckmark, ImRadioChecked } from 'react-icons/im';
+import { ImCheckmark, ImClock } from 'react-icons/im';
 
 interface TaskCollectionPointDetailModalProps {
   onClose: () => void;
@@ -55,7 +55,7 @@ export const TaskCollectionPointDetailModal = (
             {!!taskCollection.complete ? (
               <ImCheckmark color='green' />
             ) : (
-              <ImRadioChecked color='#FFB81D' />
+              <ImClock color='#FFB81D' />
             )}
           </HStack>
           {!!taskCollection.complete && (
@@ -72,17 +72,15 @@ export const TaskCollectionPointDetailModal = (
       <ModalContent>
         <ModalHeader>{taskCollectionPoint?.name}</ModalHeader>
         <ModalBody>
-          <Center
-            borderWidth='2px'
-            borderColor='red.400'
-            borderStyle='solid'
-            borderRadius='5px'
-          >
+          <Center >
             <Image
               cursor='pointer'
               boxSize='120px'
               borderRadius={5}
               objectFit='cover'
+              borderWidth='2px'
+              borderColor='black'
+              borderStyle='solid'
               src={
                 taskCollectionPoint?.image ?? 'https://via.placeholder.com/150'
               }
