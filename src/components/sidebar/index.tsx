@@ -4,6 +4,22 @@ import { Link, NavLink, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { _isAdmin } from '../../store/selectors/App';
 import routes from '../../constants/routes';
+import { COMPANY_NAME } from '../../constants/strings';
+
+const SIDE_BAR_OPTIONS = [
+  {
+    id: 'task-routes',
+    to: `${routes.TASK_ROUTE}/list`,
+    name: 'スケジュール',
+    isAdminScreen: false,
+  },
+  {
+    id: 'base-routes',
+    to: `${routes.BASE_ROUTE}/list`,
+    name: 'ルート作成',
+    isAdminScreen: true,
+  },
+];
 
 export function Sidebar() {
   const isAdmin: boolean = useSelector(_isAdmin);
@@ -40,40 +56,29 @@ export function Sidebar() {
               ROUTOR
             </Heading>
             <Text fontWeight='700' color={'white'}>
-              Field Protect
+              {COMPANY_NAME}
             </Text>
           </Flex>
         </Link>
-        {/* <Divider my={4} /> */}
+        <Divider my={4} />
         <Box my={4} mx={-4}>
-          <NavLink exact to={'/task-routes/list'}>
-            <Flex
-              align='start'
-              p={4}
-              backgroundColor={
-                !pathname.includes('task-routes') ? '#1a202c' : '#6B00D7'
-              }
-            >
-              <Text fontWeight='500' color={'white'}>
-                スケジュール
-              </Text>
-            </Flex>
-          </NavLink>
-          {isAdmin && (
-            <NavLink exact to={'/base-routes/list'}>
-              <Flex
-                align='start'
-                p={4}
-                backgroundColor={
-                  !pathname.includes('base-routes') ? '#1a202c' : '#6B00D7'
-                }
-              >
-                <Text fontWeight='500' color={'white'}>
-                  ルート作成
-                </Text>
-              </Flex>
-            </NavLink>
-          )}
+          {SIDE_BAR_OPTIONS.map((option) => {
+            if (option.isAdminScreen && !isAdmin) return null;
+            const isSelected = pathname.includes(option.id)
+            return (
+              <NavLink key={option.id} exact to={option.to}>
+                <Flex
+                  align='start'
+                  p={4}
+                  backgroundColor={isSelected ? 'blue.600' : 'transparent'}
+                >
+                  <Text fontWeight='500' color={'white'}>
+                    {option.name}
+                  </Text>
+                </Flex>
+              </NavLink>
+            )
+          })}
         </Box>
       </Box>
     </Box>
