@@ -4,7 +4,7 @@ import { Link, NavLink, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { _isAdmin } from '../../store/selectors/App';
 import routes from '../../constants/routes';
-import { COMPANY_NAME } from '../../constants/strings';
+import { Logo } from '../common/Logo';
 
 const SIDE_BAR_OPTIONS = [
   {
@@ -43,21 +43,13 @@ export function Sidebar() {
         height={'100%'}
         w={256}
         padding={4}
-        backgroundColor={'#1a202c'}
+        backgroundColor='#2b6cb0'
       >
         <Link to='/'>
-          <Flex align='start' flexDirection='column'>
-            <Heading
-              as='h1'
-              size='lg'
-              letterSpacing={'tighter'}
-              color={'white'}
-            >
-              ROUTOR
+          <Flex align='center' mr={5}>
+            <Heading as='h1' size='lg' letterSpacing={'tighter'}>
+              <Logo h='3vh' pointerEvents='none' />
             </Heading>
-            <Text fontWeight='700' color={'white'}>
-              {COMPANY_NAME}
-            </Text>
           </Flex>
         </Link>
         <Divider my={4} />
@@ -70,7 +62,7 @@ export function Sidebar() {
                 <Flex
                   align='start'
                   p={4}
-                  backgroundColor={isSelected ? 'blue.600' : 'transparent'}
+                  backgroundColor={isSelected ? 'blue.400' : '#2b6cb0'}
                 >
                   <Text fontWeight='500' color={'white'}>
                     {option.name}
