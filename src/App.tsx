@@ -69,14 +69,14 @@ export const App = () => {
           <Route path={routes.PRIVACY_POLICY}>
             <PrivacyPolicy />
           </Route>
-          <Route path={routes.HOME}>
+          {/* <Route path={routes.HOME}>
             <Redirect to='/' />
-          </Route>
+          </Route> */}
           <Route exact path='/'>
-            <Home />
+            <Redirect to={routes.TASK_ROUTE} />
           </Route>
           <Route path='*'>
-            <Redirect to='/' />
+            <Redirect to={routes.TASK_ROUTE} />
           </Route>
         </Switch>
       );
@@ -99,14 +99,14 @@ export const App = () => {
         <Route path={routes.PRIVACY_POLICY}>
           <PrivacyPolicy />
         </Route>
-        <Route path={routes.HOME}>
+        {/* <Route path={routes.HOME}>
           <Redirect to='/' />
-        </Route>
+        </Route> */}
         <Route exact path='/'>
-          <Home />
+          <Redirect to={routes.TASK_ROUTE} />
         </Route>
         <Route path='*'>
-          <Redirect to='/' />
+          <Redirect to={routes.TASK_ROUTE} />
         </Route>
       </Switch>
     );

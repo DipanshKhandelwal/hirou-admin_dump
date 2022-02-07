@@ -1,11 +1,8 @@
 import React from 'react';
-import { Heading, Flex, Button, Spacer, Text } from '@chakra-ui/react';
-import { Logo } from './Logo';
+import { Flex, Button, Spacer, Text } from '@chakra-ui/react';
 import { ColorModeSwitcher } from './ColorModeSwitcher';
 import { IUser } from '../../models/user';
 import { handleLogout } from '../../store/thunks/App';
-import { Link } from 'react-router-dom';
-
 const Header = (props: any) => {
   const user: IUser = props.user;
 
@@ -19,13 +16,6 @@ const Header = (props: any) => {
       h='8vh'
       {...props}
     >
-      <Link to='/'>
-        <Flex align='center' mr={5}>
-          <Heading as='h1' size='lg' letterSpacing={'tighter'}>
-            <Logo h='3vh' pointerEvents='none' />
-          </Heading>
-        </Flex>
-      </Link>
       <Spacer />
       {user && (
         <>
