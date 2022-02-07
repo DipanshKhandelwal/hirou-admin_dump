@@ -52,7 +52,7 @@ export const TaskCollectionPointListItem = (
     if (!isVisible && isSelected && refTaskPoint.current) {
       (refTaskPoint.current as Element).scrollIntoView();
     }
-  }, [isVisible, isSelected, refTaskPoint]);
+  }, [isSelected, refTaskPoint]);
 
   const onItemClick = () => !isAdmin && onSelect();
 

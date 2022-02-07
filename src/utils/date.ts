@@ -1,15 +1,14 @@
+import moment from 'moment';
+
 export function getDateString(date: Date) {
   return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 }
 
 export function getJapaneseDateString(dateStr: string) {
-  const dateJapan = new Date(dateStr);
-  const options = {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  } as any;
+  moment.locale('ja', {
+    weekdaysShort: ['日', '月', '火', '水', '木', '金', '土'],
+  });
 
-  return dateJapan.toLocaleDateString('ja-JP-u-ca-japanese', options);
+  const d = moment(dateStr).format('YYYY/MM/DD (ddd) HH:mm:ss');
+  return d;
 }

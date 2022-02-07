@@ -31,7 +31,7 @@ export const TaskCollectionPointDetailModal = (
     content = taskCollectionPoint.task_collection.map((taskCollection) => {
       let dateTimeJapanese = '';
       if (taskCollection.complete && taskCollection.timestamp) {
-        dateTimeJapanese = getJapaneseDateString(taskCollection.timestamp)
+        dateTimeJapanese = getJapaneseDateString(taskCollection.timestamp);
       }
       return (
         <HStack
@@ -60,9 +60,14 @@ export const TaskCollectionPointDetailModal = (
     <Modal isOpen={!!taskCollectionPoint} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>{taskCollectionPoint?.name}</ModalHeader>
+        <ModalHeader>
+          <HStack>
+            <Text>{taskCollectionPoint?.sequence}</Text>
+            <Text>{taskCollectionPoint?.name}</Text>
+          </HStack>
+        </ModalHeader>
         <ModalBody>
-          <Center >
+          <Center>
             <Image
               cursor='pointer'
               boxSize='120px'
@@ -78,10 +83,6 @@ export const TaskCollectionPointDetailModal = (
             />
           </Center>
           {content}
-          <HStack mt={5}>
-            <Text mr={5}>ID:{taskCollectionPoint?.id}</Text>
-            <Text>Seq: {taskCollectionPoint?.sequence}</Text>
-          </HStack>
         </ModalBody>
         <ModalCloseButton />
       </ModalContent>
