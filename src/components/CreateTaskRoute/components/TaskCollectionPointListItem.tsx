@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Box, Text, Image, HStack, VStack, Button } from '@chakra-ui/react';
-import { FaCheck } from 'react-icons/fa';
+import { FaCheck, FaInfo } from 'react-icons/fa';
 import { ITaskCollectionPoint } from '../../../models/taskCollectionPoint';
 import { ITaskCollection } from '../../../models/taskCollection';
 import useOnScreen from '../../../utils/useOnScreen';
@@ -40,7 +40,10 @@ export const TaskCollectionPointListItem = (
   } = props;
 
   const refTaskPoint = React.useRef(null);
-  const toggleAll = () => toggleAllTasks();
+  const toggleAll = (event: any) => {
+    event.stopPropagation();
+    toggleAllTasks();
+  };
   const isVisible = useOnScreen(refTaskPoint);
   const toggleCollection = (taskCollection: ITaskCollection) =>
     toggleTask(taskCollection, collectionPoint.id);
@@ -115,7 +118,7 @@ export const TaskCollectionPointListItem = (
       cursor='pointer'
       onClick={onItemClick}
     >
-      <HStack align='flex-start'>
+      <HStack align='flex-start' onClick={onClickPoint}>
         <Image
           minHeight='90px'
           minWidth='90px'
@@ -126,7 +129,6 @@ export const TaskCollectionPointListItem = (
           objectFit='contain'
           fontSize='10px'
           backgroundColor='gray.100'
-          onClick={onClickPoint}
           cursor='pointer'
         />
         <VStack align='stretch' p={1} paddingX={0} flex={1}>
@@ -136,10 +138,25 @@ export const TaskCollectionPointListItem = (
           </HStack>
           <Text textAlign='left'>{collectionPoint.memo}</Text>
         </VStack>
-
-        {toggleAllButton}
+        {isAdmin && (
+          <VStack p={1}>
+            <Button
+              variant={'outline'}
+              colorScheme='red'
+              size='xs'
+              onClick={toggleAll}
+              borderRadius={'50%'}
+              width={'16px'}
+            >
+              <FaInfo color='red' size={14} />
+            </Button>
+          </VStack>
+        )}
       </HStack>
-      <div>{toggleGarbageButtons}</div>
+      <HStack>
+        {toggleAllButton}
+        {toggleGarbageButtons}
+      </HStack>
     </Box>
   );
 };
