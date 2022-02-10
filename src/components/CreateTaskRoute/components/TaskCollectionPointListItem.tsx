@@ -57,7 +57,7 @@ export const TaskCollectionPointListItem = (
     }
   }, [isSelected, refTaskPoint]);
 
-  const onItemClick = () => !isAdmin && onSelect();
+  const onItemClick = () => onSelect();
 
   let toggleAllButton = null;
   let toggleGarbageButtons = collectionPoint.task_collection.map(
@@ -116,7 +116,6 @@ export const TaskCollectionPointListItem = (
       backgroundColor={isSelected ? 'gray.300' : 'white'}
       ref={refTaskPoint}
       cursor='pointer'
-      onClick={onItemClick}
     >
       <HStack align='flex-start' onClick={onClickPoint}>
         <Image
@@ -138,20 +137,18 @@ export const TaskCollectionPointListItem = (
           </HStack>
           <Text textAlign='left'>{collectionPoint.memo}</Text>
         </VStack>
-        {isAdmin && (
-          <VStack p={1}>
-            <Button
-              variant={'outline'}
-              colorScheme='red'
-              size='xs'
-              onClick={toggleAll}
-              borderRadius={'50%'}
-              width={'16px'}
-            >
-              <FaInfo color='red' size={14} />
-            </Button>
-          </VStack>
-        )}
+        <VStack p={1}>
+          <Button
+            variant={'outline'}
+            colorScheme='red'
+            size='xs'
+            onClick={onItemClick}
+            borderRadius={'50%'}
+            width={'16px'}
+          >
+            <FaInfo color='red' size={14} />
+          </Button>
+        </VStack>
       </HStack>
       <HStack>
         {toggleAllButton}

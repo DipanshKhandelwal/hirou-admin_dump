@@ -19,6 +19,12 @@ const SIDE_BAR_OPTIONS = [
     name: 'ルート作成',
     isAdminScreen: true,
   },
+  {
+    id: 'information',
+    to: `${routes.INFORMATIOM_ROUTE}`,
+    name: 'おしらせ機能',
+    isAdminScreen: false,
+  },
 ];
 
 export function Sidebar() {
@@ -28,7 +34,8 @@ export function Sidebar() {
   if (
     !(
       pathname.includes(routes.TASK_ROUTE) ||
-      pathname.includes(routes.BASE_ROUTE)
+      pathname.includes(routes.BASE_ROUTE) ||
+      pathname.includes(routes.INFORMATIOM_ROUTE)
     ) ||
     pathname.includes(`${routes.TASK_ROUTE}/map`) ||
     (pathname.includes(routes.BASE_ROUTE) &&
@@ -56,7 +63,7 @@ export function Sidebar() {
         <Box my={4} mx={-4}>
           {SIDE_BAR_OPTIONS.map((option) => {
             if (option.isAdminScreen && !isAdmin) return null;
-            const isSelected = pathname.includes(option.id)
+            const isSelected = pathname.includes(option.id);
             return (
               <NavLink key={option.id} exact to={option.to}>
                 <Flex
@@ -69,7 +76,7 @@ export function Sidebar() {
                   </Text>
                 </Flex>
               </NavLink>
-            )
+            );
           })}
         </Box>
       </Box>

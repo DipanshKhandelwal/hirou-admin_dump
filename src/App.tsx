@@ -25,6 +25,7 @@ import BaseRoute from './apps/baseRoute';
 import TaskRoute from './apps/taskRoute';
 import { navigationRef } from './services/navigation';
 import PrivacyPolicy from './apps/privacyPolicy';
+import InfomationRoute from './apps/InfomationRoute';
 import routes from './constants/routes';
 
 export const App = () => {
@@ -69,6 +70,9 @@ export const App = () => {
           <Route path={routes.PRIVACY_POLICY}>
             <PrivacyPolicy />
           </Route>
+          <Route path={routes.INFORMATIOM_ROUTE}>
+            <InfomationRoute />
+          </Route>
           {/* <Route path={routes.HOME}>
             <Redirect to='/' />
           </Route> */}
@@ -98,6 +102,9 @@ export const App = () => {
         </Route>
         <Route path={routes.PRIVACY_POLICY}>
           <PrivacyPolicy />
+        </Route>
+        <Route path={routes.INFORMATIOM_ROUTE}>
+          <InfomationRoute />
         </Route>
         {/* <Route path={routes.HOME}>
           <Redirect to='/' />
