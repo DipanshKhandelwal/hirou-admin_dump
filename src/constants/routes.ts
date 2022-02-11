@@ -4,6 +4,7 @@ const REPORTS = '/reports';
 const LOGIN = '/login';
 const HOME = '/home';
 const PRIVACY_POLICY = '/privacy-policy';
+const INFORMATIOM_ROUTE = '/information';
 
 export default {
   BASE_ROUTE,
@@ -12,4 +13,5 @@ export default {
   LOGIN,
   PRIVACY_POLICY,
   HOME,
+  INFORMATIOM_ROUTE,
 };

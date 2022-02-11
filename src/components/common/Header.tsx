@@ -13,8 +13,8 @@ const Header = (props: any) => {
       justify='space-between'
       wrap='wrap'
       padding={4}
-      h='8vh'
       {...props}
+      boxShadow='md'
     >
       <Spacer />
       {user && (
