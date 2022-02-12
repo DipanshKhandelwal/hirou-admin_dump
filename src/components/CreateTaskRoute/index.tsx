@@ -1,9 +1,8 @@
-import * as React from 'react';
+import React, { useState, useCallback } from 'react';
 import { Box, Flex, Center, Text, useToast } from '@chakra-ui/react';
 
 import { getTaskRoute } from '../../services/apiRequests/taskRoute';
 
-import { useState, useCallback, useEffect } from 'react';
 import { TaskCollectionPointListItem } from './components/TaskCollectionPointListItem';
 import TaskRouteMap from './components/TaskRouteMap';
 import { useParams } from 'react-router-dom';

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Container,
   Heading,
@@ -13,14 +13,12 @@ import {
   Button,
   useToast,
 } from '@chakra-ui/react';
-import { useEffect } from 'react';
 import { handleFetchBaseRoute } from '../../store/thunks/BaseRoute';
 import { IBaseRoute } from '../../models/baseRoute';
 import { _baseRoute } from '../../store/selectors/BaseRoute';
 import { useSelector } from 'react-redux';
 import { IGarbage } from '../../models/garbage';
 import { MdDeleteForever, MdEdit } from 'react-icons/md';
-import { useState } from 'react';
 import { CreateBaseRouteModal } from './components/CreateBaseRouteModal';
 import { BaseRouteDeleteConfirmationModal } from './components/BaseRouteDeleteConfirmationModal';
 import { deleteBaseRoute } from '../../services/apiRequests/baseRoute';

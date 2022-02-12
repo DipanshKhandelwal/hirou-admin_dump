@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import {
   Container,
   Heading,
@@ -12,7 +12,6 @@ import {
   Spinner,
   Button,
 } from '@chakra-ui/react';
-import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { navigate } from '../../services/navigation';
 import { handleFetchTaskRoute } from '../../store/thunks/TaskRoute';

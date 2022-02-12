@@ -18,7 +18,7 @@ export async function addTaskAmount(data: any): Promise<any> {
   try {
     const url = TASK_AMOUNT_URL;
     const response = await hirouAxios.post(url, data, {
-      'Content-Type': `multipart/form-data`,
+      'Content-Type': 'multipart/form-data',
     });
     return response.data;
   } catch (e) {
@@ -35,7 +35,7 @@ export async function editTaskAmount(
   try {
     const url = `${TASK_AMOUNT_URL}${amountId}/`;
     const response = await hirouAxios.put(url, data, {
-      'Content-Type': `multipart/form-data`,
+      'Content-Type': 'multipart/form-data',
     });
     return response.data;
   } catch (e) {

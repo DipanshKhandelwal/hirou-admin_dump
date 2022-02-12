@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { Container } from '@chakra-ui/react';
 import { Map, Marker, GoogleApiWrapper, InfoWindow } from 'google-maps-react';
-import { Text, HStack, VStack } from '@chakra-ui/react';
+import { Text, HStack, VStack, Container } from '@chakra-ui/react';
 import { GOOGLE_MAPS_API_TOKEN } from '../../../../constants/mapbox';
 import { ITaskRoute } from '../../../../models/taskRoute';
 import { ITaskCollectionPoint } from '../../../../models/taskCollectionPoint';
@@ -92,7 +91,7 @@ const TaskRouteMap = (props: TaskRouteMapProps) => {
     return markers.map((marker: any, index: number) => (
       <Marker
         {...props}
-        key={`marker-${index}`}
+        key={`marker-${index}-${marker.cp.id}`}
         position={{ lat: marker.latitude, lng: marker.longitude }}
         draggable={false}
         title={String(index + 1)}

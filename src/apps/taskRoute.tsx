@@ -5,7 +5,7 @@ import { TaskRouteDetail } from '../components/TaskRouteDetail';
 import { CreateTaskRoute } from '../components/CreateTaskRoute';
 
 function TaskRoute() {
-  let match = useRouteMatch();
+  const match = useRouteMatch();
 
   return (
     <Switch>

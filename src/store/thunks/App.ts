@@ -19,7 +19,7 @@ export const checkLogin = () => {
     dispatchLogin({
       token: accesstoken,
       id: userid,
-      username: username,
+      username,
       groups: userGroups,
     });
   } else handleLogout();
@@ -57,7 +57,7 @@ export const handleLogin = async (data: ILoginForm) => {
       dispatchLogin({
         token: userData.key,
         email: userData.user.email,
-        groups: groups,
+        groups,
         firstName: userData.user.first_name,
         lastName: userData.user.last_name,
         id: userData.user.id,

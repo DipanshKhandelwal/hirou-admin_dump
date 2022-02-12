@@ -5,7 +5,7 @@ export async function saveCollectionPoint(data: any): Promise<any> {
   try {
     const url = COLLECTION_POINT_URL;
     const response = await hirouAxios.post(url, data, {
-      'Content-Type': `multipart/form-data`,
+      'Content-Type': 'multipart/form-data',
     });
     return response.data;
   } catch (e) {
@@ -22,7 +22,7 @@ export async function editCollectionPoint(
   try {
     const url = `${COLLECTION_POINT_URL}${cpId}/`;
     const response = await hirouAxios.put(url, data, {
-      'Content-Type': `multipart/form-data`,
+      'Content-Type': 'multipart/form-data',
     });
     return response.data;
   } catch (e) {
