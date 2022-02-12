@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { ICollectionPoint } from '../../../../models/collectionPoint';
 import { UpdateConfirmationModal } from '../UpdateConfirmationModal';
-import { useRef } from 'react';
 import { Marker as Mapmarker } from 'google-maps-react';
 import MarkerIcon from '../../../../assets/border.svg';
 
@@ -29,7 +28,7 @@ export default function Marker(props: MarkerProps) {
         latitude: location.latitude,
       });
       setIsOpen(false);
-    } catch (e) {}
+    } catch (e) { }
   };
 
   const onCancel = () => {

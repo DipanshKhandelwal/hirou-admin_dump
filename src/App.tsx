@@ -12,7 +12,6 @@ import { useSelector } from 'react-redux';
 import { _isAdmin, _user } from './store/selectors/App';
 import { IUser } from './models/user';
 import { checkLogin } from './store/thunks/App';
-import Home from './components/home';
 import { PageLayout } from './components/layout';
 
 import {
@@ -25,7 +24,7 @@ import BaseRoute from './apps/baseRoute';
 import TaskRoute from './apps/taskRoute';
 import { navigationRef } from './services/navigation';
 import PrivacyPolicy from './apps/privacyPolicy';
-import InfomationRoute from './apps/InfomationRoute';
+import InfomationRoute from './apps/infomationRoute';
 import routes from './constants/routes';
 
 export const App = () => {

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { Container } from '@chakra-ui/react';
 import { Map, Marker, GoogleApiWrapper, InfoWindow } from 'google-maps-react';
-import { Text, HStack, VStack } from '@chakra-ui/react';
+import { Text, HStack, VStack, Container } from '@chakra-ui/react';
 import { GOOGLE_MAPS_API_TOKEN } from '../../../../constants/mapbox';
 import { ITaskRoute } from '../../../../models/taskRoute';
 import { ITaskCollectionPoint } from '../../../../models/taskCollectionPoint';

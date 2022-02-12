@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Modal,
   InputLeftElement,
@@ -20,7 +20,6 @@ import {
 } from '@chakra-ui/react';
 import { Formik, Field } from 'formik';
 import { RiRouteFill } from 'react-icons/ri';
-import { useRef } from 'react';
 import { MdEdit } from 'react-icons/md';
 import { ITaskRoute } from '../../../models/taskRoute';
 import { ITaskReportType } from '../../../models/taskReportType';

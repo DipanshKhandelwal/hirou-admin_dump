@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import {
   Table,
   Thead,
@@ -11,7 +11,6 @@ import {
   Button,
   useToast,
 } from '@chakra-ui/react';
-import { useState } from 'react';
 import { ITaskAmount } from '../../models/taskAmount';
 import { TaskAmountDetailModal } from '../TaskAmountDetailModal';
 import { ITaskAmountItem } from '../../models/taskAmountItem';

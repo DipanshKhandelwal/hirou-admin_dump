@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Table,
   Thead,
@@ -15,7 +15,6 @@ import {
 import { MdDeleteForever, MdEdit } from 'react-icons/md';
 import { ITaskReport } from '../../models/taskReport';
 import { TaskReportDetailModal } from '../TaskReportDetailModal';
-import { useState } from 'react';
 import { AddReportModal } from './components/AddReportModal';
 import { ITaskRoute } from '../../models/taskRoute';
 import { TaskReportDeleteConfirmationModal } from './components/TaskReportDeleteConfirmationModal';
