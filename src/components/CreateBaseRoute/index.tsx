@@ -1,14 +1,12 @@
-import * as React from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { Stack, Box, Flex, Center, Text, useToast } from '@chakra-ui/react';
 import { IBaseRoute } from '../../models/baseRoute';
 import { _baseRoute } from '../../store/selectors/BaseRoute';
 import { useSelector } from 'react-redux';
-import { useMemo, useState } from 'react';
 import { ICollectionPoint } from '../../models/collectionPoint';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { CollectionPointListItem } from './components/CollectionPointListItem';
 import { UpdateConfirmationModal } from './components/UpdateConfirmationModal';
-import { useEffect } from 'react';
 import { hirouAxios } from '../../services/httpInstance';
 import { BASE_ROUTE_URL } from '../../constants/urls';
 import { dispatchUpdateBaseRoute } from '../../store/dispatcher/BaseRoute';
@@ -41,7 +39,7 @@ export const CreateBaseRoute = () => {
 
   const baseRoutesData: any = useSelector(_baseRoute);
 
-  let { baseRouteId }: { baseRouteId: string } = useParams();
+  const { baseRouteId }: { baseRouteId: string } = useParams();
   const selectedRouteId = Number(baseRouteId);
 
   const route: IBaseRoute = useMemo(() => {

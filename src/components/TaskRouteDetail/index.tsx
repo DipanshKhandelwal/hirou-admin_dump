@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import {
   Container,
   Heading,
@@ -6,15 +6,12 @@ import {
   useToast,
   Spinner,
 } from '@chakra-ui/react';
-import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { navigate } from '../../services/navigation';
 import { handleFetchUpdatedTaskRoute } from '../../store/thunks/TaskRoute';
 import { _taskRoute } from '../../store/selectors/TaskRoute';
 import { ITaskRoute } from '../../models/taskRoute';
 import { useParams } from 'react-router-dom';
-import { useMemo } from 'react';
-import { useState } from 'react';
 import { getTaskReports } from '../../services/apiRequests/taskReports';
 import { ITaskReport } from '../../models/taskReport';
 import { TaskReportList } from '../TaskReportList';
@@ -25,7 +22,7 @@ import { TaskRouteDetailsTable } from './components/TaskRouteDetailsTable';
 import { _isAdmin } from '../../store/selectors/App';
 
 export const TaskRouteDetail = () => {
-  let { taskRouteId }: { taskRouteId: string } = useParams();
+  const { taskRouteId }: { taskRouteId: string } = useParams();
   const selectedRouteId = Number(taskRouteId);
 
   const toast = useToast();

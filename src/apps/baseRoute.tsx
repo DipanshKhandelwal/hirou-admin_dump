@@ -4,7 +4,7 @@ import { BaseRouteList } from '../components/BaseRouteList';
 import { CreateBaseRoute } from '../components/CreateBaseRoute';
 
 function BaseRoute() {
-  let match = useRouteMatch();
+  const match = useRouteMatch();
 
   return (
     <Switch>

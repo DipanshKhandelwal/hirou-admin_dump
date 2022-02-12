@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { GOOGLE_MAPS_API_TOKEN } from '../../../../constants/mapbox';
 import { Container, VStack, Button, Box } from '@chakra-ui/react';
 import './styles.css';
 import { IBaseRoute } from '../../../../models/baseRoute';
 import { ICollectionPoint } from '../../../../models/collectionPoint';
-import { useMemo } from 'react';
 import CustomMarker from '../Marker';
 import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
 import NewMarkerIcon from '../../../../assets/border-new.svg';
@@ -52,7 +51,7 @@ const RouteMap = (props: RouteMapProps) => {
       const _marker = {
         longitude: Number(lng),
         latitude: Number(lat),
-        cp: cp,
+        cp,
       };
       _markers.push(_marker);
     });
@@ -68,6 +67,7 @@ const RouteMap = (props: RouteMapProps) => {
         zoom: 12,
       });
     }
+
   }, [baseRoute]);
 
   const add = (e: any) => {
@@ -79,7 +79,7 @@ const RouteMap = (props: RouteMapProps) => {
     return markers.map((marker: any, index: number) => (
       <CustomMarker
         updateCollectionPointCoordinates={updateCollectionPointCoordinates}
-        key={`marker-${index}`}
+        key={`marker-${index}-${marker.cp.id}`}
         index={index}
         marker={marker}
       />

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Modal,
   InputLeftElement,
@@ -20,9 +20,7 @@ import {
 import { Formik, Field } from 'formik';
 import { RiRouteFill } from 'react-icons/ri';
 import { ICustomer } from '../../../models/customer';
-import { useEffect } from 'react';
 import { getCustomers } from '../../../services/apiRequests/customers';
-import { useState } from 'react';
 import {
   editBaseRoute,
   saveBaseRoute,

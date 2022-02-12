@@ -38,11 +38,10 @@ export const TaskCollectionPointDetailModal = (
           justifyContent='space-between'
           my={3}
           key={taskCollection.id}
-          onClick={() => console.log('a', taskCollection)}
         >
           <HStack>
             <Text>{taskCollection.garbage.name}</Text>
-            {!!taskCollection.complete ? (
+            {taskCollection.complete ? (
               <ImCheckmark color='green' />
             ) : (
               <ImClock color='#FFB81D' />

@@ -6,7 +6,7 @@ import { getCookie } from '../cookie';
 
 export const getAxios = (baseURL?: string) => {
   const instance: any = axios.create({
-    baseURL: baseURL,
+    baseURL,
     headers: {
       'Content-Type': 'application/json',
     },

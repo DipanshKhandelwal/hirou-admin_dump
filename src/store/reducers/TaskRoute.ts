@@ -9,7 +9,7 @@ const initialState = {
 };
 
 const updateTaskRoute = (state: any, payload: ITaskRoute) => {
-  let oldRoutes = state.data;
+  const oldRoutes = state.data;
 
   const reqIndex = oldRoutes.findIndex(
     (route: ITaskRoute) => route.id === payload.id

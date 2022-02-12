@@ -1,3 +1,5 @@
+/* eslint-disable no-use-before-define */
+
 import React, { cloneElement, forwardRef } from 'react';
 import ReactSelect, { components as selectComponents } from 'react-select';
 import AsyncReactSelect from 'react-select/async';

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useRef } from 'react';
 import {
   Modal,
   InputLeftElement,
@@ -25,7 +25,6 @@ import {
   saveCollectionPoint,
 } from '../../../services/apiRequests/collectionPoint';
 import { ICollectionPoint } from '../../../models/collectionPoint';
-import { useRef } from 'react';
 import { MdEdit } from 'react-icons/md';
 
 interface AddCollectionPointModalProps {

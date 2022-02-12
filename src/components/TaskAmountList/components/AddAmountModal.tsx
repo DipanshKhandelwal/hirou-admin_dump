@@ -116,7 +116,6 @@ export const AddAmountModal = (props: AddAmountModalProps) => {
               handleFetchUpdatedTaskRoute(taskRoute.id);
               onClose();
             } catch (e) {
-              console.log('e', e);
               toast({
                 title: 'Error adding amount',
                 description: 'please check the credentials',
