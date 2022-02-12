@@ -91,7 +91,7 @@ const TaskRouteMap = (props: TaskRouteMapProps) => {
     return markers.map((marker: any, index: number) => (
       <Marker
         {...props}
-        key={`marker-${index}`}
+        key={`marker-${index}-${marker.cp.id}`}
         position={{ lat: marker.latitude, lng: marker.longitude }}
         draggable={false}
         title={String(index + 1)}

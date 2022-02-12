@@ -67,6 +67,7 @@ const RouteMap = (props: RouteMapProps) => {
         zoom: 12,
       });
     }
+
   }, [baseRoute]);
 
   const add = (e: any) => {
@@ -78,7 +79,7 @@ const RouteMap = (props: RouteMapProps) => {
     return markers.map((marker: any, index: number) => (
       <CustomMarker
         updateCollectionPointCoordinates={updateCollectionPointCoordinates}
-        key={`marker-${index}`}
+        key={`marker-${index}-${marker.cp.id}`}
         index={index}
         marker={marker}
       />
