@@ -207,7 +207,7 @@ export const CreateBaseRouteModal = (props: CreateBaseRouteModalProps) => {
                           >
                             {customers.map((customer: ICustomer) => (
                               <option key={customer.id} value={customer.id}>
-                                {customer.description}
+                                {customer.description || customer.name}
                               </option>
                             ))}
                           </Select>
