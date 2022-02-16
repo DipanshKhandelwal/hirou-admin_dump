@@ -20,7 +20,7 @@ const Header = (props: any) => {
       {user && (
         <>
           <Text marginRight={2}>{user.username}</Text>
-          <Button variant='outline' onClick={handleLogout}>
+          <Button variant='outline' onClick={handleLogout} size='sm'>
             ログアウト
           </Button>
         </>
