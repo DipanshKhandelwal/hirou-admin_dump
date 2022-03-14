@@ -35,7 +35,7 @@ export const UpdateConfirmationModal = (
           <AlertDialogBody>Are you sure?</AlertDialogBody>
           <AlertDialogFooter>
             <Button ref={cancelRef} onClick={onCancel}>
-              Cancel
+              キャンセル
             </Button>
             <Button colorScheme='green' onClick={onAccept} ml={3}>
               Update

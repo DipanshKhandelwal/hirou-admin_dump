@@ -30,12 +30,12 @@ export const BaseRouteDeleteConfirmationModal = (
       <AlertDialogOverlay>
         <AlertDialogContent>
           <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-            Delete Base Route ?
+            削除しますか？
           </AlertDialogHeader>
-          <AlertDialogBody>This functions is irreversible</AlertDialogBody>
+          <AlertDialogBody>削除後、元に戻すことはできません。</AlertDialogBody>
           <AlertDialogFooter>
             <Button ref={cancelRef} onClick={onCancel}>
-              Cancel
+              キャンセル
             </Button>
             <Button colorScheme='red' onClick={onAccept} ml={3}>
               Delete

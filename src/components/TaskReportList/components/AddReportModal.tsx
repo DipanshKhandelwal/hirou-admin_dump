@@ -154,15 +154,13 @@ export const AddReportModal = (props: AddReportModalProps) => {
                     )
                   }
                 >
-                  <FormLabel htmlFor='task_collection_point'>
-                    Task collection point
-                  </FormLabel>
+                  <FormLabel htmlFor='task_collection_point'>集積所</FormLabel>
                   <InputGroup marginY={2}>
                     <Field name='task_collection_point'>
                       {({ field, form }: { field: any; form: any }) => (
                         <Select
                           {...field}
-                          placeholder='Select task collection point'
+                          placeholder='集積所を選択してください'
                           id='task_collection_point'
                           name='task_collection_point'
                         >
@@ -186,13 +184,13 @@ export const AddReportModal = (props: AddReportModalProps) => {
                   id='report_type'
                   isInvalid={!!(errors.report_type && touched.report_type)}
                 >
-                  <FormLabel htmlFor='report_type'>Report Type</FormLabel>
+                  <FormLabel htmlFor='report_type'>報告種別</FormLabel>
                   <InputGroup marginY={2}>
                     <Field name='report_type'>
                       {({ field, form }: { field: any; form: any }) => (
                         <Select
                           {...field}
-                          placeholder='Select report type'
+                          placeholder='報告種別を選択してください'
                           id='report_type'
                           name='report_type'
                         >
@@ -212,7 +210,7 @@ export const AddReportModal = (props: AddReportModalProps) => {
                 <FormControl
                   isInvalid={!!(errors.description && touched.description)}
                 >
-                  <FormLabel htmlFor='description'>Description</FormLabel>
+                  <FormLabel htmlFor='description'>説明</FormLabel>
                   <InputGroup marginY={2}>
                     <InputLeftElement
                       pointerEvents='none'
@@ -224,7 +222,7 @@ export const AddReportModal = (props: AddReportModalProps) => {
                       name='description'
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      placeholder='description'
+                      placeholder='説明'
                       size='md'
                     />
                   </InputGroup>
@@ -275,14 +273,14 @@ export const AddReportModal = (props: AddReportModalProps) => {
               </ModalBody>
               <ModalFooter>
                 <Button disabled={isSubmitting} onClick={onClose} mr={3}>
-                  Cancel
+                  キャンセル
                 </Button>
                 <Button
                   disabled={isSubmitting}
                   type='submit'
                   colorScheme='green'
                 >
-                  Save
+                  保存
                 </Button>
               </ModalFooter>
             </form>

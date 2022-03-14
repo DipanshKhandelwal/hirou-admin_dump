@@ -49,10 +49,10 @@ export const TaskAmountDeleteConfirmationModal = (
           </AlertDialogBody>
           <AlertDialogFooter>
             <Button ref={cancelRef} onClick={onCancel}>
-              Cancel
+              キャンセル
             </Button>
             <Button colorScheme='red' onClick={onAccept} ml={3}>
-              Delete
+              削除
             </Button>
           </AlertDialogFooter>
         </AlertDialogContent>

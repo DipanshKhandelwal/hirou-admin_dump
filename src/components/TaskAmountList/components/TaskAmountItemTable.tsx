@@ -16,7 +16,7 @@ export const TaskAmountItemTable = ({
           <Td>{taskAmountItem?.id}</Td>
         </Tr>
         <Tr>
-          <Td fontWeight='bold'>Vehicle</Td>
+          <Td fontWeight='bold'>車両</Td>
           <Td>{taskAmountItem?.garbage.name}</Td>
         </Tr>
         <Tr>

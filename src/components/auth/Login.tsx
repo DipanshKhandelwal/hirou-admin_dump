@@ -45,14 +45,14 @@ const Login = () => {
                   password: values.password,
                 });
                 toast({
-                  title: 'Login successful',
+                  title: 'ログインしました',
                   description: '',
                   status: 'success',
                 });
               } catch (e) {
                 toast({
-                  title: 'Error',
-                  description: 'please check the credentials',
+                  title: 'エラー',
+                  description: 'IDまたはパスワードが間違っています',
                   status: 'error',
                 });
               }
