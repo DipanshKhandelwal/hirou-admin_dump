@@ -115,9 +115,9 @@ export const TaskReportList = ({
       />
       <HStack my={6} justifyContent='space-between'>
         <Heading size='lg' textAlign='start'>
-          Reports
+          報告
         </Heading>
-        <Button onClick={addReportModalOpen}>Add reports</Button>
+        <Button onClick={addReportModalOpen}>追加</Button>
       </HStack>
       <Table size='sm' variant='simple'>
         <Thead>

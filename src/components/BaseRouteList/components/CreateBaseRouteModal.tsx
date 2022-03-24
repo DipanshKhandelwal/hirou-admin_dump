@@ -134,7 +134,7 @@ export const CreateBaseRouteModal = (props: CreateBaseRouteModalProps) => {
           validate={(values) => {
             const errors = {};
             if (values.name.trim().length <= 0) {
-              errors.name = 'Required, please enter name';
+              errors.name = 'ルート名を入力してください';
             }
             return errors;
           }}
@@ -150,7 +150,7 @@ export const CreateBaseRouteModal = (props: CreateBaseRouteModalProps) => {
               onClose();
             } catch (e) {
               toast({
-                title: 'Error',
+                title: 'エラー',
                 description: 'please check the credentials',
                 status: 'error',
               });
@@ -201,7 +201,7 @@ export const CreateBaseRouteModal = (props: CreateBaseRouteModalProps) => {
 
                           <Select
                             {...field}
-                            placeholder='Select customer'
+                            placeholder='顧客を選択'
                             id='customer'
                             name='customer'
                           >
@@ -251,7 +251,7 @@ export const CreateBaseRouteModal = (props: CreateBaseRouteModalProps) => {
                               }}
                               defaultValue={initialGarbages}
                               options={garbages}
-                              placeholder='Select garbage types...'
+                              placeholder='品目を選択してください...'
                               closeMenuOnSelect={false}
                               size='sm'
                             />

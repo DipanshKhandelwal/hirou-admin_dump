@@ -20,7 +20,7 @@ export const TaskReportTable = ({
           <Td>{taskReport?.description}</Td>
         </Tr>
         <Tr>
-          <Td fontWeight='bold'>Report Type</Td>
+          <Td fontWeight='bold'>報告種別</Td>
           <Td>{taskReport?.report_type.name}</Td>
         </Tr>
         <Tr>

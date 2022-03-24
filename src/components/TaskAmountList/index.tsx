@@ -262,9 +262,9 @@ export const TaskAmountList = ({
 
       <HStack my={6} justifyContent='space-between'>
         <Heading size='lg' textAlign='start'>
-          Amounts
+          搬入量
         </Heading>
-        <Button onClick={addAmountModalOpen}>Add Amounts</Button>
+        <Button onClick={addAmountModalOpen}>追加</Button>
       </HStack>
 
       {amountsList?.map((taskAmount: ITaskAmount, idx: number) => (
@@ -274,10 +274,10 @@ export const TaskAmountList = ({
               <Tr>
                 {/* <Th>No.</Th> */}
                 <Th>Id</Th>
-                <Th>Vehicle</Th>
+                <Th>車両</Th>
                 <Th>作成日</Th>
-                <Th>Work Type</Th>
-                <Th>Deal Type</Th>
+                <Th>作業種別</Th>
+                <Th>取引種別</Th>
                 <Th>操作</Th>
               </Tr>
             </Thead>

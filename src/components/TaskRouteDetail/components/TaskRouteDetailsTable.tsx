@@ -26,7 +26,7 @@ export const TaskRouteDetailsTable = ({ route }: { route: ITaskRoute }) => {
           variant='outline'
           onClick={goToRouteMap}
         >
-          Task Map
+          マップを開く
         </Button>
       </HStack>
       <Table size='sm' variant='simple'>
