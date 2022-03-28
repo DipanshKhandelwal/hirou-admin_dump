@@ -20,6 +20,7 @@ import { ITaskRoute } from '../../models/taskRoute';
 import { TaskReportDeleteConfirmationModal } from './components/TaskReportDeleteConfirmationModal';
 import { deleteTaskReport } from '../../services/apiRequests/taskReports';
 import { handleFetchUpdatedTaskRoute } from '../../store/thunks/TaskRoute';
+import { getDateTimeString } from '../../utils/date';
 
 export const TaskReportList = ({
   reportsList,
@@ -141,7 +142,7 @@ export const TaskReportList = ({
               <Td>{idx + 1}</Td>
               <Td>{taskReport.id}</Td>
               <Td>{taskReport.report_type.name}</Td>
-              <Td>{taskReport.timestamp}</Td>
+              <Td>{getDateTimeString(taskReport.timestamp)}</Td>
               <Td>{taskReport.description}</Td>
               <Td>
                 <Image

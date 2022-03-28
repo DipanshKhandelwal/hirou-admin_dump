@@ -1,9 +1,11 @@
 import React, { HTMLAttributes } from 'react';
-import ReactDatePicker from 'react-datepicker';
+import ReactDatePicker, { registerLocale } from 'react-datepicker';
 import { useColorMode } from '@chakra-ui/react';
-
+import ja from 'date-fns/locale/ja'; // the locale you want
 import 'react-datepicker/dist/react-datepicker.css';
 import './date-picker.css';
+
+registerLocale('ja', ja);
 
 interface Props {
   isClearable?: boolean;
@@ -25,11 +27,12 @@ const DatePicker = ({
     // set className to "light-theme-original" ↓↓↓↓
     <div className={isLight ? 'light-theme' : 'dark-theme'}>
       <ReactDatePicker
+        locale={'ja'}
         selected={selectedDate}
         onChange={onChange}
         isClearable={isClearable}
         showPopperArrow={showPopperArrow}
-        dateFormat='dd : MMMM : yyyy'
+        dateFormat='dd/MM/yyyy (eee)'
         className='react-datapicker__input-text' // input is white by default and there is no already defined class for it so I created a new one
         {...props}
       />

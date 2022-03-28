@@ -12,3 +12,8 @@ export function getJapaneseDateString(dateStr: string) {
   const d = moment(dateStr).format('YYYY/MM/DD (ddd) HH:mm:ss');
   return d;
 }
+
+export function getDateTimeString(dateStr: string) {
+  const d = moment(dateStr).format('YYYY/MM/DD HH:mm');
+  return d;
+}
