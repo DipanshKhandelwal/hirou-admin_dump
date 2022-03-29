@@ -19,7 +19,7 @@ import { _taskRoute } from '../../store/selectors/TaskRoute';
 import { ITaskRoute } from '../../models/taskRoute';
 import { IGarbage } from '../../models/garbage';
 import DatePicker from '../DatePicker';
-import { getDateString } from '../../utils/date';
+import { getDateString, getJapaneseDateStringDate } from '../../utils/date';
 
 export const TaskRouteList = () => {
   const taskRoutesData: any = useSelector(_taskRoute);
@@ -45,7 +45,8 @@ export const TaskRouteList = () => {
     if (taskRoutesData?.data.length === 0) {
       content = (
         <Heading size='sm'>
-          No task found for {date.toLocaleDateString()}
+          {getJapaneseDateStringDate(date.toLocaleDateString())}{' '}
+          にタスクがありません。
         </Heading>
       );
     } else {

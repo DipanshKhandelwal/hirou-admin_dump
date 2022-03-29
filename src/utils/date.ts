@@ -13,6 +13,15 @@ export function getJapaneseDateString(dateStr: string) {
   return d;
 }
 
+export function getJapaneseDateStringDate(dateStr: string) {
+  moment.locale('ja', {
+    weekdaysShort: ['日', '月', '火', '水', '木', '金', '土'],
+  });
+
+  const d = moment(dateStr).format('YYYY/MM/DD (ddd)');
+  return d;
+}
+
 export function getDateTimeString(dateStr: string) {
   const d = moment(dateStr).format('YYYY/MM/DD HH:mm');
   return d;

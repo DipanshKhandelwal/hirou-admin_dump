@@ -32,7 +32,7 @@ const DatePicker = ({
         onChange={onChange}
         isClearable={isClearable}
         showPopperArrow={showPopperArrow}
-        dateFormat='dd/MM/yyyy (eee)'
+        dateFormat='yyyy/MM/dd (eee)'
         className='react-datapicker__input-text' // input is white by default and there is no already defined class for it so I created a new one
         {...props}
       />
