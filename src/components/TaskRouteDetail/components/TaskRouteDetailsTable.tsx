@@ -13,9 +13,35 @@ import { ITaskRoute } from '../../../models/taskRoute';
 import { IGarbage } from '../../../models/garbage';
 import { navigate } from '../../../services/navigation';
 import { FaRoute } from 'react-icons/fa';
+import { getGarbages } from '../../../services/apiRequests/garbages';
+import { ITaskCollectionPoint } from '../../../models/taskCollectionPoint';
+import { ITaskCollection } from '../../../models/taskCollection';
+import { getDateTimeHour } from '../../../utils/date';
 
 export const TaskRouteDetailsTable = ({ route }: { route: ITaskRoute }) => {
+  const [garbages, setGarbages] = React.useState<Array<IGarbage>>();
+
+  React.useEffect(() => {
+    const fetchGarbages = async () => {
+      const garbages = await getGarbages();
+      setGarbages(garbages);
+    };
+    fetchGarbages();
+  }, []);
+
   const goToRouteMap = () => navigate(`/task-routes/map/${route.id}`);
+  const { task_collection_point } = route;
+
+  const getTimeCollection = (
+    garbage: IGarbage,
+    [task_collection]: Array<ITaskCollection>
+  ) => {
+    if (garbage.id !== task_collection.garbage.id) {
+      return '-';
+    }
+    const { timestamp } = task_collection;
+    return timestamp ? getDateTimeHour(timestamp) : '-';
+  };
 
   return (
     <>
@@ -29,31 +55,77 @@ export const TaskRouteDetailsTable = ({ route }: { route: ITaskRoute }) => {
           マップを開く
         </Button>
       </HStack>
-      <Table size='sm' variant='simple'>
+      <Table
+        size='sm'
+        variant='simple'
+        border='1px'
+        borderColor='blue.100'
+        borderStyle='solid'
+      >
         <Thead>
           <Tr>
-            <Th>Id</Th>
-            <Th>ルート名</Th>
-            <Th>顧客</Th>
-            <Th>品目</Th>
-            <Th>作成日</Th>
+            <Th
+              padding={2}
+              borderWidth='1px'
+              borderColor='blue.100'
+              borderStyle='dotted'
+            >
+              {route.id}
+            </Th>
+            <Th
+              padding={2}
+              borderWidth='1px'
+              borderColor='blue.100'
+              borderStyle='dotted'
+            >
+              {route.name}
+            </Th>
+            {garbages?.map((item: IGarbage) => (
+              <Th
+                padding={2}
+                borderWidth='1px'
+                borderColor='blue.100'
+                borderStyle='dotted'
+              >
+                {item.name}
+              </Th>
+            ))}
           </Tr>
         </Thead>
         <Tbody>
-          <Tr
-            key={route.id}
-            _hover={{ backgroundColor: 'blue.100', cursor: 'pointer' }}
-          >
-            <Td>{route.id}</Td>
-            <Td>{route.name}</Td>
-            <Td>{route.customer?.name ?? '--'}</Td>
-            <Td>
-              {route.garbage
-                .map((_garbage: IGarbage) => _garbage.name)
-                .join(', ')}
-            </Td>
-            <Td>{route.date}</Td>
-          </Tr>
+          {task_collection_point.map((item: ITaskCollectionPoint) => (
+            <Tr
+              key={item.id}
+              _hover={{ backgroundColor: 'blue.100', cursor: 'pointer' }}
+            >
+              <Td
+                padding={2}
+                borderWidth='1px'
+                borderColor='blue.100'
+                borderStyle='dotted'
+              >
+                {item.sequence}
+              </Td>
+              <Td
+                padding={2}
+                borderWidth='1px'
+                borderColor='blue.100'
+                borderStyle='dotted'
+              >
+                {item.name}
+              </Td>
+              {garbages?.map((garbage: IGarbage) => (
+                <Th
+                  padding={2}
+                  borderWidth='1px'
+                  borderColor='blue.100'
+                  borderStyle='dotted'
+                >
+                  {getTimeCollection(garbage, item.task_collection)}
+                </Th>
+              ))}
+            </Tr>
+          ))}
         </Tbody>
       </Table>
     </>
