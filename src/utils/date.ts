@@ -26,3 +26,8 @@ export function getDateTimeString(dateStr: string) {
   const d = moment(dateStr).format('YYYY/MM/DD HH:mm');
   return d;
 }
+
+export function getDateTimeHour(dateStr: string) {
+  const d = moment(dateStr).format('HH:mm');
+  return d;
+}
