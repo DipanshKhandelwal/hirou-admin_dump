@@ -31,7 +31,10 @@ export const TaskRouteDetailsTable = ({ route }: { route: ITaskRoute }) => {
 
   const goToRouteMap = () => navigate(`/task-routes/map/${route.id}`);
   const { task_collection_point } = route;
-
+  const task_collection_points = task_collection_point.sort(
+    (a: ITaskCollectionPoint, b: ITaskCollectionPoint) =>
+      a.sequence - b.sequence
+  );
   const getTimeCollection = (
     garbage: IGarbage,
     [task_collection]: Array<ITaskCollection>
@@ -93,7 +96,7 @@ export const TaskRouteDetailsTable = ({ route }: { route: ITaskRoute }) => {
           </Tr>
         </Thead>
         <Tbody>
-          {task_collection_point.map((item: ITaskCollectionPoint) => (
+          {task_collection_points.map((item: ITaskCollectionPoint) => (
             <Tr
               key={item.id}
               _hover={{ backgroundColor: 'blue.100', cursor: 'pointer' }}
