@@ -59,6 +59,7 @@ export const CreateTaskRoute = () => {
       }
     );
     setLocalCollectionPoints(cps ?? []);
+    setSelectedTaskCollectionPoint(cps?.length ? cps[0] : null);
   }, [route]);
 
   const toggleTaskLocal = (updatedTask: ITaskCollection, tcpId: number) => {
