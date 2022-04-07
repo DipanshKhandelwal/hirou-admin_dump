@@ -156,7 +156,6 @@ export const CreateTaskRoute = () => {
         />
       </Flex>
       <Center flex='4'>
-        {/* can optimize it, no need to send route only send tcps which can help remove extra route state*/}
         <TaskRouteMap
           baseRoute={route}
           locationFocus={locationFocus}

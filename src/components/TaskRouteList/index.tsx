@@ -19,7 +19,11 @@ import { _taskRoute } from '../../store/selectors/TaskRoute';
 import { ITaskRoute } from '../../models/taskRoute';
 import { IGarbage } from '../../models/garbage';
 import DatePicker from '../DatePicker';
-import { getDateString, getJapaneseDateStringDate } from '../../utils/date';
+import {
+  getDateString,
+  getJapaneseDateStringDate,
+  getJapaneseStringDate,
+} from '../../utils/date';
 
 export const TaskRouteList = () => {
   const taskRoutesData: any = useSelector(_taskRoute);
@@ -78,7 +82,7 @@ export const TaskRouteList = () => {
                     .map((_garbage: IGarbage) => _garbage.name)
                     .join(', ')}
                 </Td>
-                <Td>{taskRoute.date}</Td>
+                <Td>{getJapaneseStringDate(taskRoute.date)}</Td>
               </Tr>
             ))}
           </Tbody>
