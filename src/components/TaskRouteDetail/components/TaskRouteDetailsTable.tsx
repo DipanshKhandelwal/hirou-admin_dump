@@ -13,36 +13,28 @@ import { ITaskRoute } from '../../../models/taskRoute';
 import { IGarbage } from '../../../models/garbage';
 import { navigate } from '../../../services/navigation';
 import { FaRoute } from 'react-icons/fa';
-import { getGarbages } from '../../../services/apiRequests/garbages';
 import { ITaskCollectionPoint } from '../../../models/taskCollectionPoint';
 import { ITaskCollection } from '../../../models/taskCollection';
 import { getDateTimeHour } from '../../../utils/date';
 
 export const TaskRouteDetailsTable = ({ route }: { route: ITaskRoute }) => {
-  const [garbages, setGarbages] = React.useState<Array<IGarbage>>();
-
-  React.useEffect(() => {
-    const fetchGarbages = async () => {
-      const garbages = await getGarbages();
-      setGarbages(garbages);
-    };
-    fetchGarbages();
-  }, []);
-
   const goToRouteMap = () => navigate(`/task-routes/map/${route.id}`);
-  const { task_collection_point } = route;
+  const { task_collection_point, garbage: garbages } = route;
   const task_collection_points = task_collection_point.sort(
     (a: ITaskCollectionPoint, b: ITaskCollectionPoint) =>
       a.sequence - b.sequence
   );
   const getTimeCollection = (
-    garbage: IGarbage,
-    [task_collection]: Array<ITaskCollection>
+    iGarbage: IGarbage,
+    task_collections: Array<ITaskCollection>
   ) => {
-    if (garbage.id !== task_collection.garbage.id) {
+    const item = task_collections.find(
+      ({ garbage }) => garbage.id === iGarbage.id
+    );
+    if (!item) {
       return '-';
     }
-    const { timestamp } = task_collection;
+    const { timestamp } = item;
     return timestamp ? getDateTimeHour(timestamp) : '-';
   };
 
