@@ -119,8 +119,9 @@ export const TaskCollectionPointListItem = (
       backgroundColor={isSelected ? 'gray.300' : 'white'}
       ref={refTaskPoint}
       cursor='pointer'
+      onClick={handleClickITem}
     >
-      <HStack align='flex-start' onClick={handleClickITem}>
+      <HStack align='flex-start'>
         <VStack align='stretch' p={1} paddingX={0} flex={1}>
           <HStack>
             <Text>{collectionPoint.sequence}</Text>
