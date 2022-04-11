@@ -16,6 +16,7 @@ import { FaRoute } from 'react-icons/fa';
 import { ITaskCollectionPoint } from '../../../models/taskCollectionPoint';
 import { ITaskCollection } from '../../../models/taskCollection';
 import { getDateTimeHour } from '../../../utils/date';
+import { formatTaskName } from '../../../utils/formatName';
 
 export const TaskRouteDetailsTable = ({ route }: { route: ITaskRoute }) => {
   const goToRouteMap = () => navigate(`/task-routes/map/${route.id}`);
@@ -73,7 +74,7 @@ export const TaskRouteDetailsTable = ({ route }: { route: ITaskRoute }) => {
               borderColor='blue.100'
               borderStyle='dotted'
             >
-              {route.name}
+              {formatTaskName(route.name)}
             </Th>
             {garbages?.map((item: IGarbage) => (
               <Th

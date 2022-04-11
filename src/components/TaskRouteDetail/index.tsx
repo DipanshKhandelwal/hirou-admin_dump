@@ -20,6 +20,7 @@ import { getTaskAmounts } from '../../services/apiRequests/taskAmounts';
 import { TaskAmountList } from '../TaskAmountList';
 import { TaskRouteDetailsTable } from './components/TaskRouteDetailsTable';
 import { _isAdmin } from '../../store/selectors/App';
+import { formatTaskName } from '../../utils/formatName';
 
 export const TaskRouteDetail = () => {
   const { taskRouteId }: { taskRouteId: string } = useParams();
@@ -95,7 +96,9 @@ export const TaskRouteDetail = () => {
   return (
     <Container maxW='container.lg' pb={6}>
       <HStack marginBottom={5} justifyContent='space-between'>
-        <Heading textAlign='start'>{route.name ?? 'Task name'}</Heading>
+        <Heading textAlign='start'>
+          {route.name ? formatTaskName(route.name) : 'Task name'}
+        </Heading>
       </HStack>
       <TaskRouteDetailsTable route={route} />
       {isAdmin && (

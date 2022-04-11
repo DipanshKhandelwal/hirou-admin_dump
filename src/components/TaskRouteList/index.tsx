@@ -24,6 +24,7 @@ import {
   getJapaneseDateStringDate,
   getJapaneseStringDate,
 } from '../../utils/date';
+import { formatTaskName } from '../../utils/formatName';
 
 export const TaskRouteList = () => {
   const taskRoutesData: any = useSelector(_taskRoute);
@@ -75,7 +76,7 @@ export const TaskRouteList = () => {
               >
                 <Td>{idx + 1}</Td>
                 <Td>{taskRoute.id}</Td>
-                <Td>{taskRoute.name}</Td>
+                <Td>{formatTaskName(taskRoute.name)}</Td>
                 <Td>{taskRoute.customer?.name ?? '--'}</Td>
                 <Td>
                   {taskRoute.garbage
