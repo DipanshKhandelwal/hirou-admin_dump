@@ -144,6 +144,29 @@ const TaskRouteMap = (props: TaskRouteMapProps) => {
     ));
   }, [markers, google, onFocusMaker]);
 
+  const truckMarkersView = useMemo(() => {
+    if (!google) return null;
+    return truckMarkers.map((marker: ITruckMarkers, index: number) => {
+      const [lat, lng] = marker?.location?.split(',');
+      return (
+        <Marker
+          {...props}
+          key={`truck-marker-${index}-${marker.id}`}
+          position={{ lat, lng }}
+          draggable={false}
+          label={{ text: `${marker.name}`, fontWeight: 'bold', color: 'red' }}
+          icon={{
+            url: TruckIcon,
+            scaledSize: new google.maps.Size(30, 30),
+            labelOrigin: new google.maps.Point(12, -8),
+          }}
+        >
+          <div id={`truck-marker-${marker.id}`} />
+        </Marker>
+      );
+    });
+  }, [truckMarkers, google]);
+
   const infoWindowView = useMemo(() => {
     return (
       <InfoWindow
@@ -198,6 +221,7 @@ const TaskRouteMap = (props: TaskRouteMapProps) => {
           onClick={onInfoWindowClose}
         >
           {markersView}
+          {truckMarkersView}
           {infoWindowView}
         </Map>
       )}
