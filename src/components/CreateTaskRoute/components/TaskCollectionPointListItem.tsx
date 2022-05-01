@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Box, Text, Image, HStack, VStack, Button } from '@chakra-ui/react';
-import { FaCheck, FaInfo } from 'react-icons/fa';
+import { Box, Text, HStack, VStack, Button } from '@chakra-ui/react';
+import { FaCheck } from 'react-icons/fa';
 import { ITaskCollectionPoint } from '../../../models/taskCollectionPoint';
 import { ITaskCollection } from '../../../models/taskCollection';
 import useOnScreen from '../../../utils/useOnScreen';

@@ -5,7 +5,13 @@ import { GOOGLE_MAPS_API_TOKEN } from '../../../../constants/mapbox';
 import { ITaskRoute } from '../../../../models/taskRoute';
 import { ITaskCollectionPoint } from '../../../../models/taskCollectionPoint';
 import MarkerIcon from '../../../../assets/border.svg';
+import TruckIcon from '../../../../assets/truck.svg';
 import './styles.css';
+import { getCookie } from '../../../../services/cookie';
+import { ACCESS_TOKEN } from '../../../../constants/cookie';
+import { SOCKET_URL } from '../../../../constants/urls';
+import { SocketEventTypes, SocketSubEventTypes } from '../../../../constants/socket';
+import { ITruckMarkers } from '../../../../models/markers';
 
 interface TaskRouteMapProps {
   baseRoute: ITaskRoute | null;
@@ -24,7 +30,36 @@ const TaskRouteMap = (props: TaskRouteMapProps) => {
   });
 
   const [markers, setMarkers] = useState<any>([]);
+  const [truckMarkers, setTruckMarkers] = useState<ITruckMarkers[]>([]);
   const [google, setGoogle] = useState();
+
+  useEffect(() => {
+    if (!baseRoute) return;
+    const token = getCookie(ACCESS_TOKEN);
+    const socketBaseUrl = `${SOCKET_URL}/subscribe/task-route/${baseRoute.id}/?token=${token}`;
+    const websocket = new WebSocket(socketBaseUrl);
+
+    websocket.onopen = () => {
+      //
+    };
+
+    websocket.onmessage = (message) => {
+      try {
+        const socketData = JSON.parse(message.data);
+        if (socketData?.event === SocketEventTypes.location) {
+          if (socketData?.['sub-event'] === SocketSubEventTypes.update) {
+            setTruckMarkers(socketData?.data);
+          }
+        }
+      } catch (e) {
+        //
+      }
+    };
+
+    return () => {
+      websocket?.close();
+    };
+  }, [baseRoute]);
 
   useEffect(() => {
     if (locationFocus?.location) {
