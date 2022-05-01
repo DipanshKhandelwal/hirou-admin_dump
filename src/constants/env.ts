@@ -1,3 +1,6 @@
-const { REACT_APP_URL }: { REACT_APP_URL: string } = process.env;
+const {
+  REACT_APP_URL,
+  REACT_APP_SOCKET_URL,
+}: { REACT_APP_URL: string; REACT_APP_SOCKET_URL: string } = process.env;
 
-export { REACT_APP_URL };
+export { REACT_APP_URL, REACT_APP_SOCKET_URL };

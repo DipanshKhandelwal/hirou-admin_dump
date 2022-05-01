@@ -1,6 +1,7 @@
-import { REACT_APP_URL } from './env';
+import { REACT_APP_SOCKET_URL, REACT_APP_URL } from './env';
 
 export const URL = REACT_APP_URL;
+export const SOCKET_URL = REACT_APP_SOCKET_URL;
 
 export const LOGIN_URL = '/rest-auth/login/';
 export const BASE_ROUTE_URL = '/api/base_route/';
