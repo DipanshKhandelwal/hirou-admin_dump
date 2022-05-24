@@ -20,7 +20,7 @@ import { ITaskRoute } from '../../models/taskRoute';
 import { TaskReportDeleteConfirmationModal } from './components/TaskReportDeleteConfirmationModal';
 import { deleteTaskReport } from '../../services/apiRequests/taskReports';
 import { handleFetchUpdatedTaskRoute } from '../../store/thunks/TaskRoute';
-import { getDateTimeString } from '../../utils/date';
+import { getDateTimeString, getJapaneseDateString } from '../../utils/date';
 
 export const TaskReportList = ({
   reportsList,
@@ -114,10 +114,7 @@ export const TaskReportList = ({
         isOpen={isAddReportModalOpen}
         onClose={onEditModalClose}
       />
-      <HStack my={6} justifyContent='space-between'>
-        <Heading size='lg' textAlign='start'>
-          報告
-        </Heading>
+      <HStack marginBottom={4} justifyContent='space-between'>
         <Button onClick={addReportModalOpen}>追加</Button>
       </HStack>
       <Table size='sm' variant='simple'>
@@ -142,7 +139,7 @@ export const TaskReportList = ({
               <Td>{idx + 1}</Td>
               <Td>{taskReport.id}</Td>
               <Td>{taskReport.report_type.name}</Td>
-              <Td>{getDateTimeString(taskReport.timestamp)}</Td>
+              <Td>{getJapaneseDateString(taskReport.timestamp)}</Td>
               <Td>{taskReport.description}</Td>
               <Td>
                 <Image

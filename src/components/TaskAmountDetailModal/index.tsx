@@ -12,6 +12,7 @@ import {
   Table,
 } from '@chakra-ui/react';
 import { ITaskAmount } from '../../models/taskAmount';
+import { getJapaneseDateString } from '../../utils/date';
 
 interface TaskAmountDetailModalProps {
   isOpen: boolean;
@@ -40,7 +41,7 @@ export const TaskAmountDetailModal = (props: TaskAmountDetailModalProps) => {
               </Tr>
               <Tr>
                 <Td fontWeight='bold'>作成日</Td>
-                <Td>{taskAmount?.timestamp}</Td>
+                <Td>{getJapaneseDateString(taskAmount?.timestamp ?? '')}</Td>
               </Tr>
               <Tr>
                 <Td fontWeight='bold'>作業種別</Td>

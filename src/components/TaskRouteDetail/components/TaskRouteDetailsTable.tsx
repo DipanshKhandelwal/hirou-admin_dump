@@ -6,20 +6,14 @@ import {
   Tr,
   Th,
   Td,
-  HStack,
-  Button,
 } from '@chakra-ui/react';
 import { ITaskRoute } from '../../../models/taskRoute';
 import { IGarbage } from '../../../models/garbage';
-import { navigate } from '../../../services/navigation';
-import { FaRoute } from 'react-icons/fa';
 import { ITaskCollectionPoint } from '../../../models/taskCollectionPoint';
 import { ITaskCollection } from '../../../models/taskCollection';
 import { getDateTimeHour } from '../../../utils/date';
-import { formatTaskName } from '../../../utils/formatName';
 
 export const TaskRouteDetailsTable = ({ route }: { route: ITaskRoute }) => {
-  const goToRouteMap = () => navigate(`/task-routes/map/${route.id}`);
   const { task_collection_point, garbage: garbages } = route;
   const task_collection_points = task_collection_point.sort(
     (a: ITaskCollectionPoint, b: ITaskCollectionPoint) =>
@@ -41,16 +35,6 @@ export const TaskRouteDetailsTable = ({ route }: { route: ITaskRoute }) => {
 
   return (
     <>
-      <HStack my={4}>
-        <Button
-          alignSelf='flex-start'
-          rightIcon={<FaRoute />}
-          variant='outline'
-          onClick={goToRouteMap}
-        >
-          マップを開く
-        </Button>
-      </HStack>
       <Table
         size='sm'
         variant='simple'
@@ -66,7 +50,7 @@ export const TaskRouteDetailsTable = ({ route }: { route: ITaskRoute }) => {
               borderColor='blue.100'
               borderStyle='dotted'
             >
-              {route.id}
+              No
             </Th>
             <Th
               padding={2}
@@ -74,7 +58,7 @@ export const TaskRouteDetailsTable = ({ route }: { route: ITaskRoute }) => {
               borderColor='blue.100'
               borderStyle='dotted'
             >
-              {formatTaskName(route.name)}
+              名前
             </Th>
             {garbages?.map((item: IGarbage) => (
               <Th

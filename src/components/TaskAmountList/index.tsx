@@ -22,6 +22,7 @@ import { ITaskRoute } from '../../models/taskRoute';
 import { MdDeleteForever, MdEdit, MdAdd } from 'react-icons/md';
 import { AddAmountItemModal } from './components/AddAmountItemModal';
 import { deleteTaskAmountItem } from '../../services/apiRequests/taskAmountItems';
+import { getJapaneseDateString } from '../../utils/date';
 
 const TaskAmountItemTable = ({
   taskAmountItems,
@@ -260,10 +261,7 @@ export const TaskAmountList = ({
         onClose={onEditItemModalClose}
       />
 
-      <HStack my={6} justifyContent='space-between'>
-        <Heading size='lg' textAlign='start'>
-          搬入量
-        </Heading>
+      <HStack marginBottom={4} justifyContent='space-between'>
         <Button onClick={addAmountModalOpen}>追加</Button>
       </HStack>
 
@@ -290,7 +288,7 @@ export const TaskAmountList = ({
                 {/* <Td>{idx + 1}</Td> */}
                 <Td>{taskAmount.id}</Td>
                 <Td>{taskAmount.vehicle?.registration_number ?? '-'}</Td>
-                <Td>{taskAmount.timestamp}</Td>
+                <Td>{getJapaneseDateString(taskAmount.timestamp)}</Td>
                 <Td>{taskAmount.work_type ?? '-'}</Td>
                 <Td>{taskAmount.deal_type ?? '-'}</Td>
                 <Td>
