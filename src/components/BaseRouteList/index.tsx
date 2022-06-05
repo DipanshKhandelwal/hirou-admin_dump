@@ -57,12 +57,12 @@ export const BaseRouteList = () => {
         await deleteBaseRoute(selectedRoute.id);
         handleFetchBaseRoute();
         toast({
-          title: 'Base route deleted',
+          title: 'ベースルートを削除しました',
           description: '',
         });
       } catch {
         toast({
-          title: 'Error deleting base route',
+          title: 'ベースルート削除中にエラーが発生しました。',
           description: 'please try again',
           status: 'error',
         });

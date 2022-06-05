@@ -63,7 +63,7 @@ export const AddAmountModal = (props: AddAmountModalProps) => {
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Add task amount</ModalHeader>
+        <ModalHeader>搬入量</ModalHeader>
         <ModalCloseButton />
         <Formik
           enableReinitialize
@@ -80,11 +80,11 @@ export const AddAmountModal = (props: AddAmountModalProps) => {
             }
 
             if (values.deal_type === '') {
-              errors.deal_type = 'Required, please select a deal type';
+              errors.deal_type = '取引種別を選択してください';
             }
 
             if (values.work_type === '') {
-              errors.work_type = 'Required, please select a work type';
+              errors.work_type = '作業種別を選択してください';
             }
 
             return errors;
@@ -147,7 +147,7 @@ export const AddAmountModal = (props: AddAmountModalProps) => {
                       {({ field, form }: { field: any; form: any }) => (
                         <Select
                           {...field}
-                          placeholder='Select vehicle'
+                          placeholder='車両を選択してください'
                           id='vehicle'
                           name='vehicle'
                         >
@@ -168,7 +168,7 @@ export const AddAmountModal = (props: AddAmountModalProps) => {
                 <FormControl
                   isInvalid={!!(errors.deal_type && touched.deal_type)}
                 >
-                  <FormLabel htmlFor='deal_type'>Deal Type</FormLabel>
+                  <FormLabel htmlFor='deal_type'>取引種別</FormLabel>
                   <InputGroup marginY={2}>
                     <InputLeftElement
                       pointerEvents='none'
@@ -180,7 +180,7 @@ export const AddAmountModal = (props: AddAmountModalProps) => {
                       name='deal_type'
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      placeholder='deal_type'
+                      placeholder='取引種別を選択してください'
                       size='md'
                     />
                   </InputGroup>
@@ -190,7 +190,7 @@ export const AddAmountModal = (props: AddAmountModalProps) => {
                 <FormControl
                   isInvalid={!!(errors.work_type && touched.work_type)}
                 >
-                  <FormLabel htmlFor='work_type'>Work Type</FormLabel>
+                  <FormLabel htmlFor='work_type'>作業種別</FormLabel>
                   <InputGroup marginY={2}>
                     <InputLeftElement
                       pointerEvents='none'
@@ -202,7 +202,7 @@ export const AddAmountModal = (props: AddAmountModalProps) => {
                       name='work_type'
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      placeholder='work_type'
+                      placeholder='作業種別を選択してください'
                       size='md'
                     />
                   </InputGroup>
@@ -210,7 +210,7 @@ export const AddAmountModal = (props: AddAmountModalProps) => {
                 </FormControl>
 
                 <FormControl isInvalid={!!(errors.memo && touched.memo)}>
-                  <FormLabel htmlFor='memo'>Memo</FormLabel>
+                  <FormLabel htmlFor='memo'>メモ</FormLabel>
                   <InputGroup marginY={2}>
                     <InputLeftElement
                       pointerEvents='none'
@@ -231,14 +231,14 @@ export const AddAmountModal = (props: AddAmountModalProps) => {
               </ModalBody>
               <ModalFooter>
                 <Button disabled={isSubmitting} onClick={onClose} mr={3}>
-                  Cancel
+                  キャンセル
                 </Button>
                 <Button
                   disabled={isSubmitting}
                   type='submit'
                   colorScheme='green'
                 >
-                  Save
+                  保存
                 </Button>
               </ModalFooter>
             </form>

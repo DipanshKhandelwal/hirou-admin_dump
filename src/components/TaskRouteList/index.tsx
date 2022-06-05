@@ -19,7 +19,12 @@ import { _taskRoute } from '../../store/selectors/TaskRoute';
 import { ITaskRoute } from '../../models/taskRoute';
 import { IGarbage } from '../../models/garbage';
 import DatePicker from '../DatePicker';
-import { getDateString } from '../../utils/date';
+import {
+  getDateString,
+  getJapaneseDateStringDate,
+  getJapaneseStringDate,
+} from '../../utils/date';
+import { formatTaskName } from '../../utils/formatName';
 
 export const TaskRouteList = () => {
   const taskRoutesData: any = useSelector(_taskRoute);
@@ -45,7 +50,8 @@ export const TaskRouteList = () => {
     if (taskRoutesData?.data.length === 0) {
       content = (
         <Heading size='sm'>
-          No task found for {date.toLocaleDateString()}
+          {getJapaneseDateStringDate(date.toLocaleDateString())}{' '}
+          にタスクがありません。
         </Heading>
       );
     } else {
@@ -70,14 +76,14 @@ export const TaskRouteList = () => {
               >
                 <Td>{idx + 1}</Td>
                 <Td>{taskRoute.id}</Td>
-                <Td>{taskRoute.name}</Td>
+                <Td>{formatTaskName(taskRoute.name)}</Td>
                 <Td>{taskRoute.customer?.name ?? '--'}</Td>
                 <Td>
                   {taskRoute.garbage
                     .map((_garbage: IGarbage) => _garbage.name)
                     .join(', ')}
                 </Td>
-                <Td>{taskRoute.date}</Td>
+                <Td>{getJapaneseStringDate(taskRoute.date)}</Td>
               </Tr>
             ))}
           </Tbody>

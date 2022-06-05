@@ -15,7 +15,7 @@ import {
 } from '../../constants/urls';
 import { ITaskCollection } from '../../models/taskCollection';
 import { hirouAxios } from '../../services/httpInstance';
-import { TaskCollectionPointDetailModal } from '../TaskCollectionPointDetailModal';
+import { TaskCollectionPointDetail } from '../TaskCollectionPointDetail';
 
 // TODO: Connect socket
 export const CreateTaskRoute = () => {
@@ -59,6 +59,7 @@ export const CreateTaskRoute = () => {
       }
     );
     setLocalCollectionPoints(cps ?? []);
+    setSelectedTaskCollectionPoint(cps?.length ? cps[0] : null);
   }, [route]);
 
   const toggleTaskLocal = (updatedTask: ITaskCollection, tcpId: number) => {
@@ -143,24 +144,24 @@ export const CreateTaskRoute = () => {
 
   return (
     <Flex backgroundColor='white' height='inherit'>
-      <Box flex='1' minWidth='300px' overflowY='scroll'>
-        {localCollectionPoints.length === 0 && (
-          <Text>No Collection Points</Text>
-        )}
-        {collectionPointsList}
-      </Box>
+      <Flex flexDirection={'column'} minWidth='300px'>
+        <Box flex='1' minWidth='300px' overflowY='scroll'>
+          {localCollectionPoints.length === 0 && (
+            <Text>No Collection Points</Text>
+          )}
+          {collectionPointsList}
+        </Box>
+        <TaskCollectionPointDetail
+          taskCollectionPoint={selectedTaskCollectionPoint}
+        />
+      </Flex>
       <Center flex='4'>
-        {/* can optimize it, no need to send route only send tcps which can help remove extra route state*/}
         <TaskRouteMap
           baseRoute={route}
           locationFocus={locationFocus}
           setLocationFocus={setLocationFocus}
         />
       </Center>
-      <TaskCollectionPointDetailModal
-        onClose={() => setSelectedTaskCollectionPoint(null)}
-        taskCollectionPoint={selectedTaskCollectionPoint}
-      />
     </Flex>
   );
 };

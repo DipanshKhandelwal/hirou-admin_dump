@@ -5,6 +5,18 @@ import {
   HStack,
   useToast,
   Spinner,
+  Button,
+  Tabs,
+  TabList,
+  TabPanels,
+  Tab,
+  TabPanel,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
 } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
 import { navigate } from '../../services/navigation';
@@ -20,6 +32,10 @@ import { getTaskAmounts } from '../../services/apiRequests/taskAmounts';
 import { TaskAmountList } from '../TaskAmountList';
 import { TaskRouteDetailsTable } from './components/TaskRouteDetailsTable';
 import { _isAdmin } from '../../store/selectors/App';
+import { formatTaskName } from '../../utils/formatName';
+import { FaRoute } from 'react-icons/fa';
+import { getJapaneseStringDate } from '../../utils/date';
+import { IGarbage } from '../../models/garbage';
 
 export const TaskRouteDetail = () => {
   const { taskRouteId }: { taskRouteId: string } = useParams();
@@ -92,18 +108,74 @@ export const TaskRouteDetail = () => {
 
   if (!route) return <Spinner />;
 
+  const goToRouteMap = () => navigate(`/task-routes/map/${route.id}`);
+
   return (
     <Container maxW='container.lg' pb={6}>
       <HStack marginBottom={5} justifyContent='space-between'>
-        <Heading textAlign='start'>{route.name ?? 'Task name'}</Heading>
+        <Heading textAlign='start'>
+          {route.name ? formatTaskName(route.name) : 'Task name'}
+        </Heading>
       </HStack>
-      <TaskRouteDetailsTable route={route} />
-      {isAdmin && (
-        <>
-          <TaskReportList taskRoute={route} reportsList={taskreports} />
-          <TaskAmountList taskRoute={route} amountsList={taskAmounts} />
-        </>
-      )}
+      <HStack my={4}>
+        <Button
+          alignSelf='flex-start'
+          rightIcon={<FaRoute />}
+          variant='outline'
+          onClick={goToRouteMap}
+        >
+          マップを開く
+        </Button>
+      </HStack>
+
+      <Table my={6} size='sm' variant='simple'>
+        <Thead>
+          <Tr>
+            <Th>Id</Th>
+            <Th>ルート名</Th>
+            <Th>顧客</Th>
+            <Th>品目</Th>
+            <Th>作成日</Th>
+          </Tr>
+        </Thead>
+        <Tbody>
+          <Tr
+            key={route.id}
+            _hover={{ backgroundColor: 'blue.100', cursor: 'pointer' }}
+          >
+            <Td>{route.id}</Td>
+            <Td>{formatTaskName(route.name)}</Td>
+            <Td>{route.customer?.name ?? '--'}</Td>
+            <Td>
+              {route.garbage
+                .map((_garbage: IGarbage) => _garbage.name)
+                .join(', ')}
+            </Td>
+            <Td>{getJapaneseStringDate(route.date)}</Td>
+          </Tr>
+        </Tbody>
+      </Table>
+
+      <Tabs variant='enclosed'>
+        <TabList>
+          <Tab>收集状況</Tab>
+          {isAdmin &&
+            <><Tab>報告</Tab>
+              <Tab>搬入量</Tab>
+            </>}
+        </TabList>
+        <TabPanels>
+          <TabPanel>
+            <TaskRouteDetailsTable route={route} />
+          </TabPanel>
+          <TabPanel>
+            {isAdmin && (<TaskReportList taskRoute={route} reportsList={taskreports} />)}
+          </TabPanel>
+          <TabPanel>
+            {isAdmin && (<TaskAmountList taskRoute={route} amountsList={taskAmounts} />)}
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
     </Container>
   );
 };

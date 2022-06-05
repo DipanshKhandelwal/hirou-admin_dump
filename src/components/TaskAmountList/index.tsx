@@ -22,6 +22,7 @@ import { ITaskRoute } from '../../models/taskRoute';
 import { MdDeleteForever, MdEdit, MdAdd } from 'react-icons/md';
 import { AddAmountItemModal } from './components/AddAmountItemModal';
 import { deleteTaskAmountItem } from '../../services/apiRequests/taskAmountItems';
+import { getJapaneseDateString } from '../../utils/date';
 
 const TaskAmountItemTable = ({
   taskAmountItems,
@@ -260,11 +261,8 @@ export const TaskAmountList = ({
         onClose={onEditItemModalClose}
       />
 
-      <HStack my={6} justifyContent='space-between'>
-        <Heading size='lg' textAlign='start'>
-          Amounts
-        </Heading>
-        <Button onClick={addAmountModalOpen}>Add Amounts</Button>
+      <HStack marginBottom={4} justifyContent='space-between'>
+        <Button onClick={addAmountModalOpen}>追加</Button>
       </HStack>
 
       {amountsList?.map((taskAmount: ITaskAmount, idx: number) => (
@@ -274,10 +272,10 @@ export const TaskAmountList = ({
               <Tr>
                 {/* <Th>No.</Th> */}
                 <Th>Id</Th>
-                <Th>Vehicle</Th>
+                <Th>車両</Th>
                 <Th>作成日</Th>
-                <Th>Work Type</Th>
-                <Th>Deal Type</Th>
+                <Th>作業種別</Th>
+                <Th>取引種別</Th>
                 <Th>操作</Th>
               </Tr>
             </Thead>
@@ -290,7 +288,7 @@ export const TaskAmountList = ({
                 {/* <Td>{idx + 1}</Td> */}
                 <Td>{taskAmount.id}</Td>
                 <Td>{taskAmount.vehicle?.registration_number ?? '-'}</Td>
-                <Td>{taskAmount.timestamp}</Td>
+                <Td>{getJapaneseDateString(taskAmount.timestamp)}</Td>
                 <Td>{taskAmount.work_type ?? '-'}</Td>
                 <Td>{taskAmount.deal_type ?? '-'}</Td>
                 <Td>

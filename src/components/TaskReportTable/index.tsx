@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Table, Tbody, Tr, Td } from '@chakra-ui/react';
 import { ITaskReport } from '../../models/taskReport';
+import { getJapaneseDateString } from '../../utils/date';
 
 export const TaskReportTable = ({
   taskReport,
@@ -20,12 +21,12 @@ export const TaskReportTable = ({
           <Td>{taskReport?.description}</Td>
         </Tr>
         <Tr>
-          <Td fontWeight='bold'>Report Type</Td>
+          <Td fontWeight='bold'>報告種別</Td>
           <Td>{taskReport?.report_type.name}</Td>
         </Tr>
         <Tr>
           <Td fontWeight='bold'>作成日</Td>
-          <Td>{taskReport?.timestamp}</Td>
+          <Td>{getJapaneseDateString(taskReport?.timestamp)}</Td>
         </Tr>
       </Tbody>
     </Table>

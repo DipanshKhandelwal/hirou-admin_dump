@@ -62,7 +62,7 @@ export const AddCollectionPointModal = (
           validate={(values) => {
             const errors: any = {};
             if (values.name.trim().length <= 0) {
-              errors.name = 'Required, please enter name';
+              errors.name = 'ルート名を入力してください';
             }
             return errors;
           }}
@@ -105,7 +105,7 @@ export const AddCollectionPointModal = (
               onClose();
             } catch (e) {
               toast({
-                title: 'Error',
+                title: 'エラー',
                 description: 'please check the credentials',
                 status: 'error',
               });
@@ -157,7 +157,7 @@ export const AddCollectionPointModal = (
                       name='address'
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      placeholder='address'
+                      placeholder='住所'
                       size='md'
                     />
                   </InputGroup>
@@ -228,14 +228,14 @@ export const AddCollectionPointModal = (
               </ModalBody>
               <ModalFooter>
                 <Button disabled={isSubmitting} onClick={onClose} mr={3}>
-                  Cancel
+                  キャンセル
                 </Button>
                 <Button
                   disabled={isSubmitting}
                   type='submit'
                   colorScheme='green'
                 >
-                  Save
+                  保存
                 </Button>
               </ModalFooter>
             </form>

@@ -215,7 +215,7 @@ export const CreateBaseRoute = () => {
       }
     } catch (e) {
       toast({
-        title: 'Error',
+        title: 'エラー',
         description: 'please check the credentials',
         status: 'error',
       });

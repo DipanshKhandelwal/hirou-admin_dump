@@ -67,7 +67,7 @@ export const AddAmountItemModal = (props: AddAmountItemModalProps) => {
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Add task amount</ModalHeader>
+        <ModalHeader>搬入量</ModalHeader>
         <ModalCloseButton />
         <Formik
           enableReinitialize
@@ -245,14 +245,14 @@ export const AddAmountItemModal = (props: AddAmountItemModalProps) => {
               </ModalBody>
               <ModalFooter>
                 <Button disabled={isSubmitting} onClick={onClose} mr={3}>
-                  Cancel
+                  キャンセル
                 </Button>
                 <Button
                   disabled={isSubmitting}
                   type='submit'
                   colorScheme='green'
                 >
-                  Save
+                  保存
                 </Button>
               </ModalFooter>
             </form>

@@ -6,54 +6,88 @@ import {
   Tr,
   Th,
   Td,
-  HStack,
-  Button,
 } from '@chakra-ui/react';
 import { ITaskRoute } from '../../../models/taskRoute';
 import { IGarbage } from '../../../models/garbage';
-import { navigate } from '../../../services/navigation';
-import { FaRoute } from 'react-icons/fa';
+import { ITaskCollectionPoint } from '../../../models/taskCollectionPoint';
+import { ITaskCollection } from '../../../models/taskCollection';
+import { getDateTimeHour } from '../../../utils/date';
+
+function heading(text: string) {
+  return (
+    <Th
+      padding={2}
+      borderWidth='1px'
+      borderColor='blue.100'
+      borderStyle='dotted'
+    >
+      {text}
+    </Th>
+  )
+}
+
+function value(text: string | number) {
+  return (
+    <Td
+      padding={2}
+      borderWidth='1px'
+      borderColor='blue.100'
+      borderStyle='dotted'
+    >
+      {text}
+    </Td>
+  )
+}
 
 export const TaskRouteDetailsTable = ({ route }: { route: ITaskRoute }) => {
-  const goToRouteMap = () => navigate(`/task-routes/map/${route.id}`);
+  const { task_collection_point, garbage: garbages } = route;
+  const task_collection_points = task_collection_point.sort(
+    (a: ITaskCollectionPoint, b: ITaskCollectionPoint) =>
+      a.sequence - b.sequence
+  );
+  const getTimeCollection = (
+    iGarbage: IGarbage,
+    task_collections: Array<ITaskCollection>
+  ) => {
+    const item = task_collections.find(
+      ({ garbage }) => garbage.id === iGarbage.id
+    );
+    if (!item) {
+      return '-';
+    }
+    const { timestamp } = item;
+    return timestamp ? getDateTimeHour(timestamp) : '-';
+  };
 
   return (
     <>
-      <HStack my={4}>
-        <Button
-          alignSelf='flex-start'
-          rightIcon={<FaRoute />}
-          variant='outline'
-          onClick={goToRouteMap}
-        >
-          Task Map
-        </Button>
-      </HStack>
-      <Table size='sm' variant='simple'>
+      <Table
+        size='sm'
+        variant='simple'
+        border='1px'
+        borderColor='blue.100'
+        borderStyle='solid'
+      >
         <Thead>
           <Tr>
-            <Th>Id</Th>
-            <Th>ルート名</Th>
-            <Th>顧客</Th>
-            <Th>品目</Th>
-            <Th>作成日</Th>
+            {heading('集積所番号')}
+            {heading('名前')}
+            {heading('住所')}
+            {garbages?.map((item: IGarbage) => heading(item.name))}
           </Tr>
         </Thead>
         <Tbody>
-          <Tr
-            key={route.id}
-            _hover={{ backgroundColor: 'blue.100', cursor: 'pointer' }}
-          >
-            <Td>{route.id}</Td>
-            <Td>{route.name}</Td>
-            <Td>{route.customer?.name ?? '--'}</Td>
-            <Td>
-              {route.garbage
-                .map((_garbage: IGarbage) => _garbage.name)
-                .join(', ')}
-            </Td>
-            <Td>{route.date}</Td>
-          </Tr>
+          {task_collection_points.map((item: ITaskCollectionPoint) => (
+            <Tr
+              key={item.id}
+              _hover={{ backgroundColor: 'blue.100', cursor: 'pointer' }}
+            >
+              {value(item.sequence)}
+              {value(item.name)}
+              {value(item.address)}
+              {garbages?.map((garbage: IGarbage) => value(getTimeCollection(garbage, item.task_collection)))}
+            </Tr>
+          ))}
         </Tbody>
       </Table>
     </>
