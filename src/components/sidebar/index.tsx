@@ -19,12 +19,12 @@ const SIDE_BAR_OPTIONS = [
     name: 'ルート作成',
     isAdminScreen: true,
   },
-  {
-    id: 'information',
-    to: `${routes.INFORMATIOM_ROUTE}`,
-    name: 'おしらせ機能',
-    isAdminScreen: false,
-  },
+  // {
+  //   id: 'information',
+  //   to: `${routes.INFORMATIOM_ROUTE}`,
+  //   name: 'おしらせ機能',
+  //   isAdminScreen: false,
+  // },
 ];
 
 export function Sidebar() {
