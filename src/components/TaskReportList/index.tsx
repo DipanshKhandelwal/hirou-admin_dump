@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   Table,
   Thead,
@@ -20,7 +20,13 @@ import { ITaskRoute } from '../../models/taskRoute';
 import { TaskReportDeleteConfirmationModal } from './components/TaskReportDeleteConfirmationModal';
 import { deleteTaskReport } from '../../services/apiRequests/taskReports';
 import { handleFetchUpdatedTaskRoute } from '../../store/thunks/TaskRoute';
-import { getDateTimeString } from '../../utils/date';
+import { getDateTimeString, getJapaneseDateString } from '../../utils/date';
+import { ITaskCollectionPoint } from '../../models/taskCollectionPoint';
+
+function getCollectionPointText(tcp: ITaskCollectionPoint | undefined) {
+  if (!tcp) return '';
+  return `${tcp?.sequence} [${tcp?.name}]`
+}
 
 export const TaskReportList = ({
   reportsList,
@@ -29,10 +35,19 @@ export const TaskReportList = ({
   reportsList: ITaskReport[];
   taskRoute: ITaskRoute;
 }) => {
-  const [selectedTaskReport, setSelectedTaskReport] = useState<
-    ITaskReport | undefined
-  >(undefined);
+  const { task_collection_point } = taskRoute
+
+  const tcpMap = useMemo(() => {
+    let newTcpMap: any = {}
+    task_collection_point.forEach((tcp: ITaskCollectionPoint) => {
+      newTcpMap[tcp.id] = tcp
+    })
+    return newTcpMap
+  }, [task_collection_point])
+
   const toast = useToast();
+
+  const [selectedTaskReport, setSelectedTaskReport] = useState<ITaskReport | undefined>(undefined);
 
   const [isAddReportModalOpen, setAddReportModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -114,17 +129,14 @@ export const TaskReportList = ({
         isOpen={isAddReportModalOpen}
         onClose={onEditModalClose}
       />
-      <HStack my={6} justifyContent='space-between'>
-        <Heading size='lg' textAlign='start'>
-          報告
-        </Heading>
+      <HStack marginBottom={4} justifyContent='space-between'>
         <Button onClick={addReportModalOpen}>追加</Button>
       </HStack>
       <Table size='sm' variant='simple'>
         <Thead>
           <Tr>
             <Th>No.</Th>
-            <Th>Id</Th>
+            <Th>集積所番号</Th>
             <Th>種類</Th>
             <Th>作成日</Th>
             <Th>内容</Th>
@@ -140,9 +152,9 @@ export const TaskReportList = ({
               onClick={() => setSelectedTaskReport(taskReport)}
             >
               <Td>{idx + 1}</Td>
-              <Td>{taskReport.id}</Td>
+              <Td>{getCollectionPointText(tcpMap?.[taskReport?.task_collection_point])}</Td>
               <Td>{taskReport.report_type.name}</Td>
-              <Td>{getDateTimeString(taskReport.timestamp)}</Td>
+              <Td>{getJapaneseDateString(taskReport.timestamp)}</Td>
               <Td>{taskReport.description}</Td>
               <Td>
                 <Image

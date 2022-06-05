@@ -6,20 +6,40 @@ import {
   Tr,
   Th,
   Td,
-  HStack,
-  Button,
 } from '@chakra-ui/react';
 import { ITaskRoute } from '../../../models/taskRoute';
 import { IGarbage } from '../../../models/garbage';
-import { navigate } from '../../../services/navigation';
-import { FaRoute } from 'react-icons/fa';
 import { ITaskCollectionPoint } from '../../../models/taskCollectionPoint';
 import { ITaskCollection } from '../../../models/taskCollection';
 import { getDateTimeHour } from '../../../utils/date';
-import { formatTaskName } from '../../../utils/formatName';
+
+function heading(text: string) {
+  return (
+    <Th
+      padding={2}
+      borderWidth='1px'
+      borderColor='blue.100'
+      borderStyle='dotted'
+    >
+      {text}
+    </Th>
+  )
+}
+
+function value(text: string | number) {
+  return (
+    <Td
+      padding={2}
+      borderWidth='1px'
+      borderColor='blue.100'
+      borderStyle='dotted'
+    >
+      {text}
+    </Td>
+  )
+}
 
 export const TaskRouteDetailsTable = ({ route }: { route: ITaskRoute }) => {
-  const goToRouteMap = () => navigate(`/task-routes/map/${route.id}`);
   const { task_collection_point, garbage: garbages } = route;
   const task_collection_points = task_collection_point.sort(
     (a: ITaskCollectionPoint, b: ITaskCollectionPoint) =>
@@ -41,16 +61,6 @@ export const TaskRouteDetailsTable = ({ route }: { route: ITaskRoute }) => {
 
   return (
     <>
-      <HStack my={4}>
-        <Button
-          alignSelf='flex-start'
-          rightIcon={<FaRoute />}
-          variant='outline'
-          onClick={goToRouteMap}
-        >
-          マップを開く
-        </Button>
-      </HStack>
       <Table
         size='sm'
         variant='simple'
@@ -60,32 +70,10 @@ export const TaskRouteDetailsTable = ({ route }: { route: ITaskRoute }) => {
       >
         <Thead>
           <Tr>
-            <Th
-              padding={2}
-              borderWidth='1px'
-              borderColor='blue.100'
-              borderStyle='dotted'
-            >
-              {route.id}
-            </Th>
-            <Th
-              padding={2}
-              borderWidth='1px'
-              borderColor='blue.100'
-              borderStyle='dotted'
-            >
-              {formatTaskName(route.name)}
-            </Th>
-            {garbages?.map((item: IGarbage) => (
-              <Th
-                padding={2}
-                borderWidth='1px'
-                borderColor='blue.100'
-                borderStyle='dotted'
-              >
-                {item.name}
-              </Th>
-            ))}
+            {heading('集積所番号')}
+            {heading('名前')}
+            {heading('住所')}
+            {garbages?.map((item: IGarbage) => heading(item.name))}
           </Tr>
         </Thead>
         <Tbody>
@@ -94,32 +82,10 @@ export const TaskRouteDetailsTable = ({ route }: { route: ITaskRoute }) => {
               key={item.id}
               _hover={{ backgroundColor: 'blue.100', cursor: 'pointer' }}
             >
-              <Td
-                padding={2}
-                borderWidth='1px'
-                borderColor='blue.100'
-                borderStyle='dotted'
-              >
-                {item.sequence}
-              </Td>
-              <Td
-                padding={2}
-                borderWidth='1px'
-                borderColor='blue.100'
-                borderStyle='dotted'
-              >
-                {item.name}
-              </Td>
-              {garbages?.map((garbage: IGarbage) => (
-                <Th
-                  padding={2}
-                  borderWidth='1px'
-                  borderColor='blue.100'
-                  borderStyle='dotted'
-                >
-                  {getTimeCollection(garbage, item.task_collection)}
-                </Th>
-              ))}
+              {value(item.sequence)}
+              {value(item.name)}
+              {value(item.address)}
+              {garbages?.map((garbage: IGarbage) => value(getTimeCollection(garbage, item.task_collection)))}
             </Tr>
           ))}
         </Tbody>

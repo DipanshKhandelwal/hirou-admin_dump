@@ -27,7 +27,7 @@ export const TaskReportDetailModal = (props: TaskReportDetailModalProps) => {
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Report Details</ModalHeader>
+        <ModalHeader>報告内容</ModalHeader>
         <ModalBody>
           <Center>
             <div className='task-report-image-container'>

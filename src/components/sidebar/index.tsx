@@ -43,6 +43,7 @@ export function Sidebar() {
   ) {
     return null;
   }
+
   return (
     <Box w={240} mr={16}>
       <Box

@@ -22,8 +22,11 @@ export const TaskCollectionPointDetail = (
         dateTimeJapanese = getJapaneseDateString(taskCollection.timestamp);
       }
       return (
-        <HStack justifyContent='space-between' my={3} key={taskCollection.id}>
-          <HStack>
+        <HStack
+          width='100%'
+          alignSelf='center'
+          my={3} key={taskCollection.id}>
+          <HStack flex={2} justify='end'>
             <Text fontSize={'12'}>{taskCollection.garbage.name}</Text>
             {taskCollection.complete ? (
               <ImCheckmark color='green' />
@@ -31,9 +34,7 @@ export const TaskCollectionPointDetail = (
               <ImClock color='#FFB81D' />
             )}
           </HStack>
-          {!!taskCollection.complete && (
-            <Text fontSize={'12'}>{dateTimeJapanese}</Text>
-          )}
+          <Text flex={3} justify='start' fontSize={'12'}>{!!taskCollection.complete ? dateTimeJapanese : ''}</Text>
         </HStack>
       );
     });
@@ -51,7 +52,7 @@ export const TaskCollectionPointDetail = (
       paddingBottom='2'
       borderTop={'1px solid #d0d7de'}
     >
-      <HStack justifyContent={'flex-start'} width='full' marginBottom={4}>
+      <HStack justifyContent={'center'} width='full' marginBottom={4}>
         <Text fontSize={'16'} fontWeight='bold'>
           {taskCollectionPoint?.sequence}
         </Text>
