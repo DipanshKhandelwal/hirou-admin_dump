@@ -69,9 +69,9 @@ export const App = () => {
           <Route path={routes.PRIVACY_POLICY}>
             <PrivacyPolicy />
           </Route>
-          <Route path={routes.INFORMATIOM_ROUTE}>
+          {/* <Route path={routes.INFORMATIOM_ROUTE}>
             <InfomationRoute />
-          </Route>
+          </Route> */}
           {/* <Route path={routes.HOME}>
             <Redirect to='/' />
           </Route> */}
@@ -102,9 +102,9 @@ export const App = () => {
         <Route path={routes.PRIVACY_POLICY}>
           <PrivacyPolicy />
         </Route>
-        <Route path={routes.INFORMATIOM_ROUTE}>
+        {/* <Route path={routes.INFORMATIOM_ROUTE}>
           <InfomationRoute />
-        </Route>
+        </Route> */}
         {/* <Route path={routes.HOME}>
           <Redirect to='/' />
         </Route> */}
