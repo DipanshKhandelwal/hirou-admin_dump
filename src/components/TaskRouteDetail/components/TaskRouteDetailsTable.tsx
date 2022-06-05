@@ -13,6 +13,32 @@ import { ITaskCollectionPoint } from '../../../models/taskCollectionPoint';
 import { ITaskCollection } from '../../../models/taskCollection';
 import { getDateTimeHour } from '../../../utils/date';
 
+function heading(text: string) {
+  return (
+    <Th
+      padding={2}
+      borderWidth='1px'
+      borderColor='blue.100'
+      borderStyle='dotted'
+    >
+      {text}
+    </Th>
+  )
+}
+
+function value(text: string | number) {
+  return (
+    <Td
+      padding={2}
+      borderWidth='1px'
+      borderColor='blue.100'
+      borderStyle='dotted'
+    >
+      {text}
+    </Td>
+  )
+}
+
 export const TaskRouteDetailsTable = ({ route }: { route: ITaskRoute }) => {
   const { task_collection_point, garbage: garbages } = route;
   const task_collection_points = task_collection_point.sort(
@@ -44,32 +70,10 @@ export const TaskRouteDetailsTable = ({ route }: { route: ITaskRoute }) => {
       >
         <Thead>
           <Tr>
-            <Th
-              padding={2}
-              borderWidth='1px'
-              borderColor='blue.100'
-              borderStyle='dotted'
-            >
-              No
-            </Th>
-            <Th
-              padding={2}
-              borderWidth='1px'
-              borderColor='blue.100'
-              borderStyle='dotted'
-            >
-              名前
-            </Th>
-            {garbages?.map((item: IGarbage) => (
-              <Th
-                padding={2}
-                borderWidth='1px'
-                borderColor='blue.100'
-                borderStyle='dotted'
-              >
-                {item.name}
-              </Th>
-            ))}
+            {heading('集積所番号')}
+            {heading('名前')}
+            {heading('住所')}
+            {garbages?.map((item: IGarbage) => heading(item.name))}
           </Tr>
         </Thead>
         <Tbody>
@@ -78,32 +82,10 @@ export const TaskRouteDetailsTable = ({ route }: { route: ITaskRoute }) => {
               key={item.id}
               _hover={{ backgroundColor: 'blue.100', cursor: 'pointer' }}
             >
-              <Td
-                padding={2}
-                borderWidth='1px'
-                borderColor='blue.100'
-                borderStyle='dotted'
-              >
-                {item.sequence}
-              </Td>
-              <Td
-                padding={2}
-                borderWidth='1px'
-                borderColor='blue.100'
-                borderStyle='dotted'
-              >
-                {item.name}
-              </Td>
-              {garbages?.map((garbage: IGarbage) => (
-                <Th
-                  padding={2}
-                  borderWidth='1px'
-                  borderColor='blue.100'
-                  borderStyle='dotted'
-                >
-                  {getTimeCollection(garbage, item.task_collection)}
-                </Th>
-              ))}
+              {value(item.sequence)}
+              {value(item.name)}
+              {value(item.address)}
+              {garbages?.map((garbage: IGarbage) => value(getTimeCollection(garbage, item.task_collection)))}
             </Tr>
           ))}
         </Tbody>
