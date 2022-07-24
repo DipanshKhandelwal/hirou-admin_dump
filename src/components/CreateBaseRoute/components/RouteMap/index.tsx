@@ -93,6 +93,38 @@ const RouteMap = (props: RouteMapProps) => {
     });
   };
 
+  const map = useMemo(() => {
+
+
+    if (!google) return
+
+    <Map
+      onClick={tempMarkerUpdate}
+      google={google}
+      initialCenter={{ lat: viewport.latitude, lng: viewport.longitude }}
+      center={{ lat: viewport.latitude, lng: viewport.longitude }}
+      zoom={viewport.zoom}
+    >
+      {markersView}
+      {tempMarker && google && (
+        <Marker
+          {...props}
+          position={{ lat: tempMarker.latitude, lng: tempMarker.longitude }}
+          onDragend={tempMarkerUpdate}
+          draggable={true}
+          title='New'
+          name='New'
+          label='N'
+          icon={{
+            url: NewMarkerIcon,
+            anchor: new google.maps.Point(10, 10),
+            scaledSize: new google.maps.Size(20, 20),
+          }}
+        />
+      )}
+    </Map>
+  }, [google, markersView, tempMarker, viewport])
+
   return (
     <Container
       position='relative'
@@ -103,31 +135,7 @@ const RouteMap = (props: RouteMapProps) => {
       p={0}
     >
       <GoogleProvider onChange={(google: any) => setGoogle(google)} />
-      <Map
-        onClick={tempMarkerUpdate}
-        google={google}
-        initialCenter={{ lat: viewport.latitude, lng: viewport.longitude }}
-        center={{ lat: viewport.latitude, lng: viewport.longitude }}
-        zoom={viewport.zoom}
-      >
-        {markersView}
-        {tempMarker && google && (
-          <Marker
-            {...props}
-            position={{ lat: tempMarker.latitude, lng: tempMarker.longitude }}
-            onDragend={tempMarkerUpdate}
-            draggable={true}
-            title='New'
-            name='New'
-            label='N'
-            icon={{
-              url: NewMarkerIcon,
-              anchor: new google.maps.Point(10, 10),
-              scaledSize: new google.maps.Size(20, 20),
-            }}
-          />
-        )}
-      </Map>
+      {map}
       <Box
         position='absolute'
         p={2}

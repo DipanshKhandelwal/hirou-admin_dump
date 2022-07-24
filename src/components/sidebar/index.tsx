@@ -30,6 +30,7 @@ const SIDE_BAR_OPTIONS = [
 export function Sidebar() {
   const isAdmin: boolean = useSelector(_isAdmin);
   const { pathname } = useLocation();
+  return null
 
   if (
     !(

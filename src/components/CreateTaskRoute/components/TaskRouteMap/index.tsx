@@ -29,11 +29,11 @@ const TaskRouteMap = (props: TaskRouteMapProps) => {
   useEffect(() => {
     if (locationFocus?.location) {
       const [lat, lng] = locationFocus.location.split(',');
-      setViewport({
-        latitude: Number(lat),
-        longitude: Number(lng),
-        zoom: 16,
-      });
+      // setViewport({
+      //   latitude: Number(lat),
+      //   longitude: Number(lng),
+      //   zoom: 16,
+      // });
     }
   }, [locationFocus]);
 
@@ -62,11 +62,11 @@ const TaskRouteMap = (props: TaskRouteMapProps) => {
       const firstCp = cps[0];
       const [lat, lng] = firstCp.location.split(',');
 
-      setViewport({
-        latitude: Number(lat),
-        longitude: Number(lng),
-        zoom: 16,
-      });
+      // setViewport({
+      //   latitude: Number(lat),
+      //   longitude: Number(lng),
+      //   zoom: 16,
+      // });
     }
   }, [baseRoute]);
 
@@ -75,7 +75,7 @@ const TaskRouteMap = (props: TaskRouteMapProps) => {
       setActiveMarker(activeMarker);
       setShowingInfoWindow(true);
       const { cp, task_collection } = marker;
-      setViewport((currentState) => ({ ...currentState, zoom: 15 }));
+      // setViewport((currentState) => ({ ...currentState, zoom: 15 }));
       setLocationFocus({ ...cp, task_collection });
     },
     [setLocationFocus]
@@ -144,6 +144,20 @@ const TaskRouteMap = (props: TaskRouteMapProps) => {
     );
   }, [showingInfoWindow, activeMarker, locationFocus]);
 
+  const map = useMemo(() => {
+    if (!google) return;
+    return <Map
+      google={google}
+      initialCenter={{ lat: viewport.latitude, lng: viewport.longitude }}
+      // center={{ lat: viewport.latitude, lng: viewport.longitude }}
+      zoom={viewport.zoom}
+      onClick={onInfoWindowClose}
+    >
+      {markersView}
+      {infoWindowView}
+    </Map>
+  }, [google, markersView, infoWindowView])
+
   return (
     <Container
       position='relative'
@@ -154,18 +168,7 @@ const TaskRouteMap = (props: TaskRouteMapProps) => {
       p={0}
     >
       <GoogleProvider onChange={(google: any) => setGoogle(google)} />
-      {google && (
-        <Map
-          google={google}
-          initialCenter={{ lat: viewport.latitude, lng: viewport.longitude }}
-          center={{ lat: viewport.latitude, lng: viewport.longitude }}
-          zoom={viewport.zoom}
-          onClick={onInfoWindowClose}
-        >
-          {markersView}
-          {infoWindowView}
-        </Map>
-      )}
+      {map}
     </Container>
   );
 };

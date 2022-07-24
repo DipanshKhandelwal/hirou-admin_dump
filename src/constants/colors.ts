@@ -1,0 +1,9 @@
+export const DARK_GREEN = '#3FB96D';
+export const LIGHT_GREEN = '#9BEB5E';
+export const DARK_BLUE = '#4980CE';
+export const LIGHT_BLUE = '#5DBBE8';
+export const TEAL = '#5ED1B8';
+export const YELLOW = '#F4CC61';
+export const ORANGE = '#FD7A49';
+export const PURPLE = '#AA62D8';
+export const DARK_RED = '#E22B40';

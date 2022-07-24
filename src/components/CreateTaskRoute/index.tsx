@@ -16,6 +16,7 @@ import {
 import { ITaskCollection } from '../../models/taskCollection';
 import { hirouAxios } from '../../services/httpInstance';
 import { TaskCollectionPointDetail } from '../TaskCollectionPointDetail';
+import { TaskCollectionPointDetailBottomSheet } from './components/TaskCollectionPointDetailBottomSheet';
 
 // TODO: Connect socket
 export const CreateTaskRoute = () => {
@@ -144,17 +145,6 @@ export const CreateTaskRoute = () => {
 
   return (
     <Flex backgroundColor='white' height='inherit'>
-      <Flex flexDirection={'column'} minWidth='300px'>
-        <Box flex='1' minWidth='300px' overflowY='scroll'>
-          {localCollectionPoints.length === 0 && (
-            <Text>No Collection Points</Text>
-          )}
-          {collectionPointsList}
-        </Box>
-        <TaskCollectionPointDetail
-          taskCollectionPoint={selectedTaskCollectionPoint}
-        />
-      </Flex>
       <Center flex='4'>
         <TaskRouteMap
           baseRoute={route}
@@ -162,6 +152,13 @@ export const CreateTaskRoute = () => {
           setLocationFocus={setLocationFocus}
         />
       </Center>
+      <Box backgroundColor='white' left={10} position='absolute' maxHeight='60%' flex='1' minWidth='300px' overflowY='scroll'>
+        {localCollectionPoints.length === 0 && (
+          <Text>No Collection Points</Text>
+        )}
+        {collectionPointsList}
+      </Box>
+      <TaskCollectionPointDetailBottomSheet taskCollectionPoint={selectedTaskCollectionPoint} />
     </Flex>
   );
 };
